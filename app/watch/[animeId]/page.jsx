@@ -48,7 +48,24 @@ export async function generateMetadata({ params }) {
         description:
           `Stream and download ${info.name} in english Dub/Sub options. Watch your favourite episodes of ${info.name} with high-quality video for an impressive viewing experience.` ||
           "Stream and download animes in english Dub/Sub options. Watch your favourite episodes with high-quality video for an impressive viewing experience.",
-        url: `https://animekun.lol/watch/${animeId}`
+        url: `https://animekun.lol/watch/${animeId}`,
+    siteName: "AnimeKun",
+    images: [
+      {
+        url: "https://i.imgur.com/QTHUrcF.jpeg",
+        width: 1200,
+        height: 430,
+        alt: "Animekun Website"
+      },
+      {
+        url: "https://i.imgur.com/QTHUrcF.jpeg",
+        width: 1200,
+        height: 430,
+        alt: "Animekun Website"
+      }
+    ],
+    locale: "en_US",
+    type: "website"
       },
       alternates: {
         canonical: `/watch/${animeId}`
