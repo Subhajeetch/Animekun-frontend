@@ -1,6 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
 import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
+import "../../../Styles/AnimeCardGrid.css";
 import React from "react";
 
 export const metadata = {
@@ -9,7 +10,7 @@ export const metadata = {
 };
 
 export default async function AnimeInfo({ params }) {
-  const {animeId} = await params;
+  const { animeId } = await params;
 
   // Fetch anime data
   const fetchAnimeData = async id => {
@@ -393,9 +394,9 @@ export default async function AnimeInfo({ params }) {
           <h2 className="text-[17px] font-bold text-foreground">
             Recommended Animes
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
+          <div className="grid animeCardGrid gap-4 mt-4">
             {recommendedAnimes.map(anime => (
-                <AnimeCard anime={anime} />
+              <AnimeCard anime={anime} />
             ))}
           </div>
         </div>

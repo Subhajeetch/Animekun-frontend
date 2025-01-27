@@ -5,7 +5,7 @@ import AnimeRecommendations from "../../../Sections/WatchPage/AnimeRecommendatio
 
 // Dynamic metadata generation function
 export async function generateMetadata({ params }) {
-  const {animeId} = await params;
+  const { animeId } = await params;
 
   try {
     const animeInfoRes = await axios.get(
@@ -20,7 +20,39 @@ export async function generateMetadata({ params }) {
         "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
       description:
         `Stream and download ${info.name} in english Dub/Sub options. Watch your favourite episodes of ${info.name} with high-quality video for an impressive viewing experience.` ||
-        "Stream and download animes in english Dub/Sub options. Watch your favourite episodes with high-quality video for an impressive viewing experience."
+        "Stream and download animes in english Dub/Sub options. Watch your favourite episodes with high-quality video for an impressive viewing experience.",
+      keywords: [
+        `${info.name}`,
+        `watch ${info.name} online`,
+        `${info.name} watch`,
+        `${info.name} online`,
+        `${info.name} stream`,
+        `${info.name} sub`,
+        `${info.name} english dub`,
+        "anime to watch",
+        "no ads anime website",
+        "watch anime",
+        "ad free anime site",
+        "anime online",
+        "free anime online",
+        "online anime",
+        "anime streaming",
+        "stream anime online",
+        "english anime",
+        "english dubbed anime"
+      ],
+      openGraph: {
+        title:
+          `Watch ${info.name} Online In English Dub & Sub In HD Quality - AnimeKun` ||
+          "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+        description:
+          `Stream and download ${info.name} in english Dub/Sub options. Watch your favourite episodes of ${info.name} with high-quality video for an impressive viewing experience.` ||
+          "Stream and download animes in english Dub/Sub options. Watch your favourite episodes with high-quality video for an impressive viewing experience.",
+        url: `https://animekun.lol/watch/${animeId}`
+      },
+      alternates: {
+        canonical: `/watch/${animeId}`
+      }
     };
   } catch (error) {
     console.error("Error fetching metadata:", error);
@@ -28,14 +60,38 @@ export async function generateMetadata({ params }) {
     // Fallback metadata
     return {
       title: "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
-      description: "Stream and download animes in english Dub/Sub options. Watch your favourite episodes with high-quality video for an impressive viewing experience."
+      description:
+        "Stream and download animes in english Dub/Sub options. Watch your favourite episodes with high-quality video for an impressive viewing experience.",
+      keywords: [
+        "anime to watch",
+        "no ads anime website",
+        "watch anime",
+        "ad free anime site",
+        "anime online",
+        "free anime online",
+        "online anime",
+        "anime streaming",
+        "stream anime online",
+        "english anime",
+        "english dubbed anime"
+      ],
+      openGraph: {
+        title:
+          "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+        description:
+          "Stream and download animes in english Dub/Sub options. Watch your favourite episodes with high-quality video for an impressive viewing experience.",
+        url: `/watch/${animeId}`
+      },
+      alternates: {
+        canonical: `/watch/${animeId}`
+      }
     };
   }
 }
 
 // Server component (fully server-side)
 const WatchAnime = async ({ params }) => {
-  const {animeId} = await params;
+  const { animeId } = await params;
 
   try {
     // Fetch data on the server

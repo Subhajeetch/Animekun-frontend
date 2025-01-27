@@ -1,4 +1,5 @@
 import AnimeCard from "../Universal/AnimeCard.jsx";
+import "../../Styles/AnimeCardGrid.css";
 
 const AnimeRecommendations = ({ anime }) => {
   const { recommendedAnimes } = anime;
@@ -8,9 +9,9 @@ const AnimeRecommendations = ({ anime }) => {
         <h2 className="text-[17px] font-bold text-foreground">
           Recommended for you
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
+        <div className="grid animeCardGrid gap-4 mt-4">
           {recommendedAnimes.map((anime, index) => (
-              <AnimeCard anime={anime} />
+            <AnimeCard anime={anime} />
           ))}
         </div>
       </div>

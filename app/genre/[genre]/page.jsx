@@ -11,7 +11,7 @@ import {
   PaginationPrevious
 } from "@/components/ui/pagination";
 
-const Category = async ({ params, searchParams }) => {
+const GenrePage = async ({ params, searchParams }) => {
   const { genre } = await params; // Extract category from params
   const { page = 1 } = await searchParams; // Default to page 1 if not provided
 
@@ -147,4 +147,4 @@ const Category = async ({ params, searchParams }) => {
   );
 };
 
-export default Category;
+export default GenrePage;

@@ -41,7 +41,7 @@ const Category = async ({ params, searchParams }) => {
   return (
     <>
       <div className="flex flex-col md:flex-row bg-backgroundtwo">
-        <div className="container flex-1 mx-auto mt-2 p-4">
+        <div className="flex-1 mx-auto mt-2 p-4">
           <div className="flex justify-between items-center">
             <h1
               className="text-[20px] font-[800] p-4 bg-gradient-to-l
