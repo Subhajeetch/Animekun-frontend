@@ -1,0 +1,292 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { X, Search } from "lucide-react";
+
+const EpisodeSection = ({
+  episodes,
+  currentEpisode, // Prop for the current episode
+  handleEpisodeChange,
+  watchedEpisodes,
+  targetHeight
+}) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredEpisode, setFilteredEpisode] = useState(null);
+  const dropdownRef = useRef(null);
+  const currentEpisodeRef = useRef(null);
+
+  const episodesPerPage = 100;
+  const totalPages = Math.ceil(episodes.length / episodesPerPage);
+
+  const handlePageChange = page => {
+    setCurrentPage(page);
+    setIsDropdownOpen(false);
+  };
+
+  const handleClickOutside = event => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Determine the default page based on currentEpisode
+    if (currentEpisode) {
+      const episodeIndex = episodes.findIndex(
+        ep => ep.episodeId === currentEpisode
+      );
+      if (episodeIndex >= 0) {
+        const defaultPage = Math.floor(episodeIndex / episodesPerPage);
+        setCurrentPage(defaultPage);
+      }
+    }
+  }, [currentEpisode, episodes]);
+
+  const handleSearch = event => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    if (query) {
+      const matchingEpisode = episodes.find(
+        episode => episode.number === parseInt(query)
+      );
+      setFilteredEpisode(matchingEpisode || null);
+    } else {
+      setFilteredEpisode(null);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setFilteredEpisode(null);
+  };
+
+  const currentEpisodes = episodes.slice(
+    currentPage * episodesPerPage,
+    (currentPage + 1) * episodesPerPage
+  );
+
+  // copied from chat GPT
+  useEffect(() => {
+    const container = currentEpisodeRef.current?.parentNode; // Get the container element
+    if (container && currentEpisodeRef.current) {
+      const elementOffsetTop = currentEpisodeRef.current.offsetTop;
+
+      // Smoothly scroll the container to bring the current episode into view with a 14px offset
+      container.scrollTo({
+        top: elementOffsetTop - 14, // Adjusted scroll position
+        behavior: "smooth" // Enable smooth scrolling
+      });
+    }
+  }, [currentEpisode]);
+
+  return (
+    <div className="bg-background">
+      <div className="bg-background pb-2">
+        <div
+          className="w-full h-[38px] px-4 bg-background flex
+              justify-between items-center border-b-2
+            border-separatorOnBackgroundtwo border-t-2"
+        >
+          <div className="flex items-center bg-backgroundHover px-2 rounded">
+            <span className="text-[12px] font-[600]">
+              {/* Dropdown for Page Selection */}
+              <div className="relative inline-block">
+                <div
+                  className="text-white py-0.5"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                >
+                  <span
+                    className="text-[10px] flex gap-2 py-0.5 justify-center
+                items-center"
+                  >
+                    <svg
+                      version="1.1"
+                      id="Layer_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 297 297"
+                      className="h-[16px]"
+                      style={{ fill: "var(--foreground)" }}
+                    >
+                      <g>
+                        <g>
+                          <g>
+                            <path
+                              d="M279.368,24.726H102.992c-9.722,0-17.632,7.91-17.632,17.632V67.92c0,9.722,7.91,17.632,17.632,17.632h176.376
+				c9.722,0,17.632-7.91,17.632-17.632V42.358C297,32.636,289.09,24.726,279.368,24.726z"
+                            />
+                            <path
+                              d="M279.368,118.087H102.992c-9.722,0-17.632,7.91-17.632,17.632v25.562c0,9.722,7.91,17.632,17.632,17.632h176.376
+				c9.722,0,17.632-7.91,17.632-17.632v-25.562C297,125.997,289.09,118.087,279.368,118.087z"
+                            />
+                            <path
+                              d="M279.368,211.448H102.992c-9.722,0-17.632,7.91-17.632,17.633v25.561c0,9.722,7.91,17.632,17.632,17.632h176.376
+				c9.722,0,17.632-7.91,17.632-17.632v-25.561C297,219.358,289.09,211.448,279.368,211.448z"
+                            />
+                            <path
+                              d="M45.965,24.726H17.632C7.91,24.726,0,32.636,0,42.358V67.92c0,9.722,7.91,17.632,17.632,17.632h28.333
+				c9.722,0,17.632-7.91,17.632-17.632V42.358C63.597,32.636,55.687,24.726,45.965,24.726z"
+                            />
+                            <path
+                              d="M45.965,118.087H17.632C7.91,118.087,0,125.997,0,135.719v25.562c0,9.722,7.91,17.632,17.632,17.632h28.333
+				c9.722,0,17.632-7.91,17.632-17.632v-25.562C63.597,125.997,55.687,118.087,45.965,118.087z"
+                            />
+                            <path
+                              d="M45.965,211.448H17.632C7.91,211.448,0,219.358,0,229.081v25.561c0,9.722,7.91,17.632,17.632,17.632h28.333
+				c9.722,0,17.632-7.91,17.632-17.632v-25.561C63.597,219.358,55.687,211.448,45.965,211.448z"
+                            />
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                    <span className="text-foreground">
+                      {" "}
+                      Episodes: {currentPage * episodesPerPage + 1} -{" "}
+                      {Math.min(
+                        (currentPage + 1) * episodesPerPage,
+                        episodes.length
+                      )}
+                    </span>
+                  </span>
+                </div>
+                {isDropdownOpen && (
+                  <div
+                    ref={dropdownRef}
+                    className="absolute top-[18px] left-[-6px] bg-background border
+                  shadow-lg mt-2 z-[12] overflow-y-auto w-[114px]
+              max-h-[200px] rounded"
+                  >
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <div
+                        key={index}
+                        className="px-4 py-2 hover:bg-backgroundHover cursor-pointer"
+                        onClick={() => handlePageChange(index)}
+                      >
+                        {index * episodesPerPage + 1} -{" "}
+                        {Math.min(
+                          (index + 1) * episodesPerPage,
+                          episodes.length
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </span>
+          </div>
+          <div className="relative flex items-center">
+            <input
+              type="number"
+              placeholder="Search ep..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="w-[100px] h-[20px] rounded
+                  bg-backgroundHover outline-0 pr-[20px] pl-[17px] text-[8px]"
+            />
+            <Search className="absolute h-[10px] left-[-2px]" />
+            {searchQuery && (
+              <div
+                onClick={clearSearch}
+                className="absolute right-1 text-foreground
+                bg-[#ff1717]"
+              >
+                <X size={10} />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="px-2 flex flex-wrap py-2 bg-episodeContainerBackground items-center gap-1.5 overflow-y-auto
+              relative scrollbar-thin scrollbar-thumb-backgroundHover
+          scrollbar-track-background pr-2 justify-center"
+        style={{
+          maxHeight: `${targetHeight + 50}px`
+        }}
+      >
+        {/* Overlay for search */}
+        {filteredEpisode && (
+          <div
+            className="absolute inset-0 bg-episodeContainerBackground bg-opacity-80
+          backdrop-blur-sm z-10 flex justify-center pt-4 md:pt-0 md:items-center"
+          >
+            <div
+              className={`w-[60px] h-[32px] flex items-center justify-center
+              rounded
+              ${
+                filteredEpisode.episodeId === currentEpisode
+                  ? "bg-main" // selected episode
+                  : watchedEpisodes.includes(filteredEpisode.episodeId)
+                  ? "bg-watchedEpisodeBackground border-[1px] border-[#e2e2e2]" // watched episodes
+                  : filteredEpisode.isFiller
+                  ? "bg-fillerEpisodeBackground" // filler episodes
+                  : "bg-episodeBackground" // other episodes
+              }
+              
+              `}
+              onClick={() => handleEpisodeChange(filteredEpisode.episodeId)}
+            >
+              <span className="text-[12px] font-[800] text-[#f4f4f4]">
+                {filteredEpisode.number}
+              </span>
+            </div>
+          </div>
+        )}
+        {searchQuery && !filteredEpisode && (
+          <div className="absolute inset-0 bg-episodeBackground bg-opacity-80 backdrop-blur-sm z-10 flex justify-center items-center">
+            <span className="text-white text-[10px] font-bold">
+              No episode found with the number "{searchQuery}"
+            </span>
+          </div>
+        )}
+
+        {/* Episodes Display */}
+
+        {currentEpisodes.map(episode => (
+          <div
+            key={episode.episodeId}
+            ref={
+              episode.episodeId === currentEpisode ? currentEpisodeRef : null
+            }
+            className={`w-[60px] h-[32px] flex items-center justify-center rounded ${
+              episode.episodeId === currentEpisode
+                ? "bg-main" // selected episode
+                : watchedEpisodes.includes(episode.episodeId)
+                ? "bg-watchedEpisodeBackground" // watched episodes
+                : episode.isFiller
+                ? "bg-fillerEpisodeBackground" // filler episodes
+                : "bg-episodeBackground" // other episodes
+            }`}
+            onClick={() => handleEpisodeChange(episode.episodeId)}
+          >
+            <span
+              className={`text-[12px] font-[800]
+                ${
+                  episode.episodeId === currentEpisode
+                    ? "text-foreground" // selected episode
+                    : watchedEpisodes.includes(episode.episodeId)
+                    ? "text-watchedEpisodeForeground" // watched episodes
+                    : "text-episodeForeground"
+                }
+                `}
+            >
+              {" "}
+              {episode.number}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default EpisodeSection;

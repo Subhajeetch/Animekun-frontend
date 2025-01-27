@@ -1,0 +1,22 @@
+div.trending-slider div.splide ul.splide__pagination {
+  justify-content: flex-end;
+  top: -40px;
+  height: 20px;
+}
+
+@media (min-width: 680px) {
+  div.trending-slider div.splide ul.splide__pagination {
+    padding-right: 54px;
+  }
+}
+
+.splide__pagination,
+.splide__pagination--ltr {
+  justify-content: flex-end;
+}
+
+@media (max-width: 680px) {
+  .splide__arrow {
+    display: none;
+  }
+} /* Smaller than & equal to */

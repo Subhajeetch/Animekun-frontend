@@ -1,0 +1,28 @@
+
+.animeCardGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 490px) {
+  .animeCardGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 690px) {
+  .animeCardGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 890px) {
+  .animeCardGrid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .animeCardGrid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}

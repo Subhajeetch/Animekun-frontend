@@ -1,0 +1,114 @@
+.embla1 {
+  max-width: 100%;
+  height: 440px;
+  margin: auto;
+  --slide-spacing: 0;
+  --slide-size: 100%;
+}
+.embla__viewport1 {
+  overflow: hidden;
+}
+.embla__container1 {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+.embla__slide1 {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+}
+.embla__slide__number1 {
+  box-shadow: inset 0 0 0 0.2rem var(--backgroundHover);
+  border-radius: 1.8rem;
+  font-size: 4rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 440px;
+  user-select: none;
+}
+.embla__controls1 {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+}
+.embla__button1 {
+  -webkit-tap-highlight-color: #4b4b4b00;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 10px;
+  box-shadow: inset 0 0 0 0.2rem #4b4b4b00;
+  width: 32px;
+  height: 32px;
+  z-index: 1;
+  border-radius: 20%;
+  color: var(--foreground);
+  background-color: #28282887;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.embla__button1:disabled {
+  color: #4b4b4b;
+}
+.embla__button__svg1 {
+  width: 50%;
+  height: 50%;
+}
+.embla__dots1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: calc((2.6rem - 1.4rem) / 2 * -1);
+}
+.embla__dot1 {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #787878;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 9px;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.embla__dot1:after {
+  box-shadow: inset 0 0 0 0.2rem #787878;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  content: "";
+}
+.embla__dot1--selected:after {
+  box-shadow: inset 0 0 0 0.2rem #e9e9e9;
+  background-color: #e9e9e9;
+}
+
+@media (max-width: 680px) {
+  .embla__slide__number1,
+  .embla1 {
+    height: 270px;
+  }
+} /* Smaller than & equal to */

@@ -1,21 +1,198 @@
+@import url("https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  font-family: "Asap", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  cursor: pointer;
+}
+
+/*
+a:hover {
+  color: #535bf2;
+}
+*/
+
+.antialiased {
+  width: 100%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+}
+
+/*
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+*/
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@layer base {
+  :root {
+    /* whole page */
+    --main: #fe0000;
+    --dimmer-main: #7b0d0d;
+    --background: #292929;
+    --backgroundtwo: #1b1b1b;
+    --background-hover: #424242;
+    --separator-on-background: #676767;
+    --separator-on-backgroundtwo: #545454;
+    --foreground: #f4f4f4;
+
+    /* anime card */
+    --animecard-background: #282828;
+    --animecard-foreground: #fafafa;
+    --animecard-dimmer-foreground: #999999;
+    --sub-background: #00e719;
+    --dub-background: #e75f00;
+    --sub-foreground: #1d1d1d;
+    --dub-foreground: #1d1d1d;
+
+    /* anime info page */
+    --rating: #5ab4ff;
+    --quality: #59ffb7;
+    --status: #e6c8ac;
+    --colored-info-foreground: #202020;
+    --discription-foreground: #9f9f9f;
+
+    /* watch page */
+    --episode-container-background: #222222;
+    --episode-background: #414141;
+    --episode-foreground: #f3f3f3;
+    --watched-episode-background: #2d2d2d;
+    --watched-episode-foreground: #a0a0a0;
+    --filler-episode-background: #2b5955;
+    --intro-outro-highlight-on-player: #60b3ff;
+
+    --card: #16414a;
+    --card-foreground: #cdcdcd;
+    --popover: #365b63;
+    --popover-foreground: #5fe3ff;
+    --primary: #ff0c0c;
+    --primary-foreground: #f3f3f3;
+    --secondary: #36e4ff;
+    --secondary-foreground: #e7e7e7;
+    --muted: #22272a;
+    --muted-foreground: #ececec;
+    --accent: #ff0e0e;
+    --accent-foreground: #e2e2e2;
+    --destructive: #580002;
+    --destructive-foreground: #ebebeb;
+    --border: #222222;
+    --input: #545454;
+    --ring: #ffffff;
+    --chart-1: #cdcdcd;
+    --chart-2: #cdcdcd;
+    --chart-3: #cdcdcd;
+    --chart-4: #cdcdcd;
+    --chart-5: #cdcdcd;
+    --radius: 7px;
+  }
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .mask-fade {
+    mask-image: linear-gradient(
+      180deg,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+  }
 }
