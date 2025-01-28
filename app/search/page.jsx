@@ -26,6 +26,75 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 
+export async function generateMetadata({ searchParams }) {
+  const { q = "All-Animes" } = await searchParams;
+
+  return {
+    title:
+      `Search Results for '${q.replace(/-/g, " ")}' - Animekun` ||
+      "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+    description:
+      `Anime search results for query '${q.replace(
+        /-/g,
+        " "
+      )}'. Get all the related anime results matching with the term "${q.replace(
+        /-/g,
+        " "
+      )}".` ||
+      "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+    keywords: [
+      `${q.replace(/-/g, " ")}`,
+      `Stream ${q.replace(/-/g, " ")} online`,
+      `watch ${q.replace(/-/g, " ")} online`,
+      `${q.replace(/-/g, " ")} watch`,
+      `${q.replace(/-/g, " ")} online`,
+      `${q.replace(/-/g, " ")} stream`,
+      `${q.replace(/-/g, " ")} sub`,
+      `${q.replace(/-/g, " ")} english dub`,
+      "anime to watch",
+      "no ads anime website",
+      "watch anime",
+      "ad free anime site",
+      "anime online",
+      "free anime online",
+      "online anime",
+      "anime streaming",
+      "stream anime online",
+      "english anime",
+      "english dubbed anime"
+    ],
+    openGraph: {
+      title:
+        `Search Results for '${q.replace(/-/g, " ")}' - Animekun` ||
+        "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+      description:
+        `Anime search results for query '${q.replace(/-/g, " ")}'` ||
+        "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+      url: `https://animekun.lol/search?q=${q}`,
+      siteName: "AnimeKun",
+      images: [
+        {
+          url: "https://i.imgur.com/dgkXTMO.png",
+          width: 1200,
+          height: 430,
+          alt: `${q.replace(/-/g, " ")} banner`
+        },
+        {
+          url: "https://i.imgur.com/kBhogcl.jpeg",
+          width: 1200,
+          height: 430,
+          alt: "Animekun Website Banner"
+        }
+      ],
+      locale: "en_US",
+      type: "website"
+    },
+    alternates: {
+      canonical: `/search?q=${q}`
+    }
+  };
+}
+
 const SearchAnime = async ({ searchParams }) => {
   const lol = await searchParams;
 

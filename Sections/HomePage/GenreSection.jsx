@@ -24,7 +24,7 @@ const GenreSection = () => {
               color: genre.foreground
             }}
             href={`/genre/${genre.idTwo}`}
-            key={genre.id}
+            key={genre.idTwo}
           >
             <span className="text-[13px] font-[700] absolute top-1 left-2">
               {genre.display}

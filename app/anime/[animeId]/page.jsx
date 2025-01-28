@@ -4,10 +4,110 @@ import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
 import "../../../Styles/AnimeCardGrid.css";
 import React from "react";
 
-export const metadata = {
-  title: "Anime Info Page",
-  description: "This is the AnimeKun anime info page"
-};
+// Dynamic metadata generation function
+export async function generateMetadata({ params }) {
+  const { animeId } = await params;
+
+  try {
+    const animeInfoRes = await axios.get(
+      `https://mantomart.in/api/mantox/anime/info/${animeId}`
+    );
+    const animeInfoData = animeInfoRes.data;
+    const { info } = animeInfoData.anime;
+
+    return {
+      title:
+        `Stream ${info.name} In English Dub & Sub In HD Quality Without ADS - AnimeKun` ||
+        "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+      description:
+        `Watch and download ${info.name} online in english Dub/Sub options. Stream your favourite episodes of ${info.name} with HD-quality video for good experience.` ||
+        "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+      keywords: [
+        `${info.name}`,
+        `Stream ${info.name} online`,
+        `watch ${info.name} online`,
+        `${info.name} watch`,
+        `${info.name} online`,
+        `${info.name} stream`,
+        `${info.name} sub`,
+        `${info.name} english dub`,
+        "anime to watch",
+        "no ads anime website",
+        "watch anime",
+        "ad free anime site",
+        "anime online",
+        "free anime online",
+        "online anime",
+        "anime streaming",
+        "stream anime online",
+        "english anime",
+        "english dubbed anime"
+      ],
+      openGraph: {
+        title:
+          `Stream ${info.name} In English Dub & Sub In HD Quality Without ADS - AnimeKun` ||
+          "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+        description:
+          `Watch and download ${info.name} online in english Dub/Sub options. Stream your favourite episodes of ${info.name} with HD-quality video for good experience.` ||
+          "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+        url: `https://animekun.lol/anime/${animeId}`,
+        siteName: "AnimeKun",
+        images: [
+          {
+            url: "https://i.imgur.com/dgkXTMO.png",
+            width: 280,
+            height: 400,
+            alt: `${info.name} Cover`
+          },
+          {
+            url: `${info.poster}`,
+            width: 1200,
+            height: 430,
+            alt: `${info.name} Cover`
+          }
+        ],
+        locale: "en_US",
+        type: "website"
+      },
+      alternates: {
+        canonical: `/anime/${animeId}`
+      }
+    };
+  } catch (error) {
+    console.error("Error fetching metadata:", error);
+
+    // Fallback metadata
+    return {
+      title:
+        "Stream Animes & its Episodes In English Dub & Sub In HD Quality Without ADS - AnimeKun",
+      description:
+        "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+      keywords: [
+        "anime to watch",
+        "no ads anime website",
+        "watch anime",
+        "ad free anime site",
+        "anime online",
+        "free anime online",
+        "online anime",
+        "anime streaming",
+        "stream anime online",
+        "english anime",
+        "english dubbed anime"
+      ],
+      openGraph: {
+        title:
+          "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+        description:
+          "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+        url: `/anime/${animeId}`
+      },
+      alternates: {
+        canonical: `/anime/${animeId}`
+      }
+    };
+  }
+}
 
 export default async function AnimeInfo({ params }) {
   const { animeId } = await params;
@@ -29,6 +129,7 @@ export default async function AnimeInfo({ params }) {
   const { info, moreInfo } = animeData.anime;
   const { recommendedAnimes, seasons } = animeData;
 
+  /*
   function toCamelCase(str) {
     return str
       .toLowerCase()
@@ -37,6 +138,11 @@ export default async function AnimeInfo({ params }) {
         index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)
       )
       .join("");
+  }
+*/
+
+  function formatToKebabCase(str) {
+    return str.toLowerCase().split(" ").join("-");
   }
 
   if (!animeData) {
@@ -157,7 +263,7 @@ export default async function AnimeInfo({ params }) {
                 {moreInfo.genres.map((genre, index) => (
                   <Link
                     key={index}
-                    href={`/genre/${toCamelCase(genre)}`}
+                    href={`/genre/${formatToKebabCase(genre)}`}
                     className={`py-1 px-2 rounded-lg
                 border border-foreground
                 justify-center items-center flex hover:bg-foreground

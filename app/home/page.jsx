@@ -8,8 +8,37 @@ import { TrendingAnime } from "../../Sections/HomePage/TrendingAnime.jsx";
 import HomePageCetagoryTemplate from "../../Sections/HomePage/HomePageCetagoryTemplate.jsx";
 
 export const metadata = {
-  title: "Animekun Homepage",
-  description: "this is animekun homepage"
+  title:
+    "Animekun HomePage - Watch Anime Online For Absolutely Free Without ADS",
+  description:
+    "Watch and download animes online in english Dub/Sub. Stream your favourite episodes with high-quality & ad free for best experience.",
+  keywords: [
+    "Animekun Homepage",
+    "anime watch online free",
+    "best anime site",
+    "anime site free",
+    "anime to watch",
+    "no ads anime website",
+    "watch anime",
+    "ad free anime site",
+    "anime online",
+    "free anime online",
+    "online anime",
+    "anime streaming",
+    "stream anime online",
+    "english anime",
+    "english dubbed anime"
+  ],
+  openGraph: {
+    title:
+      "Animekun HomePage - Watch Anime Online For Absolutely Free Without ADS",
+    description:
+      "Watch and download animes online in english Dub/Sub. Stream your favourite episodes with high-quality & ad free for best experience.",
+    url: "https://animekun.lol/home"
+  },
+  alternates: {
+    canonical: "/home"
+  }
 };
 
 export default async function Home() {

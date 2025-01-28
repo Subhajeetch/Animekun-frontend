@@ -6,6 +6,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 const AnimeInfoSection = ({ anime }) => {
   const { info, moreInfo, seasons } = anime.anime;
 
+    /*
   function toCamelCase(str) {
     return str
       .toLowerCase()
@@ -15,7 +16,12 @@ const AnimeInfoSection = ({ anime }) => {
       )
       .join("");
   }
+*/
 
+  function formatToKebabCase(str) {
+    return str.toLowerCase().split(" ").join("-");
+  }
+  
   return (
     <>
       <div
@@ -104,7 +110,7 @@ const AnimeInfoSection = ({ anime }) => {
                 {moreInfo.genres.map((genre, index) => (
                   <Link
                     key={index}
-                    href={`/genre/${toCamelCase(genre)}`}
+                    href={`/genre/${formatToKebabCase(genre)}`}
                     className={`py-1 px-2 rounded-lg
                 border border-foreground
                 justify-center items-center flex hover:bg-foreground

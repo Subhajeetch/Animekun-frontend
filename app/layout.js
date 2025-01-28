@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://animekun.lol'),
+  metadataBase: new URL("https://animekun.lol"),
   title:
     "Watch Anime Online For Free On Animekun, Stream Sub & Dub Anime Without ADS - Animekun",
   description:
@@ -63,16 +63,16 @@ export const metadata = {
     siteName: "AnimeKun",
     images: [
       {
-        url: "https://i.imgur.com/QTHUrcF.jpeg",
+        url: "https://i.imgur.com/dgkXTMO.png",
         width: 1200,
         height: 430,
-        alt: "Animekun Website"
+        alt: "Animekun Website Banner"
       },
       {
-        url: "https://i.imgur.com/QTHUrcF.jpeg",
+        url: "https://i.imgur.com/kBhogcl.jpeg",
         width: 1200,
         height: 430,
-        alt: "Animekun Website"
+        alt: "Animekun Website Banner"
       }
     ],
     locale: "en_US",

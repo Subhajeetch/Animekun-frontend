@@ -11,6 +11,78 @@ import {
   PaginationPrevious
 } from "@/components/ui/pagination";
 
+export async function generateMetadata({ params }) {
+  const { category = "none-category" } = await params;
+
+  function formatToTitleCase(input) {
+    return input
+      .split("-")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  }
+
+  const formattedCategoryName = `${formatToTitleCase(category)} Animes`;
+
+  return {
+    title:
+      `Watch ${formattedCategoryName} Online, Available On SUB/DUB Without ADS - Animekun` ||
+      "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+    description:
+      `Stream and download ${formattedCategoryName} online ad free. Watch  your favourite ${formattedCategoryName} with the fastest video servers` ||
+      "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+    keywords: [
+      `${formattedCategoryName}`,
+      `Stream ${formattedCategoryName} online`,
+      `watch ${formattedCategoryName} online`,
+      `${formattedCategoryName} watch`,
+      `${formattedCategoryName} online`,
+      `${formattedCategoryName} stream`,
+      `${formattedCategoryName} sub`,
+      `${formattedCategoryName} english dub`,
+      "anime to watch",
+      "no ads anime website",
+      "watch anime",
+      "ad free anime site",
+      "anime online",
+      "free anime online",
+      "online anime",
+      "anime streaming",
+      "stream anime online",
+      "english anime",
+      "english dubbed anime"
+    ],
+    openGraph: {
+      title:
+        `Watch ${formattedCategoryName} Online, Available On SUB/DUB Without ADS - Animekun` ||
+        "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+      description:
+        `Stream and download ${formattedCategoryName} online ad free. Watch  your favourite ${formattedCategoryName} with the fastest video servers` ||
+        "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+      url: `https://animekun.lol/category/${category}`,
+      siteName: "AnimeKun",
+      images: [
+        {
+          url: "https://i.imgur.com/dgkXTMO.png",
+          width: 1200,
+          height: 430,
+          alt: `${formattedCategoryName} banner`
+        },
+        {
+          url: "https://i.imgur.com/kBhogcl.jpeg",
+          width: 1200,
+          height: 430,
+          alt: "Animekun Website Banner"
+        }
+      ],
+      locale: "en_US",
+      type: "website"
+    },
+    alternates: {
+      canonical: `/category/${category}`
+    }
+  };
+}
+
 const Category = async ({ params, searchParams }) => {
   const { category } = await params; // Extract category from params
   const { page = 1 } = await searchParams; // Default to page 1 if not provided
