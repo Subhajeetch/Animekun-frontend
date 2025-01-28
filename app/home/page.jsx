@@ -34,7 +34,18 @@ export const metadata = {
       "Animekun HomePage - Watch Anime Online For Absolutely Free Without ADS",
     description:
       "Watch and download animes online in english Dub/Sub. Stream your favourite episodes with high-quality & ad free for best experience.",
-    url: "https://animekun.lol/home"
+    url: "https://animekun.lol/home",
+    siteName: "AnimeKun",
+    images: [
+      {
+        url: "https://i.imgur.com/kBhogcl.jpeg",
+        width: 1200,
+        height: 430,
+        alt: `AnimeKun website banner`
+      }
+    ],
+    locale: "en_US",
+    type: "website"
   },
   alternates: {
     canonical: "/home"

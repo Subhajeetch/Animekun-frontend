@@ -74,16 +74,10 @@ export async function generateMetadata({ searchParams }) {
       siteName: "AnimeKun",
       images: [
         {
-          url: "https://i.imgur.com/dgkXTMO.png",
-          width: 1200,
-          height: 430,
-          alt: `${q.replace(/-/g, " ")} banner`
-        },
-        {
           url: "https://i.imgur.com/kBhogcl.jpeg",
           width: 1200,
           height: 430,
-          alt: "Animekun Website Banner"
+          alt: `${q.replace(/-/g, " ")} banner`
         }
       ],
       locale: "en_US",
