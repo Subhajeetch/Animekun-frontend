@@ -63,7 +63,7 @@ export const metadata = {
     siteName: "AnimeKun",
     images: [
       {
-        url: "https://i.imgur.com/kBhogcl.jpeg",
+        url: "https://i.imgur.com/MNnhK3G.jpeg",
         width: 1200,
         height: 430,
         alt: "Animekun Website Banner"

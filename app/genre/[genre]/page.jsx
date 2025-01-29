@@ -62,7 +62,7 @@ export async function generateMetadata({ params }) {
       siteName: "AnimeKun",
       images: [
         {
-          url: "https://i.imgur.com/kBhogcl.jpeg",
+          url: "https://i.imgur.com/MNnhK3G.jpeg",
           width: 1200,
           height: 430,
           alt: `${formattedGenreName} banner`
