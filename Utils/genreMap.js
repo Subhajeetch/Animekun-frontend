@@ -147,7 +147,7 @@ const genresMap = [
   {
     display: "Martial Arts",
     id: "martialArts",
-    idTwo: "martialArts",
+    idTwo: "martial-arts",
     url: "https://cdn.discordapp.com/attachments/1125343948060246028/1324650136185470996/20250103_133624.jpg?ex=6778ec13&is=67779a93&hm=8178fda8336bd79369c81cef0e2a1c7ee19f78ffdc20d05821fa436a5e2b1e24&",
     backgroundColor: "#000000",
     foreground: "#ffffff"
