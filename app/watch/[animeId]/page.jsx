@@ -1,4 +1,6 @@
 import axios from "axios";
+import { getAnimeInfo, getEpisodesByAnimeId } from "@/DataRoutes/index.js";
+
 import WatchContainer from "../../../Sections/WatchPage/WatchContainer999.jsx";
 import AnimeInfoSection from "../../../Sections/WatchPage/AnimeInfoOnWatchPage.jsx";
 import AnimeRecommendations from "../../../Sections/WatchPage/AnimeRecommendationsOnWarchPage.jsx";
@@ -8,10 +10,9 @@ export async function generateMetadata({ params }) {
   const { animeId } = await params;
 
   try {
-    const animeInfoRes = await axios.get(
-      `https://mantomart.in/api/mantox/anime/info/${animeId}`
-    );
-    const animeInfoData = animeInfoRes.data;
+    const fetchedData = await getAnimeInfo(animeId);
+    //console.log(fetchedData);
+    const animeInfoData = fetchedData.data;
     const { info } = animeInfoData.anime;
 
     return {
@@ -100,22 +101,21 @@ export async function generateMetadata({ params }) {
   }
 }
 
-// Server component (fully server-side)
 const WatchAnime = async ({ params }) => {
   const { animeId } = await params;
 
+  const fetchedData = await getAnimeInfo(animeId);
+
   try {
-    // Fetch data on the server
     const [animeInfoRes, episodesRes] = await Promise.all([
-      axios.get(`https://mantomart.in/api/mantox/anime/info/${animeId}`),
-      axios.get(`https://mantomart.in/api/mantox/episodes/${animeId}`)
+      getAnimeInfo(animeId),
+      getEpisodesByAnimeId(animeId)
     ]);
 
     const animeInfoData = animeInfoRes.data;
     const seasons = animeInfoRes.data.seasons || [];
     const episodes = episodesRes.data.episodes || [];
 
-    // Render the page using the fetched data
     return (
       <>
         <main>

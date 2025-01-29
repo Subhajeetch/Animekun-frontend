@@ -62,9 +62,11 @@ const WatchContainer = ({ episodes, animeId, animeInfoData, seasons }) => {
   // Fetch servers and update state when the current episode or language changes
   const fetchServers = async episodeId => {
     try {
-      const { data } = await axios.get(
-        `https://mantomart.in/api/mantox/episode/servers/${episodeId}`
+      const f = await axios.get(
+        `/api/mantox/get/servers-by-episode-id/${episodeId}`
       );
+
+      const data = f.data.data;
 
       const localStorageKey = `selectedServer:${episodeId}:${selectedLanguage}`;
       const savedServer = localStorage.getItem(localStorageKey);
@@ -82,14 +84,14 @@ const WatchContainer = ({ episodes, animeId, animeInfoData, seasons }) => {
   useEffect(() => {
     if (!currentEpisode || !selectedServer) return;
 
-
     const fetchStreamingData = async () => {
       setLoadingVideo(true);
       try {
-        const { data } = await axios.get(
-          `https://mantomart.in/api/mantox/episode/sources/${currentEpisode}&s=${selectedServer}&c=${selectedLanguage}`
+        const fd = await axios.get(
+          `/api/mantox/get/sources/${currentEpisode}&s=${selectedServer}&c=${selectedLanguage}`
         );
-        setStreamingData(data);
+        
+        setStreamingData(fd.data.data);
       } catch (error) {
         console.error("Error fetching streaming data:", error);
       } finally {
@@ -175,9 +177,11 @@ const WatchContainer = ({ episodes, animeId, animeInfoData, seasons }) => {
 
     const fetchServers = async episodeId => {
       try {
-        const { data } = await axios.get(
-          `https://mantomart.in/api/mantox/episode/servers/${episodeId}`
+        const fetchedData = await axios.get(
+          `/api/mantox/get/servers-by-episode-id/${episodeId}`
         );
+
+        const data = fetchedData.data.data;
         setServers({ sub: data.sub, dub: data.dub, raw: data.raw });
 
         const localStorageKey = `selectedServer:${episodeId}:${selectedLanguage}`;
@@ -201,7 +205,7 @@ const WatchContainer = ({ episodes, animeId, animeInfoData, seasons }) => {
   useEffect(() => {
     if (
       !servers ||
-      (!servers.sub.length && !servers.dub.length && !servers.raw?.length)
+      (!servers.sub?.length && !servers.dub?.length && !servers.raw?.length)
     )
       return;
 

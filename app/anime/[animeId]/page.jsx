@@ -1,75 +1,19 @@
-import axios from "axios";
 import Link from "next/link";
 import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
 import "../../../Styles/AnimeCardGrid.css";
 import React from "react";
+import { getAnimeInfo } from "@/DataRoutes/index.js";
 
 // Dynamic metadata generation function
 export async function generateMetadata({ params }) {
   const { animeId } = await params;
 
-  try {
-    const animeInfoRes = await axios.get(
-      `https://mantomart.in/api/mantox/anime/info/${animeId}`
-    );
-    const animeInfoData = animeInfoRes.data;
-    const { info } = animeInfoData.anime;
+  const fetchedData = await getAnimeInfo(animeId);
+  //console.log(fetchedData);
+  const animeInfoData = fetchedData.data;
+  const { info } = animeInfoData.anime;
 
-    return {
-      title:
-        `Stream ${info.name} In English Dub & Sub In HD Quality Without ADS - AnimeKun` ||
-        "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
-      description:
-        `Watch and download ${info.name} online in english Dub/Sub options. Stream your favourite episodes of ${info.name} with HD-quality video for good experience.` ||
-        "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
-      keywords: [
-        `${info.name}`,
-        `Stream ${info.name} online`,
-        `watch ${info.name} online`,
-        `${info.name} watch`,
-        `${info.name} online`,
-        `${info.name} stream`,
-        `${info.name} sub`,
-        `${info.name} english dub`,
-        "anime to watch",
-        "no ads anime website",
-        "watch anime",
-        "ad free anime site",
-        "anime online",
-        "free anime online",
-        "online anime",
-        "anime streaming",
-        "stream anime online",
-        "english anime",
-        "english dubbed anime"
-      ],
-      openGraph: {
-        title:
-          `Stream ${info.name} In English Dub & Sub In HD Quality Without ADS - AnimeKun` ||
-          "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
-        description:
-          `Watch and download ${info.name} online in english Dub/Sub options. Stream your favourite episodes of ${info.name} with HD-quality video for good experience.` ||
-          "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
-        url: `https://animekun.lol/anime/${animeId}`,
-        siteName: "AnimeKun",
-        images: [
-          {
-            url: "https://i.imgur.com/MNnhK3G.jpeg",
-            width: 1200,
-            height: 430,
-            alt: `${info.name} Cover`
-          }
-        ],
-        locale: "en_US",
-        type: "website"
-      },
-      alternates: {
-        canonical: `/anime/${animeId}`
-      }
-    };
-  } catch (error) {
-    console.error("Error fetching metadata:", error);
-
+  if (!fetchedData.manto) {
     // Fallback metadata
     return {
       title:
@@ -101,51 +45,81 @@ export async function generateMetadata({ params }) {
       }
     };
   }
+
+  return {
+    title:
+      `Stream ${info.name} In English Dub & Sub In HD Quality Without ADS - AnimeKun` ||
+      "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+    description:
+      `Watch and download ${info.name} online in english Dub/Sub options. Stream your favourite episodes of ${info.name} with HD-quality video for good experience.` ||
+      "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+    keywords: [
+      `${info.name}`,
+      `Stream ${info.name} online`,
+      `watch ${info.name} online`,
+      `${info.name} watch`,
+      `${info.name} online`,
+      `${info.name} stream`,
+      `${info.name} sub`,
+      `${info.name} english dub`,
+      "anime to watch",
+      "no ads anime website",
+      "watch anime",
+      "ad free anime site",
+      "anime online",
+      "free anime online",
+      "online anime",
+      "anime streaming",
+      "stream anime online",
+      "english anime",
+      "english dubbed anime"
+    ],
+    openGraph: {
+      title:
+        `Stream ${info.name} In English Dub & Sub In HD Quality Without ADS - AnimeKun` ||
+        "Watch Anime Online In English Dub & Sub In HD Quality - AnimeKun",
+      description:
+        `Watch and download ${info.name} online in english Dub/Sub options. Stream your favourite episodes of ${info.name} with HD-quality video for good experience.` ||
+        "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
+      url: `https://animekun.lol/anime/${animeId}`,
+      siteName: "AnimeKun",
+      images: [
+        {
+          url: "https://i.imgur.com/MNnhK3G.jpeg",
+          width: 1200,
+          height: 430,
+          alt: `${info.name} Cover`
+        }
+      ],
+      locale: "en_US",
+      type: "website"
+    },
+    alternates: {
+      canonical: `/anime/${animeId}`
+    }
+  };
 }
 
 export default async function AnimeInfo({ params }) {
   const { animeId } = await params;
 
-  // Fetch anime data
-  const fetchAnimeData = async id => {
-    try {
-      const response = await axios.get(
-        `https://mantomart.in/api/mantox/anime/info/${id}`
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching anime data:", error);
-      return null;
-    }
-  };
+  const fetchedData = await getAnimeInfo(animeId);
 
-  const animeData = await fetchAnimeData(animeId);
-  const { info, moreInfo } = animeData.anime;
-  const { recommendedAnimes, seasons } = animeData;
-
-  /*
-  function toCamelCase(str) {
-    return str
-      .toLowerCase()
-      .split(" ")
-      .map((word, index) =>
-        index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)
-      )
-      .join("");
-  }
-*/
-
-  function formatToKebabCase(str) {
-    return str.toLowerCase().split(" ").join("-");
-  }
-
-  if (!animeData) {
+  if (!fetchedData.manto) {
     return (
       <>
         <h1>Anime not found</h1>
         <Link href="/home">Home</Link>
       </>
     );
+  }
+
+  const animeData = fetchedData.data;
+  const { info, moreInfo } = animeData.anime;
+  const { recommendedAnimes, seasons } = animeData;
+
+  function formatToKebabCase(str) {
+    return str.toLowerCase().split(" ").join("-");
   }
 
   return (

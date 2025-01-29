@@ -28,10 +28,10 @@ const NavBar = () => {
     if (query.trim() === "") return;
     try {
       const response = await fetch(
-        `https://mantomart.in/api/mantox/search?q=${query}`
+        `https://mantomart.in/api/mantox/searchsuggestion?q=${query}`
       );
       const data = await response.json();
-      setResults(data.animes || []);
+      setResults(data.suggestions || []);
     } catch (error) {
       console.error("Error fetching anime data:", error);
     }
@@ -311,7 +311,7 @@ c-54 0 -102 -3 -105 -7z"
                             className="text-xs
                               text-animeCardDimmerForeground"
                           >
-                            {anime.type} • {anime.duration}
+                            {anime.moreInfo[1]} • {anime.moreInfo[2]}
                           </p>
                         </div>
                       </div>
@@ -391,7 +391,7 @@ c-54 0 -102 -3 -105 -7z"
                           className="text-xs
                           text-animeCardDimmerForeground"
                         >
-                          {anime.type} • {anime.duration}
+                          {anime.moreInfo[1]} • {anime.moreInfo[2]}
                         </p>
                       </div>
                     </div>

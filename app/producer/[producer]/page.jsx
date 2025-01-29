@@ -1,6 +1,6 @@
-import axios from "axios";
 import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
 import "../../../Styles/AnimeCardGrid.css";
+import { getAnimesByProducer } from "@/DataRoutes/index.js";
 import {
   Pagination,
   PaginationContent,
@@ -83,23 +83,15 @@ const ProducerPage = async ({ params, searchParams }) => {
   const { producer } = await params; // Extract category from params
   const { page = 1 } = await searchParams; // Default to page 1 if not provided
 
-  // Fetch data from the API
-  let animes = [];
-  let totalPages = 1;
-  let currentPage = parseInt(page, 10);
-  let producerName = "";
+  const fetchedData = await getAnimesByProducer(producer, page);
+  //console.log(fetchedData);
 
-  try {
-    const response = await axios.get(
-      `https://mantomart.in/api/mantox/producer/${producer}?page=${currentPage}`
-    );
-    animes = response.data.animes || [];
-    totalPages = response.data.totalPages || 1;
-    currentPage = response.data.currentPage || 1;
-    producerName = response.data.producerName || producer;
-  } catch (error) {
-    console.error("Error fetching anime data:", error);
+  if (!fetchedData.manto) {
+    return <h1>Error 404</h1>;
   }
+
+  const { animes, totalPages, currentPage } = fetchedData.data;
+  const producerName = fetchedData.data.producerName || "Unknown";
 
   // Helper function to construct pagination href
   const constructPageHref = page => {

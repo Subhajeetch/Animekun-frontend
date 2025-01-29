@@ -1,6 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
 import "../../Styles/AnimeCardGrid.css";
+import { getSearchResults } from "@/DataRoutes/index.js";
 
 import AnimeCard from "../../Sections/Universal/AnimeCard.jsx";
 import FilterSection from "../../Sections/SearchPage/FilterSection.jsx";
@@ -107,11 +108,14 @@ const SearchAnime = async ({ searchParams }) => {
     page = 1
   } = lol;
 
-  // Prepare the query parameters for the API request
-  const params = {
+
+  const genreMap = genres?.split(",").join("+");
+
+  const fetchedData = await getSearchResults(
     q,
-    lang,
+    page,
     sort,
+    lang,
     status,
     type,
     rated,
@@ -119,30 +123,11 @@ const SearchAnime = async ({ searchParams }) => {
     season,
     start_date,
     end_date,
-    genres: genres?.split(",").join("+"), // Adjust genres if it's a comma-separated string
-    page
-  };
+    genreMap // Adjust genres if it's a comma-separated string
+  );
+  console.log(fetchedData);
 
-  // Filter out undefined/null values from params
-  Object.keys(params).forEach(key => {
-    if (!params[key]) delete params[key];
-  });
-
-  // Fetch data from the API
-  let animes = [];
-  let totalPages = 1;
-  let currentPage;
-
-  try {
-    const response = await axios.get("https://mantomart.in/api/mantox/search", {
-      params
-    });
-    animes = response.data.animes || [];
-    totalPages = response.data.totalPages || 1;
-    currentPage = response.data.currentPage || 1;
-  } catch (error) {
-    console.error("Error fetching anime data:", error);
-  }
+  const { animes, totalPages, currentPage } = fetchedData.data;
 
   const constructPageHref = page => {
     const updatedParams = new URLSearchParams();

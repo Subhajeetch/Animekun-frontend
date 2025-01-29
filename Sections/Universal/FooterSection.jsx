@@ -198,7 +198,7 @@ c-54 0 -102 -3 -105 -7z"
             <li className="text-[#cacaca] text-[13px] hover:underline">
               <Link href="#">Anime news</Link>
             </li>
-                        <li className="text-[#cacaca] text-[13px] hover:underline">
+            <li className="text-[#cacaca] text-[13px] hover:underline">
               <Link href="#">Recent updates</Link>
             </li>
           </ul>

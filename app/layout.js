@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ScrollToTop from "@/Sections/Universal/ScrollToTop.jsx";
 import NavBar from "@/Sections/NavBar/NavBar.jsx";
 import FooterSection from "@/Sections/Universal/FooterSection.jsx";
 
@@ -99,6 +100,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavBar />
+        <ScrollToTop />
         {children}
         <FooterSection />
       </body>

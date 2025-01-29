@@ -1,5 +1,6 @@
 import Link from "next/link";
-import axios from "axios";
+import { getCustomHomePage } from "../../DataRoutes/index.js";
+import { getSearchSuggetion } from "@/DataRoutes/index.js";
 import { ChevronRight } from "lucide-react";
 
 import { HomepageSlides } from "../../Sections/HomePage/HomepageSlides.jsx";
@@ -53,19 +54,13 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const fetchHomePage = async () => {
-    try {
-      const response = await axios.get(
-        "https://mantomart.in/api/mantox/get/homepage"
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching anime data:", error);
-      return null;
-    }
-  };
+  const HomepageData = await getCustomHomePage();
+  const data = HomepageData.data;
 
-  const data = await fetchHomePage();
+  if (!HomepageData.manto) {
+    return <h1>Error 404</h1>;
+  }
+
 
   return (
     <>
