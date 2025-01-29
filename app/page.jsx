@@ -48,7 +48,7 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <div className="h-screen flex justify-center items-center">
+      <div className="h-screen flex justify-center items-center bg-backgroundtwo">
         <Link
           className="text-xl font-[800] px-4 py-2 rounded-md bg-main"
           href="/home"
