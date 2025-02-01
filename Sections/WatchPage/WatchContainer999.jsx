@@ -176,7 +176,7 @@ const WatchContainer = ({ episodes, animeId, animeInfoData, seasons }) => {
     const fetchServers = async episodeId => {
       try {
         const fetchedData = await axios.get(
-          `/api/mantox/get/servers-by-episode-id/${episodeId}`
+          `/api/mantox/get/servers/${episodeId}`
         );
 
         const data = fetchedData.data.data;
