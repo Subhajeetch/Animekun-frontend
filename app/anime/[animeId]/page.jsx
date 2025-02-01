@@ -107,8 +107,16 @@ export default async function AnimeInfo({ params }) {
   const fetchedData = await getAnimeInfo(animeId);
 
   const InfoUtils = await getAnimeInfoUtils(
-    fetchedData.data.anime.info.anilistId
+    fetchedData.data.anime.info.anilistId || 0
   );
+
+  const getBnr = () => {
+    if (InfoUtils.manto) {
+      return InfoUtils.data.banner;
+    } else {
+      return "https://i.imgur.com/1JNOKZx.jpeg";
+    }
+  };
 
   //console.log(InfoUtils.data);
 
@@ -143,7 +151,7 @@ export default async function AnimeInfo({ params }) {
 
           {InfoUtils && InfoUtils.data.banner && (
             <img
-              src={InfoUtils.data.banner}
+              src={getBnr()}
               alt={`${info.name} Banner`}
               className="w-full h-[180px] md:h-auto object-cover"
             />
