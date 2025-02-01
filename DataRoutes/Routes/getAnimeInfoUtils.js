@@ -1,6 +1,18 @@
 import axios from "axios";
 
 export const getAnimeInfoUtils = async id => {
+  if (id === 0) {
+    return {
+      manto: true,
+      data: {
+        banner: "https://i.imgur.com/1JNOKZx.jpeg",
+        popularity: 0,
+        isAdult: false,
+        upcomingEp: null
+      }
+    };
+  }
+
   try {
     const response = await axios.get(
       `https://consumetapi-bay.vercel.app/meta/anilist/info/${id}`
