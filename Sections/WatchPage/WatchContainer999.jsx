@@ -62,9 +62,7 @@ const WatchContainer = ({ episodes, animeId, animeInfoData, seasons }) => {
   // Fetch servers and update state when the current episode or language changes
   const fetchServers = async episodeId => {
     try {
-      const f = await axios.get(
-        `/api/mantox/get/servers-by-episode-id/${episodeId}`
-      );
+      const f = await axios.get(`/api/mantox/get/servers/${episodeId}`);
 
       const data = f.data.data;
 
@@ -90,7 +88,7 @@ const WatchContainer = ({ episodes, animeId, animeInfoData, seasons }) => {
         const fd = await axios.get(
           `/api/mantox/get/sources/${currentEpisode}&s=${selectedServer}&c=${selectedLanguage}`
         );
-        
+
         setStreamingData(fd.data.data);
       } catch (error) {
         console.error("Error fetching streaming data:", error);

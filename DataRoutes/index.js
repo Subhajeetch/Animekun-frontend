@@ -7,6 +7,7 @@ import { getSearchSuggetion } from "./Routes/getSearchSuggetions.js";
 import { getSearchResults } from "./Routes/getSearchResults.js";
 import { getEpisodesByAnimeId } from "./Routes/getEpisodesByAnimeId.js";
 import { getServersByEpisodeId } from "./Routes/getServersByEpisodeId.js";
+import { getAnimeInfoUtils } from "./Routes/getAnimeInfoUtils.js";
 
 export {
   getCustomHomePage,
@@ -17,5 +18,6 @@ export {
   getSearchSuggetion,
   getSearchResults,
   getEpisodesByAnimeId,
-  getServersByEpisodeId
+  getServersByEpisodeId,
+  getAnimeInfoUtils
 };

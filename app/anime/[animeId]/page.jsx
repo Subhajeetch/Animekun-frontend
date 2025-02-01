@@ -2,7 +2,8 @@ import Link from "next/link";
 import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
 import "../../../Styles/AnimeCardGrid.css";
 import React from "react";
-import { getAnimeInfo } from "@/DataRoutes/index.js";
+import { ArrowDownToLine, ListFilterPlus } from "lucide-react";
+import { getAnimeInfo, getAnimeInfoUtils } from "@/DataRoutes/index.js";
 
 // Dynamic metadata generation function
 export async function generateMetadata({ params }) {
@@ -105,6 +106,12 @@ export default async function AnimeInfo({ params }) {
 
   const fetchedData = await getAnimeInfo(animeId);
 
+  const InfoUtils = await getAnimeInfoUtils(
+    fetchedData.data.anime.info.anilistId
+  );
+
+  //console.log(InfoUtils.data);
+
   if (!fetchedData.manto) {
     return (
       <>
@@ -124,49 +131,120 @@ export default async function AnimeInfo({ params }) {
 
   return (
     <>
-      <div className="p-6 bg-backgroundtwo">
-        <div className="flex flex-wrap gap-3">
-          <div className="flex flex-wrap gap-3">
+      <main className="bg-backgroundtwo">
+        <div
+          className="w-full relative bg-gradient-to-r from-status
+        to-quality"
+        >
+          <div
+            className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t
+          from-black/80 to-transparent"
+          ></div>
+
+          {InfoUtils && InfoUtils.data.banner && (
+            <img
+              src={InfoUtils.data.banner}
+              alt={`${info.name} Banner`}
+              className="w-full h-[180px] md:h-auto object-cover"
+            />
+          )}
+        </div>
+
+        <div className="flex flex-wrap gap-3 relative">
+          <div
+            className="w-full h-[60px] bg-gradient-to-b
+         from-gray-700/50 to-transparent pl-[140px] md:pl-[250px]"
+          >
+            <div
+              className="flex
+            w-full p-2 pr-4 gap-1 max-w-[600px]"
+            >
+              <Link href={`/watch/${info.id}`} className="flex-1">
+                <div
+                  className="p-2 w-full bg-main rounded-lg flex
+                gap-2 justify-center items-center"
+                >
+                  <svg
+                    version="1.0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512.000000 512.000000"
+                    preserveAspectRatio="xMidYMid meet"
+                    className="h-5"
+                    style={{ fill: "var(--foreground)" }}
+                  >
+                    <g
+                      transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                      stroke="none"
+                    >
+                      <path
+                        d="M1160 5106 c-303 -64 -567 -280 -670 -549 -69 -179 -65 -41 -65
+-1997 0 -1956 -4 -1818 65 -1997 86 -224 294 -423 532 -508 127 -45 224 -59
+361 -52 129 6 227 31 337 85 98 48 2609 1746 2688 1817 378 343 378 967 0
+1309 -78 71 -2590 1770 -2688 1818 -123 60 -206 80 -360 84 -90 2 -157 -1
+-200 -10z"
+                      />
+                    </g>
+                  </svg>
+
+                  <span className="font-[600] flex gap-1">
+                    Watch{" "}
+                    <span
+                      className="hidden
+                  md:flex"
+                    >
+                      Now
+                    </span>{" "}
+                  </span>
+                </div>
+              </Link>
+
+              <Link
+                href={`/download/${info.id}`}
+                className="bg-status
+              flex justify-center items-center rounded-lg w-[40px]"
+              >
+                <ArrowDownToLine className="text-infoForeground" />
+              </Link>
+              <button
+                className="w-[40px] bg-status flex justify-center
+              items-center rounded-lg"
+              >
+                <ListFilterPlus className="text-infoForeground" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-3 px-4 md:px-[54px] relative">
             {/* Anime Poster */}
             <div
-              className="flex flex-col items-center
-           responsive-div"
+              className="flex flex-col items-center absolute top-[-180px]
+            left-[20px]"
             >
               <img
                 src={info.poster}
-                alt={info.name}
-                className="rounded-lg shadow-lg h-56 md:h-96"
+                alt={`${info.name} Cover`}
+                className="rounded-lg shadow-lg h-[160px] md:h-[300px] give-shadow "
               />
 
               <div className="flex items-center mt-2">
                 <p className="text-[10px] text-[#b0b0b0] font-[800]">
                   {info.stats.type}
-                </p>
-                <span className="px-2">&#x2022;</span>
-                <p className="text-[10px] text-[#b0b0b0] font-[800]">
+                  <span className="px-2">&#x2022;</span>
                   {info.stats.duration}
                 </p>
               </div>
             </div>
 
             {/* Anime Info */}
-            <div className="md:col-span-2 flex-1">
+            <div className="md:col-span-2 flex-1 pt-6 md:pt-2">
               <h1
-                className="text-[20px] font-bold text-white text-center
-            md:text-left"
+                className="text-[20px] md:text-[24px] font-bold text-foreground
+            md:pl-[210px]"
               >
                 {info.name}
               </h1>
 
-              <div className="flex flex-col mt-4">
-                <div
-                  className="h-1 w-[130px] bg-separatorOnBackground self-center md:h-0 md:w-0
-              rounded-lg"
-                ></div>
-                <div className="bg-separatorOnBackground self-left md:h-1 md:w-[130px] rounded-lg"></div>
-              </div>
-
-              <div className="flex justify-center gap-1 md:justify-start mt-9">
+              <div className="flex gap-1 mt-4 md:pl-[210px]">
                 <div className="flex gap-1">
                   {info.stats.episodes.dub > 0 && (
                     <div
@@ -176,7 +254,7 @@ export default async function AnimeInfo({ params }) {
                         justify-center items-center"
                     >
                       <span className="font-[900]">EN</span>
-                      <span className="font-[500]">
+                      <span className="font-[700]">
                         {info.stats.episodes.dub}
                       </span>
                     </div>
@@ -189,7 +267,7 @@ export default async function AnimeInfo({ params }) {
                         justify-center items-center"
                     >
                       <span className="font-[900]">JP</span>
-                      <span className="font-[500]">
+                      <span className="font-[700]">
                         {info.stats.episodes.sub}
                       </span>
                     </div>
@@ -198,7 +276,7 @@ export default async function AnimeInfo({ params }) {
 
                 <div className="bg-rating rounded-sm">
                   <p
-                    className="text-[10px] px-2.5 py-1 font-[700]
+                    className="text-[10px] px-[6px] py-[2px] font-[700]
                   text-infoForeground"
                   >
                     {info.stats.rating}
@@ -207,7 +285,7 @@ export default async function AnimeInfo({ params }) {
 
                 <div className="bg-quality rounded-sm">
                   <p
-                    className="text-[10px] px-2.5 py-1 font-[700]
+                    className="text-[10px] px-[6px] py-[2px] font-[700]
                   text-infoForeground"
                   >
                     {info.stats.quality}
@@ -215,7 +293,7 @@ export default async function AnimeInfo({ params }) {
                 </div>
                 <div className="bg-status rounded-sm">
                   <p
-                    className="text-[10px] px-2.5 py-1 font-[700]
+                    className="text-[10px] px-[4px] py-[2px]  font-[700]
                   text-infoForeground"
                   >
                     {moreInfo.status}
@@ -225,8 +303,8 @@ export default async function AnimeInfo({ params }) {
 
               <div
                 id="genres"
-                className="flex flex-wrap gap-1 justify-center
-              md:justify-start mt-3"
+                className="flex flex-wrap gap-1 mt-3
+              md:pl-[210px]"
               >
                 {moreInfo.genres.map((genre, index) => (
                   <Link
@@ -242,41 +320,8 @@ export default async function AnimeInfo({ params }) {
                 ))}
               </div>
 
-              <div className="mt-4 flex w-full justify-center md:justify-start">
-                <Link href={`/watch/${info.id}`}>
-                  <div
-                    className="px-4 py-3 w-max mt-4 bg-main rounded-lg flex
-                gap-3 justify-center items-center"
-                  >
-                    <svg
-                      version="1.0"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 512.000000 512.000000"
-                      preserveAspectRatio="xMidYMid meet"
-                      className="h-5"
-                      style={{ fill: "var(--foreground)" }}
-                    >
-                      <g
-                        transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                        stroke="none"
-                      >
-                        <path
-                          d="M1160 5106 c-303 -64 -567 -280 -670 -549 -69 -179 -65 -41 -65
--1997 0 -1956 -4 -1818 65 -1997 86 -224 294 -423 532 -508 127 -45 224 -59
-361 -52 129 6 227 31 337 85 98 48 2609 1746 2688 1817 378 343 378 967 0
-1309 -78 71 -2590 1770 -2688 1818 -123 60 -206 80 -360 84 -90 2 -157 -1
--200 -10z"
-                        />
-                      </g>
-                    </svg>
-
-                    <span className="font-[600]">Watch Now</span>
-                  </div>
-                </Link>
-              </div>
-
               <div
-                className="mt-11 overflow-y-auto max-h-[100px] max-w-[600px]
+                className="mt-11 md:mt-14 overflow-y-auto max-h-[100px] max-w-[600px]
                 scrollbar-thin scrollbar-thumb-backgroundHover
           scrollbar-track-background pr-2"
               >
@@ -362,8 +407,8 @@ export default async function AnimeInfo({ params }) {
           {/* sequence */}
           {seasons && seasons.length > 0 && (
             <div
-              className="flex-1 flex flex-col items-center flex-wrap gap-4 mt-8
-            md:mt-0"
+              className="flex-1 flex flex-col items-center gap-4 mt-8
+            md:mt-0 xl:absolute top-[5px] right-[120px]"
             >
               <div className="flex flex-col">
                 <label className="text-center text-[16px] font-[800]">
@@ -372,7 +417,7 @@ export default async function AnimeInfo({ params }) {
                 <span className="text-[8px] font-[300]">
                   Watch one by one seasons of this anime.
                 </span>
-                <div className="flex flex-col mt-0.5 mb-2">
+                <div className="flex flex-col mt-0.5">
                   <div
                     className="h-1 w-[130px] bg-separatorOnBackgroundtwo self-center md:h-0 md:w-0
               rounded-lg"
@@ -474,7 +519,7 @@ export default async function AnimeInfo({ params }) {
             ))}
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }
