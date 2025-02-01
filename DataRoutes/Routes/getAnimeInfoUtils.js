@@ -6,9 +6,9 @@ export const getAnimeInfoUtils = async id => {
       `https://consumetapi-bay.vercel.app/meta/anilist/info/${id}`
     );
 
-    const banner = response.data.cover;
-    const popularity = response.data.popularity;
-    const isAdult = response.data.isAdult;
+    const banner = response.data.cover || "https://i.imgur.com/1JNOKZx.jpeg";
+    const popularity = response.data.popularity || 0;
+    const isAdult = response.data.isAdult || false;
     const upcomingEp = response.data?.nextAiringEpisode || null;
 
     return {
