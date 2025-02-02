@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
 import "../../../Styles/AnimeCardGrid.css";
 import { getAnimesByProducer } from "@/DataRoutes/index.js";

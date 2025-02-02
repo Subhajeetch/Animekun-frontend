@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { HiAnime } from "aniwatch";
 
 const hianime = new HiAnime.Scraper();

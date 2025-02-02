@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import Link from "next/link";
 import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
 import "../../../Styles/AnimeCardGrid.css";

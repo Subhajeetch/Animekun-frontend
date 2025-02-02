@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import axios from "axios";
 import Link from "next/link";
 import "../../Styles/AnimeCardGrid.css";
