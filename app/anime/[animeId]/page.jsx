@@ -161,7 +161,7 @@ export default async function AnimeInfo({ params }) {
         <div className="flex flex-wrap gap-3 relative">
           <div
             className="w-full h-[60px] bg-gradient-to-b
-         from-gray-700/50 to-transparent pl-[140px] md:pl-[250px]"
+         from-gray-700/50 to-transparent pl-[140px] md:pl-[288px]"
           >
             <div
               className="flex
@@ -194,7 +194,7 @@ export default async function AnimeInfo({ params }) {
                     </g>
                   </svg>
 
-                  <span className="font-[600] flex gap-1">
+                  <span className="font-[800] flex gap-1">
                     Watch{" "}
                     <span
                       className="hidden
@@ -209,15 +209,23 @@ export default async function AnimeInfo({ params }) {
               <Link
                 href={`/download/${info.id}`}
                 className="bg-status
-              flex justify-center items-center rounded-lg w-[40px]"
+              flex justify-center items-center gap-2 rounded-lg min-w-[40px]
+              md:px-3"
               >
                 <ArrowDownToLine className="text-infoForeground" />
+
+                <span className="hidden md:flex text-infoForeground font-[800]">
+                  Download
+                </span>
               </Link>
               <button
-                className="w-[40px] bg-status flex justify-center
-              items-center rounded-lg"
+                className="min-w-[40px] bg-status flex justify-center
+              items-center gap-2 rounded-lg md:px-3"
               >
                 <ListFilterPlus className="text-infoForeground" />
+                <span className="hidden md:flex text-infoForeground font-[800]">
+                  Add To List
+                </span>
               </button>
             </div>
           </div>
@@ -226,7 +234,7 @@ export default async function AnimeInfo({ params }) {
             {/* Anime Poster */}
             <div
               className="flex flex-col items-center absolute top-[-180px]
-            left-[20px]"
+            left-[20px] md:left-[54px]"
             >
               <img
                 src={info.poster}
@@ -247,12 +255,12 @@ export default async function AnimeInfo({ params }) {
             <div className="md:col-span-2 flex-1 pt-6 md:pt-2">
               <h1
                 className="text-[20px] md:text-[24px] font-bold text-foreground
-            md:pl-[210px]"
+            md:pl-[240px]"
               >
                 {info.name}
               </h1>
 
-              <div className="flex gap-1 mt-4 md:pl-[210px]">
+              <div className="flex gap-1 mt-4 md:pl-[240px]">
                 <div className="flex gap-1">
                   {info.stats.episodes.dub > 0 && (
                     <div
@@ -312,7 +320,7 @@ export default async function AnimeInfo({ params }) {
               <div
                 id="genres"
                 className="flex flex-wrap gap-1 mt-3
-              md:pl-[210px]"
+              md:pl-[240px]"
               >
                 {moreInfo.genres.map((genre, index) => (
                   <Link
@@ -517,11 +525,14 @@ export default async function AnimeInfo({ params }) {
         )}
 
         {/* Recommended Animes */}
-        <div className="mt-8">
+        <div className="mt-8 px-4 md:px-[54px]">
           <h2 className="text-[17px] font-bold text-foreground">
             Recommended Animes
           </h2>
-          <div className="grid animeCardGrid gap-4 mt-4">
+          <div
+            className="grid animeCardGrid gap-4 mt-4 
+          "
+          >
             {recommendedAnimes.map(anime => (
               <AnimeCard anime={anime} />
             ))}
