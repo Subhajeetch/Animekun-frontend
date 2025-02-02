@@ -1,4 +1,4 @@
-export const runtime = "edge";
+
 import { HiAnime } from "aniwatch";
 
 export async function GET(request, { params }) {

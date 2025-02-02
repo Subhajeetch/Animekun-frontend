@@ -1,4 +1,3 @@
-export const runtime = "edge";
 import axios from "axios";
 import { getAnimeInfo, getEpisodesByAnimeId } from "@/DataRoutes/index.js";
 

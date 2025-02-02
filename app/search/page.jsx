@@ -1,4 +1,3 @@
-export const runtime = "edge";
 import axios from "axios";
 import Link from "next/link";
 import "../../Styles/AnimeCardGrid.css";
@@ -108,7 +107,6 @@ const SearchAnime = async ({ searchParams }) => {
     genres,
     page = 1
   } = lol;
-
 
   const genreMap = genres?.split(",").join("+");
 
