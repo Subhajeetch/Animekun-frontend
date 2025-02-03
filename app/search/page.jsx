@@ -71,7 +71,7 @@ export async function generateMetadata({ searchParams }) {
       description:
         `Anime search results for query '${q.replace(/-/g, " ")}'` ||
         "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
-      url: `https://animekun.lol/search?q=${q}`,
+      url: `https://animekun.top/search?q=${q}`,
       siteName: "AnimeKun",
       images: [
         {

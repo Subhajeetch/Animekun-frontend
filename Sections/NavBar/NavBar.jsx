@@ -28,7 +28,7 @@ const NavBar = () => {
     if (query.trim() === "") return;
     try {
       const response = await fetch(
-        `https://mantomart.in/api/mantox/searchsuggestion?q=${query}`
+        `https://getdata.animekun.top/api/mantox/searchsuggestion?q=${query}`
       );
       const data = await response.json();
       setResults(data.suggestions || []);

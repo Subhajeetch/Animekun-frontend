@@ -27,7 +27,7 @@ export const metadata = {
       "Watch Anime Online For Free On Animekun, Stream Sub & Dub Anime Without ADS - Animekun",
     description:
       "Stream and download animes online in english Dub/Sub. Watch your favourite episodes with high-quality video for an impressive viewing experience.",
-    url: "https://animekun.lol",
+    url: "https://animekun.top",
     siteName: "AnimeKun",
     images: [
       {

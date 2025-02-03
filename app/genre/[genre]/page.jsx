@@ -58,7 +58,7 @@ export async function generateMetadata({ params }) {
       description:
         `Stream and download ${formattedGenreName} online ad free. Watch  your favourite ${formattedGenreName} with the fastest video servers` ||
         "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
-      url: `https://animekun.lol/genre/${genre}`,
+      url: `https://animekun.top/genre/${genre}`,
       siteName: "AnimeKun",
       images: [
         {

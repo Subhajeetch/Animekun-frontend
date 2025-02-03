@@ -60,7 +60,7 @@ export async function generateMetadata({ params }) {
       description:
         `Stream and download ${formattedProducerName} online ad free. Watch  your favourite ${formattedProducerName} with the fastest video servers` ||
         "Watch and download Animes online in english Dub/Sub options. Stream your favourite episodes with HD-quality video for good experience.",
-      url: `https://animekun.lol/producer/${producer}`,
+      url: `https://animekun.top/producer/${producer}`,
       siteName: "AnimeKun",
       images: [
         {
