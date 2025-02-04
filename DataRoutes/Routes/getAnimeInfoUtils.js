@@ -9,6 +9,7 @@ function anilistMediaDetailQuery(id) {
         Media(id: $id) {
           bannerImage
           popularity
+          averageScore
           coverImage {
             color
           }
@@ -25,14 +26,15 @@ function anilistMediaDetailQuery(id) {
   };
 }
 
-export const getAnimeInfoUtils = async id => {
+export const getAnimeInfoUtils = async (id) => {
   if (id === 0) {
     return {
       manto: true,
       data: {
         banner: "https://i.imgur.com/1JNOKZx.jpeg",
         popularity: 0,
-        color: "#434343",
+        rating: 0,
+        color: "#2073ae",
         isAdult: null,
         upcomingEp: {
           airingTime: 0,
@@ -57,15 +59,19 @@ export const getAnimeInfoUtils = async id => {
 
     const media = response.data?.data?.Media;
 
-    // Constructing the response object
-    const result = {
+    if (!media) {
+      throw new Error("Invalid response from AniList. Data is missing.");
+    }
+
+    return {
       manto: true,
       data: {
-        banner: media?.bannerImage || null,
-        popularity: media?.popularity || null,
-        color: media?.coverImage?.color || null,
-        isAdult: media?.isAdult || false,
-        upcomingEp: media?.nextAiringEpisode
+        banner: media.bannerImage || null,
+        popularity: media.popularity ?? null,
+        rating: media.averageScore ?? null,
+        color: media.coverImage?.color || null,
+        isAdult: media.isAdult ?? false,
+        upcomingEp: media.nextAiringEpisode
           ? {
               airingTime: media.nextAiringEpisode.airingAt,
               timeUntilAiring: media.nextAiringEpisode.timeUntilAiring,
@@ -74,10 +80,9 @@ export const getAnimeInfoUtils = async id => {
           : null
       }
     };
-
-    return result;
   } catch (error) {
     console.error("Error fetching anime details:", error.message);
+
     return {
       manto: false,
       message: "Failed to fetch anime details. Please try again later."

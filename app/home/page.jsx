@@ -61,10 +61,17 @@ export default async function Home() {
     return <h1>Error 404</h1>;
   }
 
-
   return (
     <>
       <main className="min-h-screen bg-backgroundtwo w-full">
+        <div className="relative overflow-hidden">
+          <h1 className="">
+            <span className="absolute top-0 left-0 h-[1px] w-[1px] overflow-hidden">
+              Watch Animes Online For Free, Stream in SUB/DUB without ads & Get
+              Anime News with daily updates
+            </span>
+          </h1>
+        </div>
         {data && <HomepageSlides data={data.spotlightAnimes} />}
 
         <div className="h-[30px] w-full"></div>

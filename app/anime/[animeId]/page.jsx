@@ -1,5 +1,5 @@
-
 import Link from "next/link";
+import Image from "next/image";
 import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
 import "../../../Styles/AnimeCardGrid.css";
 import React from "react";
@@ -106,37 +106,55 @@ export default async function AnimeInfo({ params }) {
   const { animeId } = await params;
 
   const fetchedData = await getAnimeInfo(animeId);
-
-  const InfoUtils = await getAnimeInfoUtils(
-    fetchedData.data.anime.info.anilistId || 0
-  );
-
-  const getBnr = () => {
-    if (InfoUtils.manto) {
-      return InfoUtils.data.banner;
-    } else {
-      return "https://i.imgur.com/1JNOKZx.jpeg";
-    }
-  };
-
-  //console.log(InfoUtils.data);
-
   if (!fetchedData.manto) {
     return (
       <>
-        <h1>Anime not found</h1>
+        <h1>Error :(</h1>
         <Link href="/home">Home</Link>
       </>
     );
   }
 
+  const InfoUtils = await getAnimeInfoUtils(
+    fetchedData.data.anime.info.anilistId || 0
+  );
+
+  const getData = () => {
+    if (InfoUtils.manto) {
+      return {
+        banner: InfoUtils.data.banner,
+        color: InfoUtils.data.color,
+        pop: InfoUtils.data.popularity,
+        rating: InfoUtils.data.rating
+      };
+    } else {
+      return {
+        banner: "https://i.imgur.com/1JNOKZx.jpeg",
+        color: "#2e3d41",
+        pop: "?",
+        rating: "?"
+      };
+    }
+  };
+
+  const getutilsData = getData();
+  //console.log(InfoUtils.data);
+
   const animeData = fetchedData.data;
   const { info, moreInfo } = animeData.anime;
-  const { recommendedAnimes, seasons } = animeData;
+  const { recommendedAnimes, seasons, relatedAnimes } = animeData;
 
   function formatToKebabCase(str) {
     return str.toLowerCase().split(" ").join("-");
   }
+  const hexToRgb = hex => {
+    hex = hex.replace(/^#/, "");
+    const bigint = parseInt(hex, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `${r}, ${g}, ${b}`;
+  };
 
   return (
     <>
@@ -152,14 +170,14 @@ export default async function AnimeInfo({ params }) {
 
           {InfoUtils && InfoUtils.data.banner && (
             <img
-              src={getBnr()}
+              src={getutilsData.banner}
               alt={`${info.name} Banner`}
               className="w-full h-[180px] md:h-auto object-cover"
             />
           )}
         </div>
 
-        <div className="flex flex-wrap gap-3 relative">
+        <div className="flex flex-col gap-3 relative">
           <div
             className="w-full h-[60px] bg-gradient-to-b
          from-gray-700/50 to-transparent pl-[140px] md:pl-[288px]"
@@ -338,7 +356,7 @@ export default async function AnimeInfo({ params }) {
               </div>
 
               <div
-                className="mt-11 md:mt-14 overflow-y-auto max-h-[100px] max-w-[600px]
+                className="mt-11 md:mt-14 overflow-y-auto max-h-[100px] max-w-[800px]
                 scrollbar-thin scrollbar-thumb-backgroundHover
           scrollbar-track-background pr-2"
               >
@@ -347,76 +365,139 @@ export default async function AnimeInfo({ params }) {
                 </p>
               </div>
 
-              <div className="mt-4">
-                <label className="text-[14px] font-[800]">More Info:</label>
+              <div className="flex flex-col md:flex-row gap-2 max-w-[834px]">
+                <div
+                  className="mt-4 p-3 rounded-xl flex-1"
+                  style={{
+                    backgroundColor: `rgba(${hexToRgb(
+                      getutilsData.color
+                    )}, 0.3)`
+                  }}
+                >
+                  <h2 className="text-[16px] font-[800] mb-4">Details</h2>
 
-                <div className="flex flex-col mt-0.5 mb-2">
-                  <div
-                    className="h-1 w-[64px] bg-separatorOnBackgroundtwo self-left md:h-0 md:w-0
-              rounded-lg"
-                  ></div>
-                  <div className="bg-separatorOnBackgroundtwo self-left md:h-1 md:w-[64px] rounded-lg"></div>
+                  {moreInfo.aired && (
+                    <div className="flex gap-1 text-[11px]">
+                      <span className="font-[600]">Aired:</span>{" "}
+                      <span className="font-[300]">{moreInfo.aired}</span>
+                    </div>
+                  )}
+
+                  {moreInfo.studios && (
+                    <div className="flex gap-1 text-[11px]">
+                      <span className="font-[600]">Studios:</span>{" "}
+                      <span className="font-[300]">{moreInfo.studios}</span>
+                    </div>
+                  )}
+                  {moreInfo.japanese && (
+                    <div className="flex gap-1 text-[11px]">
+                      <span className="font-[600]">Japanese:</span>{" "}
+                      <span className="font-[300]">{moreInfo.japanese}</span>
+                    </div>
+                  )}
+
+                  {moreInfo.premiered && (
+                    <div className="flex gap-1 text-[11px]">
+                      <span className="font-[600]">Premiered:</span>{" "}
+                      <span className="font-[300]">{moreInfo.premiered}</span>
+                    </div>
+                  )}
+
+                  {moreInfo.synonyms && (
+                    <div className="flex gap-1 text-[11px]">
+                      <span className="font-[600]">Synonyms:</span>{" "}
+                      <span className="font-[300]">{moreInfo.synonyms}</span>
+                    </div>
+                  )}
+
+                  {moreInfo.producers && (
+                    <div className="flex gap-1 text-[11px]">
+                      <span className="font-[600]">Producers:</span>
+                      <span className="block">
+                        {moreInfo.producers.map((producer, index) => (
+                          <React.Fragment key={index}>
+                            <Link
+                              href={`/producer/${producer
+                                .toLowerCase()
+                                .replace(/\s+/g, "-")}`}
+                              className="font-[300] inline hover:underline"
+                            >
+                              {producer}
+                            </Link>
+                            {index < moreInfo.producers.length - 1 && ", "}
+                          </React.Fragment>
+                        ))}
+                      </span>
+                    </div>
+                  )}
                 </div>
-
-                {moreInfo.aired && (
-                  <div className="flex gap-1 text-[11px]">
-                    <span className="font-[600]">Aired:</span>{" "}
-                    <span className="font-[300]">{moreInfo.aired}</span>
-                  </div>
-                )}
-                {moreInfo.malscore && (
-                  <div className="flex gap-1 text-[11px]">
-                    <span className="font-[600]">MAL Score:</span>{" "}
-                    <span className="font-[300]">{moreInfo.malscore}</span>
-                  </div>
-                )}
-                {moreInfo.studios && (
-                  <div className="flex gap-1 text-[11px]">
-                    <span className="font-[600]">Studios:</span>{" "}
-                    <span className="font-[300]">{moreInfo.studios}</span>
-                  </div>
-                )}
-                {moreInfo.japanese && (
-                  <div className="flex gap-1 text-[11px]">
-                    <span className="font-[600]">Japanese:</span>{" "}
-                    <span className="font-[300]">{moreInfo.japanese}</span>
-                  </div>
-                )}
-
-                {moreInfo.premiered && (
-                  <div className="flex gap-1 text-[11px]">
-                    <span className="font-[600]">Premiered:</span>{" "}
-                    <span className="font-[300]">{moreInfo.premiered}</span>
-                  </div>
-                )}
-
-                {moreInfo.synonyms && (
-                  <div className="flex gap-1 text-[11px]">
-                    <span className="font-[600]">Synonyms:</span>{" "}
-                    <span className="font-[300]">{moreInfo.synonyms}</span>
-                  </div>
-                )}
-
-                {moreInfo.producers && (
-                  <div className="flex gap-1 text-[11px]">
-                    <span className="font-[600]">Producers:</span>
-                    <span className="block">
-                      {moreInfo.producers.map((producer, index) => (
-                        <React.Fragment key={index}>
-                          <Link
-                            href={`/producer/${producer
-                              .toLowerCase()
-                              .replace(/\s+/g, "-")}`}
-                            className="font-[300] inline hover:underline"
-                          >
-                            {producer}
-                          </Link>
-                          {index < moreInfo.producers.length - 1 && ", "}
-                        </React.Fragment>
-                      ))}
+                <div
+                  className="mt-4 p-3 rounded-xl w-full
+                md:max-w-[274px] flex flex-col justify-around gap-3"
+                  style={{
+                    backgroundColor: `rgba(${hexToRgb(
+                      getutilsData.color
+                    )}, 0.3)`
+                  }}
+                >
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                      <Image
+                        src="/extra/myAnimeListIcon.png"
+                        width={28}
+                        height={28}
+                        alt="My Anime List Icon"
+                      />
+                      <p className="text-[14px] font-[800]">My Anime List</p>
+                    </div>
+                    <span className="text-[14px] font-[800]">
+                      {moreInfo.malscore}/10
                     </span>
                   </div>
-                )}
+                  <div
+                    className="h-[1px] w-full rounded-full"
+                    style={{
+                      backgroundColor: getutilsData.color
+                    }}
+                  ></div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                      <Image
+                        src="/extra/anilistIcon.png"
+                        width={28}
+                        height={28}
+                        alt="AniList Icon"
+                      />
+                      <p className="text-[14px] font-[800]">AniList</p>
+                    </div>
+                    <span
+                      className="text-[14px]
+                    font-[800]"
+                    >
+                      {getutilsData.rating}/100
+                    </span>
+                  </div>
+                  <div
+                    className="h-[1px] w-full rounded-full"
+                    style={{
+                      backgroundColor: getutilsData.color
+                    }}
+                  ></div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                      <Image
+                        src="/extra/popularity.png"
+                        width={26}
+                        height={26}
+                        alt="Animekun Popularity Icon"
+                      />
+                      <p className="text-[14px] font-[800]">Popularity</p>
+                    </div>
+                    <span className="text-[14px] font-[800]">
+                      {getutilsData.pop}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -424,41 +505,33 @@ export default async function AnimeInfo({ params }) {
           {/* sequence */}
           {seasons && seasons.length > 0 && (
             <div
-              className="flex-1 flex flex-col items-center gap-4 mt-8
-            md:mt-0 xl:absolute top-[5px] right-[120px]"
+              className="flex-1 flex flex-col 
+              gap-4 mt-2 p-3
+            md:mt-0 xl:absolute top-[60px] xl:right-[10px]  mx-4
+            md:mx-[54px] bg-background rounded-lg max-w-[834px]"
             >
-              <div className="flex flex-col">
-                <label className="text-center text-[16px] font-[800]">
-                  Sequence
-                </label>
+              <div className="flex flex-col ">
+                <label className="text-[16px] font-[800]">Sequence</label>
                 <span className="text-[8px] font-[300]">
                   Watch one by one seasons of this anime.
                 </span>
-                <div className="flex flex-col mt-0.5">
-                  <div
-                    className="h-1 w-[130px] bg-separatorOnBackgroundtwo self-center md:h-0 md:w-0
-              rounded-lg"
-                  ></div>
-                  <div className="bg-separatorOnBackgroundtwo self-center md:h-1 md:w-[130px] rounded-lg"></div>
-                </div>
               </div>
 
               <div
                 className="flex bg-episodeContainerBackground flex-col items-center gap-3 overflow-y-auto
-              p-2 max-h-[460px] scrollbar-thin scrollbar-thumb-backgroundHover
+              p-2 max-h-[460px] md:max-h-[380px] scrollbar-thin scrollbar-thumb-backgroundHover
           scrollbar-track-background rounded-md"
               >
                 {seasons.map(season => (
                   <Link
                     href={`/anime/${season.id}`}
                     className="min-w-[300px] w-full rounded-lg
-                  md:max-w-[500px] lg:max-w-[600px] xl:max-w-[700px]"
+                  "
                     key={season.id}
                   >
                     <div
                       key={season.id}
-                      className={`flex p-1 bg-background max-w-[300px] w-full rounded-lg
-                  md:max-w-[500px]
+                      className={`flex p-1 bg-background w-full rounded-lg
                   h-[74px] ${
                     season.isCurrent ? "border-2 border-foreground" : ""
                   }`}
@@ -527,13 +600,59 @@ export default async function AnimeInfo({ params }) {
 
         {/* Recommended Animes */}
         <div className="mt-8 px-4 md:px-[54px]">
-          <h2 className="text-[17px] font-bold text-foreground">
-            Recommended Animes
+          <h2
+            className="relative h-[40px] bg-gradient-to-l
+        from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
+        items-center font-[700] text-[18px] rounded-l-md gap-2 w-full
+        max-w-[400px]"
+          >
+            <svg
+              version="1.0"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512.000000 512.000000"
+              preserveAspectRatio="xMidYMid meet"
+              className="h-[24px] w-[24px]"
+              style={{ fill: "var(--foreground)" }}
+            >
+              <g
+                transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                stroke="none"
+              >
+                <path
+                  d="M3883 4498 c-11 -13 -64 -97 -119 -186 -61 -102 -109 -169 -124 -177
+-14 -7 -106 -32 -205 -55 -209 -49 -235 -60 -235 -97 0 -31 17 -54 158 -217
+57 -66 109 -131 115 -144 8 -16 6 -76 -4 -205 -20 -258 -16 -287 33 -287 11 0
+105 34 209 75 103 41 201 75 218 75 17 0 108 -32 203 -71 205 -84 221 -88 249
+-63 23 21 24 -7 -1 318 -7 96 -6 126 5 153 8 19 62 90 121 160 105 124 154
+189 154 203 0 4 -8 17 -17 29 -14 16 -63 32 -203 66 -102 25 -199 51 -216 59
+-24 11 -56 54 -137 183 -58 93 -115 177 -125 186 -26 23 -55 21 -79 -5z"
+                />
+                <path
+                  d="M2498 3997 c-59 -23 -123 -64 -157 -102 -68 -77 -96 -165 -112 -348
+-14 -157 -44 -270 -102 -381 -123 -237 -352 -415 -599 -466 -31 -6 -61 -16
+-66 -23 -11 -14 -26 -1962 -16 -2026 l7 -41 1076 2 1076 3 55 30 c117 64 180
+155 219 316 27 109 286 1305 301 1387 31 177 -87 377 -258 434 -65 21 -83 22
+-504 26 -241 2 -438 6 -438 8 0 3 9 40 19 82 35 139 45 233 44 417 -1 318 -44
+477 -159 585 -79 75 -148 103 -259 107 -59 2 -103 -1 -127 -10z"
+                />
+                <path
+                  d="M587 2666 c-48 -18 -62 -29 -81 -70 -14 -30 -16 -134 -16 -959 l0
+-924 23 -34 c45 -67 60 -70 362 -67 267 3 270 3 304 27 64 46 61 0 61 1006 0
+881 -1 917 -19 953 -38 73 -53 77 -341 79 -196 2 -264 0 -293 -11z"
+                />
+              </g>
+            </svg>
+
+            <span>Recommended For You</span>
           </h2>
           <div
             className="grid animeCardGrid gap-4 mt-4 
           "
           >
+            {relatedAnimes.map(anime => (
+              <AnimeCard anime={anime} />
+            ))}
+
             {recommendedAnimes.map(anime => (
               <AnimeCard anime={anime} />
             ))}
