@@ -32,8 +32,8 @@ export const getAnimeInfoUtils = async (id) => {
       manto: true,
       data: {
         banner: "https://i.imgur.com/1JNOKZx.jpeg",
-        popularity: 0,
-        rating: 0,
+        popularity: "?",
+        rating: "?",
         color: "#2073ae",
         isAdult: null,
         upcomingEp: {
