@@ -19,6 +19,41 @@ function anilistMediaDetailQuery(id) {
             timeUntilAiring
             episode
           }
+          characters(sort: ROLE) {
+            edges {
+              role
+              node {
+                id
+                name {
+                  first
+                  middle
+                  last
+                  full
+                  native
+                  userPreferred
+                }
+                image {
+                  large
+                  medium
+                }
+              }
+              voiceActors(sort: LANGUAGE) {
+                id
+                languageV2
+                name {
+                  first
+                  last
+                  full
+                  native
+                  userPreferred
+                }
+                image {
+                  large
+                  medium
+                }
+              }
+            }
+          }
         }
       }
     `,
@@ -40,7 +75,8 @@ export const getAnimeInfoUtils = async (id) => {
           airingTime: 0,
           timeUntilAiring: 0,
           episode: 0
-        }
+        },
+        characters: []
       }
     };
   }
@@ -77,7 +113,32 @@ export const getAnimeInfoUtils = async (id) => {
               timeUntilAiring: media.nextAiringEpisode.timeUntilAiring,
               episode: media.nextAiringEpisode.episode
             }
-          : null
+          : null,
+        characters: media.characters?.edges.map((item) => ({
+          id: item.node?.id,
+          role: item.role,
+          name: {
+            first: item.node.name.first,
+            middle: item.node.name.middle,
+            last: item.node.name.last,
+            full: item.node.name.full,
+            native: item.node.name.native,
+            userPreferred: item.node.name.userPreferred
+          },
+          image: item.node.image.large ?? item.node.image.medium,
+          voiceActors: item.voiceActors.map((voiceActor) => ({
+            id: voiceActor.id,
+            language: voiceActor.languageV2,
+            name: {
+              first: voiceActor.name.first,
+              last: voiceActor.name.last,
+              full: voiceActor.name.full,
+              native: voiceActor.name.native,
+              userPreferred: voiceActor.name.userPreferred
+            },
+            image: voiceActor.image.large ?? voiceActor.image.medium
+          }))
+        })) ?? []
       }
     };
   } catch (error) {

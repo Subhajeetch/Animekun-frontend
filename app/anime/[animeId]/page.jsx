@@ -3,6 +3,7 @@ import Image from "next/image";
 import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
 import "../../../Styles/AnimeCardGrid.css";
 import React from "react";
+import CastAndCh from "./CastAndCh.jsx";
 import { ArrowDownToLine, ListFilterPlus } from "lucide-react";
 import { getAnimeInfo, getAnimeInfoUtils } from "@/DataRoutes/index.js";
 
@@ -125,20 +126,22 @@ export default async function AnimeInfo({ params }) {
         banner: InfoUtils.data.banner,
         color: InfoUtils.data.color,
         pop: InfoUtils.data.popularity,
-        rating: InfoUtils.data.rating
+        rating: InfoUtils.data.rating,
+        ch: InfoUtils.data.characters
       };
     } else {
       return {
         banner: "https://i.imgur.com/1JNOKZx.jpeg",
         color: "#2e3d41",
         pop: "?",
-        rating: "?"
+        rating: "?",
+        ch: []
       };
     }
   };
 
   const getutilsData = getData();
-  //console.log(InfoUtils.data);
+ // console.log(getutilsData.ch[0].voiceActors);
 
   const animeData = fetchedData.data;
   const { info, moreInfo } = animeData.anime;
@@ -501,6 +504,17 @@ export default async function AnimeInfo({ params }) {
               </div>
             </div>
           </div>
+
+          {getutilsData.ch && getutilsData.ch.length > 0 && (
+            <>
+              <h2 className="flex mx-4 md:mx-[54px] mb-4 text-[17px] font-[800]
+              md:mt-8">
+                Cast & Characters
+              </h2>
+
+              <CastAndCh getutilsData={getutilsData} />
+            </>
+          )}
 
           {/* sequence */}
           {seasons && seasons.length > 0 && (

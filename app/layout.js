@@ -1,7 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/Sections/Universal/ScrollToTop.jsx";
-// import TrackingCode from "@/Utils/UniversalScripts/TrackingCode.js";
 import NavBar from "@/Sections/NavBar/NavBar.jsx";
 import FooterSection from "@/Sections/Universal/FooterSection.jsx";
 
