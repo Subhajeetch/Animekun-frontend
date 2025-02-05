@@ -31,14 +31,14 @@ const CastAndCh = ({ getutilsData }) => {
   };
 
   const getCName = c => {
-    return c.name?.full || c.name?.userPreferred || c.name?.first || "?";
+    return c?.name?.full || c?.name?.userPreferred || c?.name?.first || "?";
   };
   const getVName = c => {
     return (
-      c.voiceActors[0].name?.full ||
-      c.voiceActors[0].name?.userPreferred ||
-      c.voiceActors[0].name?.first ||
-      "?"
+      c?.voiceActors[0]?.name?.full ||
+      c?.voiceActors[0]?.name?.userPreferred ||
+      c?.voiceActors[0]?.name?.first ||
+      null
     );
   };
 
@@ -93,23 +93,26 @@ const CastAndCh = ({ getutilsData }) => {
                   {getCRole(c)}
                 </label>
               </div>
-              <div className="flex justify-center items-center gap-1">
-                <img
-                  className="h-[20px] w-[20px] rounded-full object-cover
-                object-top"
-                  src={getVImage(c)}
-                ></img>
-                <Link
-                  href={`https://anilist.co/staff/${getVID(c)}`}
-                  className="flex gap-0.5 items-center"
-                >
-                  <p className="text-[12px] font-[600] line-clamp-1">
-                    {getVName(c)}
-                  </p>
 
-                  <CircleArrowOutUpRight size={12} />
-                </Link>
-              </div>
+              {getVName() && (
+                <div className="flex justify-center items-center gap-1">
+                  <img
+                    className="h-[20px] w-[20px] rounded-full object-cover
+                object-top"
+                    src={getVImage(c)}
+                  ></img>
+                  <Link
+                    href={`https://anilist.co/staff/${getVID(c)}`}
+                    className="flex gap-0.5 items-center"
+                  >
+                    <p className="text-[12px] font-[600] line-clamp-1">
+                      {getVName(c)}
+                    </p>
+
+                    <CircleArrowOutUpRight size={12} />
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         ))}
