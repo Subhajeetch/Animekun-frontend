@@ -94,7 +94,7 @@ const CastAndCh = ({ getutilsData }) => {
                 </label>
               </div>
 
-              {getVName() && (
+              {getVName(c) && (
                 <div className="flex justify-center items-center gap-1">
                   <img
                     className="h-[20px] w-[20px] rounded-full object-cover
