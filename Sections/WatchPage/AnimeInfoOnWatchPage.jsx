@@ -2,11 +2,12 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import Sequence from "./SequenceOnWatchPage.jsx";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import AiringSchedule from "./upcomingEp.jsx";
 
-const AnimeInfoSection = ({ anime }) => {
+const AnimeInfoSection = ({ anime, getutilsData }) => {
   const { info, moreInfo, seasons } = anime.anime;
 
-    /*
+  /*
   function toCamelCase(str) {
     return str
       .toLowerCase()
@@ -21,12 +22,12 @@ const AnimeInfoSection = ({ anime }) => {
   function formatToKebabCase(str) {
     return str.toLowerCase().split(" ").join("-");
   }
-  
+
   return (
     <>
       <div
-        className="flex flex-wrap bg-background justify-center
-      md:justify-between md:items-center py-4 px-4 md:px-[54px]"
+        className="grid lg:grid-cols-3 bg-background justify-center
+      md:justify-between md:items-center py-4 px-4 md:px-[54px] lg:gap-8"
       >
         <div className="flex flex-col max-w-[800px]">
           <div className="flex gap-4 w-full">
@@ -141,9 +142,34 @@ const AnimeInfoSection = ({ anime }) => {
             </Link>
           </div>
         </div>
+        <div
+          className="flex gap-4 flex-col md:flex-row justify-center
+        items-center"
+        >
+          {getutilsData.uE && (
+            <div
+              className="px-4 md:px-[54px] hidden lg:flex 
+              "
+            >
+              <AiringSchedule
+                data={getutilsData.uE}
+                color={getutilsData.color}
+              />
+            </div>
+          )}
 
-        <div className="w-[320px] h-[90px] bg-[#36453f] rounded-lg my-4">
-          share box ig
+          <div
+            className="w-[320px] h-[90px] bg-[#36453f] rounded-lg
+                      my-4 lg:hidden"
+          >
+            share box ig
+          </div>
+
+          {!getutilsData.uE && (
+            <div className="w-[320px] h-[90px] bg-[#36453f] rounded-lg my-4">
+              share box ig
+            </div>
+          )}
         </div>
 
         <div className="hidden lg:block my-2 max-h-[400px]">

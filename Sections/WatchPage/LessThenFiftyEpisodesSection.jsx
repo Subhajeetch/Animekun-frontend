@@ -126,7 +126,7 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
              bg-episodeContainerBackground relative scrollbar-thin
              scrollbar-thumb-backgroundHover
           scrollbar-track-background pr-2"
-                  style={{
+        style={{
           maxHeight: `${targetHeight + 50}px`
         }}
       >

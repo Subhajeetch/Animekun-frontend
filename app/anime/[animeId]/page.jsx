@@ -141,7 +141,7 @@ export default async function AnimeInfo({ params }) {
   };
 
   const getutilsData = getData();
-  //console.log(getutilsData.ch[0].voiceActors);
+  //console.log(getutilsData);
 
   const animeData = fetchedData.data;
   const { info, moreInfo } = animeData.anime;
