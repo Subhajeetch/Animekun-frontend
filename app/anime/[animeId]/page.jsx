@@ -124,7 +124,7 @@ export default async function AnimeInfo({ params }) {
     if (InfoUtils.manto) {
       return {
         banner: InfoUtils.data.banner,
-        color: InfoUtils.data.color,
+        color: InfoUtils.data.color || "#2073ae",
         pop: InfoUtils.data.popularity,
         rating: InfoUtils.data.rating,
         ch: InfoUtils.data.characters
@@ -141,7 +141,7 @@ export default async function AnimeInfo({ params }) {
   };
 
   const getutilsData = getData();
-  //console.log(getutilsData);
+  console.log(getutilsData);
 
   const animeData = fetchedData.data;
   const { info, moreInfo } = animeData.anime;

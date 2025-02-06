@@ -119,7 +119,7 @@ const WatchAnime = async ({ params }) => {
   const getData = () => {
     if (InfoUtils.manto) {
       return {
-        color: InfoUtils.data.color,
+        color: InfoUtils.data.color || "#2073ae",
         uE: InfoUtils.data.upcomingEp
       };
     } else {

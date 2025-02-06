@@ -166,7 +166,8 @@ const AnimeInfoSection = ({ anime, getutilsData }) => {
           </div>
 
           {!getutilsData.uE && (
-            <div className="w-[320px] h-[90px] bg-[#36453f] rounded-lg my-4">
+            <div className="w-[320px] h-[90px] bg-[#36453f] rounded-lg my-4
+            hidden lg:flex">
               share box ig
             </div>
           )}
