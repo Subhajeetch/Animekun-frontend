@@ -40,3 +40,7 @@
 .top-ten-div > a:nth-child(-n + 3) > div:first-child {
   border-bottom: 4px solid var(--main); /* Or any color */
 }
+
+.getSeparation > a:not(:last-child) {
+  border-bottom: 1px solid #3a3a3ae6;
+}

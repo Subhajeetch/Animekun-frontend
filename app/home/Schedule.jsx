@@ -162,7 +162,7 @@ const ScheduleComponent = () => {
 
   return (
     <div className="w-full lg:max-w-[500px] mx-auto bg-background rounded-xl pt-2 relative">
-      <div className="text-[11px] text-gray-500 absolute right-4 top-5">
+      <div className="text-[11px] text-gray-500 absolute right-4 top-7">
         (GMT+05:30) {currentTime || "Loading..."}
       </div>
 
@@ -261,7 +261,7 @@ const ScheduleComponent = () => {
                    hover:bg-backgroundtwo
                     rounded-lg px-2 flex gap-2 items-center
                     "
-                    href={`/watch/${a.id}`}
+                  href={`/watch/${a.id}`}
                 >
                   <span>Episode {a.episode}</span>
                   <Play size={12} />

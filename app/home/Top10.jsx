@@ -48,7 +48,7 @@ const AnimeTop10 = ({ top10Animes }) => {
       </div>
 
       {/* Anime List */}
-      <div className="grid grid-cols-1 scheduleDivs top-ten-div px-4">
+      <div className="grid grid-cols-1 getSeparation top-ten-div px-4">
         {activeData.map(anime => (
           <Link
             key={anime.id}
