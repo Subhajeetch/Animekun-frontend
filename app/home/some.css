@@ -1,0 +1,42 @@
+.gridcard {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scheduleDivs > div:not(:last-child) {
+  border-bottom: 1px solid #3a3a3ae6;
+}
+
+@media (min-width: 490px) {
+  .gridcard {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 690px) {
+  .gridcard {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 940px) {
+  .gridcard {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .gridcard {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1424px) {
+  .gridcard {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* tabs 10 top */
+.top-ten-div > a:nth-child(-n + 3) > div:first-child {
+  border-bottom: 4px solid var(--main); /* Or any color */
+}
