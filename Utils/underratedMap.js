@@ -1,5 +1,33 @@
 const underrated = [
   {
+    id: "monster-37",
+    name: "Monster",
+    jname: "Monster",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/ecd3e711e8b8d78306bdcbb0a595baf1.jpg",
+    duration: "24m",
+    type: "TV",
+    rating: "18+",
+    episodes: {
+      sub: 74,
+      dub: 74
+    }
+  },
+  {
+    id: "heavenly-delusion-18349",
+    name: "Heavenly Delusion",
+    jname: "Tengoku Daimakyou",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/8bdf0705ef760a65894f3506ff474576.jpg",
+    duration: "22m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 13,
+      dub: 13
+    }
+  },
+  {
     id: "steinsgate-3",
     name: "Steins;Gate",
     jname: "Steins;Gate",
@@ -13,20 +41,7 @@ const underrated = [
       dub: 24
     }
   },
-  {
-    id: "gintama-13",
-    name: "Gintama",
-    jname: "Gintama",
-    poster:
-      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/557c4c18257fd706c7ab480ce75fdd6f.jpg",
-    duration: "24m",
-    type: "TV",
-    rating: null,
-    episodes: {
-      sub: 201,
-      dub: 49
-    }
-  },
+
   {
     id: "made-in-abyss-32",
     name: "Made in Abyss",
@@ -223,6 +238,20 @@ const underrated = [
       dub: 26
     }
   },
+    {
+    id: "gintama-13",
+    name: "Gintama",
+    jname: "Gintama",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/557c4c18257fd706c7ab480ce75fdd6f.jpg",
+    duration: "24m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 201,
+      dub: 49
+    }
+  },
   {
     id: "frieren-beyond-journeys-end-18542",
     name: "Frieren: Beyond Journey's End",
@@ -238,12 +267,12 @@ const underrated = [
     }
   },
   {
-    id: "heavenly-delusion-18349",
-    name: "Heavenly Delusion",
-    jname: "Tengoku Daimakyou",
+    id: "natsumes-book-of-friends-195",
+    name: "Natsume's Book of Friends",
+    jname: "Natsume Yuujinchou",
     poster:
-      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/8bdf0705ef760a65894f3506ff474576.jpg",
-    duration: "22m",
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/be01946291c844b60a4566349453e176.jpg",
+    duration: "24m",
     type: "TV",
     rating: null,
     episodes: {
@@ -251,20 +280,7 @@ const underrated = [
       dub: 13
     }
   },
-  {
-    id: "monster-37",
-    name: "Monster",
-    jname: "Monster",
-    poster:
-      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/ecd3e711e8b8d78306bdcbb0a595baf1.jpg",
-    duration: "24m",
-    type: "TV",
-    rating: "18+",
-    episodes: {
-      sub: 74,
-      dub: 74
-    }
-  },
+
   {
     id: "from-the-new-world-169",
     name: "From the New World",
@@ -291,6 +307,34 @@ const underrated = [
     episodes: {
       sub: 12,
       dub: 12
+    }
+  },
+  {
+    id: "id-invaded-629",
+    name: "ID: INVADED",
+    jname: "Id:Invaded",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/d44a05f2cfb4ca5de32e8257501b6245.jpg",
+    duration: "24m",
+    type: "TV",
+    rating: "18+",
+    episodes: {
+      sub: 13,
+      dub: 13
+    }
+  },
+  {
+    id: "pluto-15516",
+    name: "Pluto",
+    jname: "Pluto",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/d2bfb50c09c520277ca746ad050a8fe1.jpg",
+    duration: "60m",
+    type: "ONA",
+    rating: null,
+    episodes: {
+      sub: 8,
+      dub: 8
     }
   },
   {
@@ -336,6 +380,34 @@ const underrated = [
     }
   },
   {
+    id: "world-trigger-1356",
+    name: "World Trigger",
+    jname: "World Trigger",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/1bd36737214ea433c9c182685062d8dd.jpg",
+    duration: "23m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 73,
+      dub: 73
+    }
+  },
+  {
+    id: "excel-saga-1556",
+    name: "Excel Saga",
+    jname: "Heppoko Jikken Animation Excel♥Saga",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/2eeeed5a1636a134c296183aad57b65f.jpg",
+    duration: "24m",
+    type: "TV",
+    rating: "18+",
+    episodes: {
+      sub: 26,
+      dub: 26
+    }
+  },
+  {
     id: "link-click-17351",
     name: "Link Click",
     jname: "Shiguang Daili Ren",
@@ -350,6 +422,48 @@ const underrated = [
     }
   },
   {
+    id: "kyousougiga-820",
+    name: "Kyousougiga",
+    jname: "Kyousou Giga (TV)",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/d619563430e122b4c73f61a2a9e9eed7.jpg",
+    duration: "25m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 10,
+      dub: null
+    }
+  },
+  {
+    id: "time-of-eve-442",
+    name: "Time of Eve",
+    jname: "Eve no Jikan (Movie)",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/6a60667f4fcc884065d86466491e25d0.jpg",
+    duration: "106m",
+    type: "Movie",
+    rating: null,
+    episodes: {
+      sub: 1,
+      dub: 1
+    }
+  },
+  {
+    id: "sakugan-labyrinth-marker-15533",
+    name: "Sakugan Labyrinth Marker",
+    jname: "Sacks&Guns!!",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/87eb0f3c79b21aaa2b3bc50870ae2e00.jpg",
+    duration: "24m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 12,
+      dub: 12
+    }
+  },
+  {
     id: "school-live-1169",
     name: "School-Live!",
     jname: "Gakkougurashi!",
@@ -361,6 +475,90 @@ const underrated = [
     episodes: {
       sub: 12,
       dub: 12
+    }
+  },
+  {
+    id: "accel-world-2109",
+    name: "Accel World",
+    jname: "Accel World",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/8a31ed251de92862d8816f2930fd888f.jpg",
+    duration: "24m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 24,
+      dub: 24
+    }
+  },
+  {
+    id: "noein-to-your-other-self-1189",
+    name: "Noein: to your other self",
+    jname: "Noein: Mou Hitori no Kimi e",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/8ae7e426c38ee5f6cf4e98cd88dcf4c9.jpg",
+    duration: "25m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 24,
+      dub: 24
+    }
+  },
+  {
+    id: "gurren-lagann-45",
+    name: "Gurren Lagann",
+    jname: "Tengen Toppa Gurren Lagann",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/eb6f749e861eaa3abec23f6f82636552.jpg",
+    duration: "24m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 27,
+      dub: 27
+    }
+  },
+  {
+    id: "rin-daughters-of-mnemosyne-2168",
+    name: "Rin: Daughters of Mnemosyne",
+    jname: "Mnemosyne: Mnemosyne no Musume-tachi",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/baa4127997480a34e5ac0c5c4c1d8426.jpg",
+    duration: "45m",
+    type: "TV",
+    rating: "18+",
+    episodes: {
+      sub: 6,
+      dub: 6
+    }
+  },
+  {
+    id: "den-noh-coil-407",
+    name: "Den-noh Coil",
+    jname: "Dennou Coil",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/302a962164fa6503c5dabe1814e0e1b8.jpg",
+    duration: "25m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 26,
+      dub: 26
+    }
+  },
+  {
+    id: "wataten-an-angel-flew-down-to-me-1928",
+    name: "Wataten! An Angel Flew Down to Me",
+    jname: "Watashi ni Tenshi ga Maiorita!",
+    poster:
+      "https://cdn.noitatnemucod.net/thumbnail/300x400/100/d99e454a725446616618a2ca0d91a848.jpg",
+    duration: "23m",
+    type: "TV",
+    rating: null,
+    episodes: {
+      sub: 13,
+      dub: null
     }
   }
 ];
