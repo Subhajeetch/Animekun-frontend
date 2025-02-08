@@ -123,11 +123,11 @@ export default async function AnimeInfo({ params }) {
   const getData = () => {
     if (InfoUtils.manto) {
       return {
-        banner: InfoUtils.data.banner,
+        banner: InfoUtils.data.banner || "https://i.imgur.com/1JNOKZx.jpeg",
         color: InfoUtils.data.color || "#2073ae",
-        pop: InfoUtils.data.popularity,
-        rating: InfoUtils.data.rating,
-        ch: InfoUtils.data.characters
+        pop: InfoUtils.data.popularity || "?",
+        rating: InfoUtils.data.rating || "?",
+        ch: InfoUtils.data.characters || []
       };
     } else {
       return {
@@ -171,9 +171,9 @@ export default async function AnimeInfo({ params }) {
           from-black/80 to-transparent"
           ></div>
 
-          {InfoUtils && InfoUtils.data.banner && (
+          {getutilsData && getutilsData.banner && (
             <img
-              src={getutilsData.banner}
+              src={getutilsData.banner || "https://i.imgur.com/1JNOKZx.jpeg"}
               alt={`${info.name} Banner`}
               className="w-full h-[180px] md:h-auto object-cover"
             />
