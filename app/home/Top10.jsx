@@ -16,9 +16,29 @@ const AnimeTop10 = ({ top10Animes }) => {
 
   return (
     <div
-      className="w-full lg:max-w-[500px] mx-auto bg-background rounded-xl
+      className="w-full relative lg:max-w-[500px] mx-auto bg-background rounded-xl
     pb-4"
     >
+      <div
+        className="flex overflow-hidden rounded-lg absolute top-3
+            right-3"
+      >
+        {timePeriods.map(period => (
+          <button
+            key={period.key}
+            onClick={() => setActiveTab(period.key)}
+            className={`px-3 py-2 font-[700] text-[14px] transition-colors ${
+              activeTab === period.key
+                ? "bg-main text-white"
+                : "bg-backgroundtwo text-discriptionForeground hover:bg-separatorOnBackgroundtwo hover:text-foreground"
+            }`}
+            aria-label={`Show ${period.label} rankings`}
+          >
+            {period.label}
+          </button>
+        ))}
+      </div>
+
       {/* Tabs Navigation */}
       <div className="flex justify-between mb-6">
         <div
@@ -29,36 +49,20 @@ const AnimeTop10 = ({ top10Animes }) => {
 
           <h2>Top 10</h2>
         </div>
-        <div className="flex m-4 overflow-hidden rounded-lg">
-          {timePeriods.map(period => (
-            <button
-              key={period.key}
-              onClick={() => setActiveTab(period.key)}
-              className={`px-3 py-2 font-[700] text-[14px] transition-colors ${
-                activeTab === period.key
-                  ? "bg-main text-white"
-                  : "bg-backgroundtwo text-discriptionForeground hover:bg-separatorOnBackgroundtwo hover:text-foreground"
-              }`}
-              aria-label={`Show ${period.label} rankings`}
-            >
-              {period.label}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Anime List */}
-      <div className="grid grid-cols-1 getSeparation top-ten-div px-4">
+      <div className="grid grid-cols-1 getSeparation top-ten-div">
         {activeData.map(anime => (
           <Link
             key={anime.id}
             className="flex items-center gap-4 p-4
-          hover:bg-[#3a3a3ae6]"
-          href={`/anime/${anime.id}`}
+          hover:bg-[#3a3a3ae6] mx-2"
+            href={`/anime/${anime.id}`}
           >
             {/* Ranking Badge */}
             <div
-              className="text-white text-[14px] font-[800] w-10 h-10 flex
+              className="text-white text-[16px] font-[800] w-8 h-8 flex
             justify-center items-center"
             >
               #{anime.rank}
