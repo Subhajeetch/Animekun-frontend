@@ -443,6 +443,7 @@ export default async function AnimeInfo({ params }) {
                     )}, 0.3)`
                   }}
                 >
+                  <h2 className="text-[16px] font-[800] mb-2">Ratings</h2>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <Image
@@ -508,7 +509,7 @@ export default async function AnimeInfo({ params }) {
           {getutilsData.ch && getutilsData.ch.length > 0 && (
             <>
               <h2
-                className="flex mx-4 md:mx-[54px] my-4 text-[17px] font-[800]
+                className="flex mx-4 md:mx-[54px] mt-4 mb-1 text-[17px] font-[800]
               md:mt-8"
               >
                 Cast & Characters

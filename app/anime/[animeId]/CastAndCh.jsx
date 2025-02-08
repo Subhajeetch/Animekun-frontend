@@ -87,7 +87,7 @@ const CastAndCh = ({ getutilsData }) => {
               object-top rounded-full"
               ></img>
               <div className="flex flex-col">
-                <p className="text-[17px] font-[800] text-center line-clamp-1">
+                <p className="text-[16px] font-[800] text-center line-clamp-1">
                   {getCName(c)}
                 </p>
                 <label className="text-[9px] font-[400] text-center">
