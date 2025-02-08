@@ -82,6 +82,7 @@ const CastAndCh = ({ getutilsData }) => {
             >
               <img
                 src={getCImage(c)}
+                alt={`Cover of ${getCName(c)}`}
                 className="w-[100px] h-[100px] object-cover
               object-top rounded-full"
               ></img>
@@ -100,6 +101,7 @@ const CastAndCh = ({ getutilsData }) => {
                     className="h-[20px] w-[20px] rounded-full object-cover
                 object-top"
                     src={getVImage(c)}
+                    alt={`Profile picture of ${getVName(c)}`}
                   ></img>
                   <Link
                     href={`https://anilist.co/staff/${getVID(c)}`}

@@ -508,7 +508,7 @@ export default async function AnimeInfo({ params }) {
           {getutilsData.ch && getutilsData.ch.length > 0 && (
             <>
               <h2
-                className="flex mx-4 md:mx-[54px] mb-4 text-[17px] font-[800]
+                className="flex mx-4 md:mx-[54px] my-4 text-[17px] font-[800]
               md:mt-8"
               >
                 Cast & Characters
