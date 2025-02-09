@@ -438,7 +438,7 @@ c-75 0 -315 75 -452 140 -294 141 -564 401 -743 715 -28 49 -51 97 -51 107 0
                 </div>
                 <div>
                   <Link
-                    href="/news"
+                    href="/anime/news"
                     className=" mb-[10px] flex items-center text-[13px]
           hover:underline"
                   >

@@ -21,7 +21,7 @@ const AnimeCard = ({ news }) => {
     <Link
       key={getFakeId(news.id) || index}
       className="flex flex-col p-2 mb-3 masonry-item"
-      href={`/news/${getFakeId(news.id)}`}
+      href={`/anime/news/${getFakeId(news.id)}`}
     >
       <img
         src={news.thumbnail}

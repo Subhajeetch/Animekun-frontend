@@ -60,16 +60,33 @@ const genresMap = [
     id: "demons",
     idTwo: "demons",
     url: "https://i.imgur.com/eZwoRYB.jpeg",
-    backgroundColor: "#b46ce6",
-    foreground: "#242424"
+    backgroundColor: "#6987ac",
+    foreground: "#ffffff"
   },
   {
-    display: "Dementia",
-    id: "dementia",
-    idTwo: "dementia",
-    url: "https://cdn.discordapp.com/attachments/1125343948060246028/1324650136185470996/20250103_133624.jpg?ex=6778ec13&is=67779a93&hm=8178fda8336bd79369c81cef0e2a1c7ee19f78ffdc20d05821fa436a5e2b1e24&",
-    backgroundColor: "#6b6b6b",
+    display: "Slice Of Life",
+    id: "sliceOfLife",
+    idTwo: "slice-of-life",
+    url: "https://i.imgur.com/WwXK8VY.jpeg",
+    backgroundColor: "#c8f9c8",
+    foreground: "#181818"
+  },
+  {
+    display: "Psychological",
+    id: "psychological",
+    idTwo: "psychological",
+    url: "https://i.imgur.com/vXsqIqi.jpeg",
+    backgroundColor: "#74a2ca",
     foreground: "#ffffff"
+  },
+
+  {
+    display: "Ecchi",
+    id: "ecchi",
+    idTwo: "ecchi",
+    url: "https://i.imgur.com/Jl4b562.jpeg",
+    backgroundColor: "#e2c6ed",
+    foreground: "#1f1f1f"
   },
   {
     display: "Drama",
@@ -79,15 +96,6 @@ const genresMap = [
     backgroundColor: "#ff5757",
     foreground: "#ffffff"
   },
-  {
-    display: "Ecchi",
-    id: "ecchi",
-    idTwo: "ecchi",
-    url: "https://cdn.discordapp.com/attachments/1125343948060246028/1324650136185470996/20250103_133624.jpg?ex=6778ec13&is=67779a93&hm=8178fda8336bd79369c81cef0e2a1c7ee19f78ffdc20d05821fa436a5e2b1e24&",
-    backgroundColor: "#ffc0cb",
-    foreground: "#000000"
-  },
-
   {
     display: "Game",
     id: "game",
@@ -193,15 +201,6 @@ const genresMap = [
     foreground: "#ffffff"
   },
   {
-    display: "Psychological",
-    id: "psychological",
-    idTwo: "psychological",
-    url: "https://cdn.discordapp.com/attachments/1125343948060246028/1324650136185470996/20250103_133624.jpg?ex=6778ec13&is=67779a93&hm=8178fda8336bd79369c81cef0e2a1c7ee19f78ffdc20d05821fa436a5e2b1e24&",
-    backgroundColor: "#696969",
-    foreground: "#ffffff"
-  },
-
-  {
     display: "Samurai",
     id: "samurai",
     idTwo: "samurai",
@@ -265,14 +264,7 @@ const genresMap = [
     backgroundColor: "#8b008b",
     foreground: "#ffffff"
   },
-  {
-    display: "Slice Of Life",
-    id: "sliceOfLife",
-    idTwo: "slice-of-life",
-    url: "https://cdn.discordapp.com/attachments/1125343948060246028/1324650136185470996/20250103_133624.jpg?ex=6778ec13&is=67779a93&hm=8178fda8336bd79369c81cef0e2a1c7ee19f78ffdc20d05821fa436a5e2b1e24&",
-    backgroundColor: "#32cd32",
-    foreground: "#ffffff"
-  },
+
   {
     display: "Space",
     id: "space",
@@ -319,6 +311,14 @@ const genresMap = [
     idTwo: "vampire",
     url: "https://cdn.discordapp.com/attachments/1125343948060246028/1324650136185470996/20250103_133624.jpg?ex=6778ec13&is=67779a93&hm=8178fda8336bd79369c81cef0e2a1c7ee19f78ffdc20d05821fa436a5e2b1e24&",
     backgroundColor: "#ff0000",
+    foreground: "#ffffff"
+  },
+  {
+    display: "Dementia",
+    id: "dementia",
+    idTwo: "dementia",
+    url: "https://cdn.discordapp.com/attachments/1125343948060246028/1324650136185470996/20250103_133624.jpg?ex=6778ec13&is=67779a93&hm=8178fda8336bd79369c81cef0e2a1c7ee19f78ffdc20d05821fa436a5e2b1e24&",
+    backgroundColor: "#6b6b6b",
     foreground: "#ffffff"
   }
 ];
