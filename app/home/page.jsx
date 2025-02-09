@@ -9,6 +9,7 @@ import { GenreSection } from "../../Sections/HomePage/GenreSection.jsx";
 import { TrendingAnime } from "../../Sections/HomePage/TrendingAnime.jsx";
 import HomePageCetagoryTemplate from "../../Sections/HomePage/HomePageCetagoryTemplate.jsx";
 import AnimeCard from "../../Sections/Universal/AnimeCard.jsx";
+import NewsCard from "../../Sections/Universal/NewsCard.jsx";
 import ScheduleComponent from "./Schedule.jsx";
 import Top10AnimeList from "./Top10.jsx";
 
@@ -395,32 +396,62 @@ c-75 0 -315 75 -452 140 -294 141 -564 401 -743 715 -28 49 -51 97 -51 107 0
 
         <div className="flex flex-col lg:flex-row px-4 md:px-[54px] gap-12 pb-12">
           {/* specials */}
-          <div className="flex flex-col">
-            <div className="flex justify-between items-center">
-              <div
-                className="h-[40px] bg-gradient-to-l
+          <div className="flex flex-col gap-12">
+            <div className="flex flex-col">
+              <div className="flex justify-between items-center">
+                <div
+                  className="h-[40px] bg-gradient-to-l
         from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
-              >
-                <div className="h-[28px] w-[8px] rounded-full bg-main"></div>
-
-                <h2>Special Animes</h2>
-              </div>
-              <div>
-                <Link
-                  href="/category/special"
-                  className=" mb-[10px] flex items-center text-[13px]
-          hover:underline"
                 >
-                  <span>View more</span>
-                  <ChevronRight size={17} />
-                </Link>
+                  <div className="h-[28px] w-[8px] rounded-full bg-main"></div>
+
+                  <h2>Special Animes</h2>
+                </div>
+                <div>
+                  <Link
+                    href="/category/special"
+                    className=" mb-[10px] flex items-center text-[13px]
+          hover:underline"
+                  >
+                    <span>View more</span>
+                    <ChevronRight size={17} />
+                  </Link>
+                </div>
+              </div>
+              <div className="grid gap-4 gridcard">
+                {data.special.slice(0, 12).map(anime => (
+                  <AnimeCard anime={anime} />
+                ))}
               </div>
             </div>
-            <div className="grid gap-4 gridcard">
-              {data.special.map(anime => (
-                <AnimeCard anime={anime} />
-              ))}
+            <div className="flex flex-col">
+              <div className="flex justify-between items-center">
+                <div
+                  className="h-[40px] bg-gradient-to-l
+        from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
+        items-center font-[700] text-[18px] rounded-l-md gap-2"
+                >
+                  <div className="h-[28px] w-[8px] rounded-full bg-main"></div>
+
+                  <h2>News Feed</h2>
+                </div>
+                <div>
+                  <Link
+                    href="/news"
+                    className=" mb-[10px] flex items-center text-[13px]
+          hover:underline"
+                  >
+                    <span>View more</span>
+                    <ChevronRight size={17} />
+                  </Link>
+                </div>
+              </div>
+              <div className="masonry-container">
+                {data.newsFeed.map(n => (
+                  <NewsCard news={n} />
+                ))}
+              </div>
             </div>
           </div>
 
