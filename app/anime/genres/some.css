@@ -1,0 +1,31 @@
+.genre-css {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 690px) {
+  .genre-css {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 890px) {
+  .genre-css {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .genre-css {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1324px) {
+  .genre-css {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+.text-smm {
+  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+}

@@ -415,7 +415,7 @@ c-54 0 -102 -3 -105 -7z"
           {/* social icons */}
           <div className="ml-4 gap-1 justify-center items-center hidden md:flex">
             <Link
-              href="#"
+              href="https://discord.gg/fQWa2Ezm34"
               className="
             p-1 hover:bg-[#334346] rounded-full
             "
@@ -429,7 +429,7 @@ c-54 0 -102 -3 -105 -7z"
             </Link>
 
             <Link
-              href="#"
+              href="https://x.com/animekuntop"
               className="
             p-1 hover:bg-[#334346] rounded-full
             "
@@ -457,7 +457,7 @@ c-54 0 -102 -3 -105 -7z"
             </Link>
 
             <Link
-              href="#"
+              href="https://bsky.app/profile/animekuntop.bsky.social"
               className="
             p-1 hover:bg-[#334346] rounded-full
             "

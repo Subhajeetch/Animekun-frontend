@@ -175,8 +175,8 @@ const VideoPlayer = ({
       color: "white",
       backgroundColor: "rgba(0,0,0,0.5)",
       opacity: 1, // Background opacity
-      bottom: "16px",
-      fontSize: "13px"
+      bottom: "20px",
+      fontSize: "16px"
     };
 
     if (settings) {
@@ -1392,7 +1392,7 @@ const VideoPlayer = ({
           <div
             className="subtitle-overlay w-fit absolute left-1/2 transform
             -translate-x-1/2 text-center
-            py-[3px] px-[4px] rounded-sm font-[500] z-[5]"
+            py-[3px] px-[4px] rounded-sm font-[600] z-[5]"
             style={subtitleStyles}
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(currentSubtitle)

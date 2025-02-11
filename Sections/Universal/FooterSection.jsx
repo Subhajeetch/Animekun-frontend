@@ -196,7 +196,7 @@ c-54 0 -102 -3 -105 -7z"
               <Link href="#">DMCA</Link>
             </li>
             <li className="text-[#cacaca] text-[13px] hover:underline">
-              <Link href="#">Anime news</Link>
+              <Link href="/anime/news">Anime news</Link>
             </li>
             <li className="text-[#cacaca] text-[13px] hover:underline">
               <Link href="#">Recent updates</Link>
@@ -211,7 +211,7 @@ c-54 0 -102 -3 -105 -7z"
       >
         <div className="flex">
           <Link
-            href="#"
+            href="https://discord.gg/fQWa2Ezm34"
             className="
             p-1 hover:bg-[#334346] rounded-full
             "
@@ -225,7 +225,7 @@ c-54 0 -102 -3 -105 -7z"
           </Link>
 
           <Link
-            href="#"
+            href="https://x.com/animekuntop"
             className="
             p-1 hover:bg-[#334346] rounded-full
             "
@@ -253,7 +253,7 @@ c-54 0 -102 -3 -105 -7z"
           </Link>
 
           <Link
-            href="#"
+            href="https://bsky.app/profile/animekuntop.bsky.social"
             className="
             p-1 hover:bg-[#334346] rounded-full
             "

@@ -165,7 +165,9 @@ const GenrePage = async ({ params }) => {
           <TriangleAlert size={100} />
           <h1 className="text-[60px] font-[800]">Error404</h1>
           <div className="flex flex-col mt-8 gap-2">
-            <p className="text-[12px] font-[800]">Posible reasons why this happened:</p>
+            <p className="text-[12px] font-[800]">
+              Posible reasons why this happened:
+            </p>
             <ul className="ml-2">
               <li className="text-[10px] font-[500]">&#9679; Outdated News</li>
               <li className="text-[10px] font-[500]">&#9679; Invalid Link</li>

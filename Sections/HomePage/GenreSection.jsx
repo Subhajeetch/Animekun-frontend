@@ -43,9 +43,10 @@ const GenreSection = () => {
           </Link>
         ))}
 
-        <div
+        <Link
           className="h-[60px] absolute right-0 bottom-0 bg-backgroundtwo
           w-[calc(100%/2-8px)] md:w-[calc(100%/4-12px)] lg:w-[calc(100%/6-12px)]"
+          href="/anime/genres"
         >
           <div
             className="h-full w-full border-2 border-foreground rounded-md
@@ -58,7 +59,8 @@ const GenreSection = () => {
               <ChevronRight size={16} />
             </div>
           </div>
-        </div>
+        </Link>
+        
       </div>
     </div>
   );
