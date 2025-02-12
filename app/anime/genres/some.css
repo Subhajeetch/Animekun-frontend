@@ -29,3 +29,9 @@
 .text-smm {
   text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
 }
+
+.add-shadow {
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.6),
+    0 4px 6px -1px rgba(0, 0, 0, 0.8);
+}

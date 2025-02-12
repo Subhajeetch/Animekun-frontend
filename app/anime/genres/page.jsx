@@ -130,7 +130,7 @@ const Genre = async () => {
               <img
                 src={genre.url}
                 alt={genre.display}
-                className="h-full w-full rounded-md shadow-md"
+                className="h-full w-full rounded-md object-cover shadow-md"
               />
             </div>
           </Link>
