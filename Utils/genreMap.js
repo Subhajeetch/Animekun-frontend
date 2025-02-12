@@ -175,7 +175,7 @@ const genresMap = [
     id: "kids",
     idTwo: "kids",
     url: "https://i.pinimg.com/236x/fa/c7/ce/fac7ce45301a7d7e68b9b680ee52ab47.jpg",
-    backgroundColor: "#00a5ff",
+    backgroundColor: "#008edc",
     foreground: "#000000",
     gif: "",
     bg: ""
