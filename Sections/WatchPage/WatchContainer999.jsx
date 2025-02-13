@@ -299,6 +299,94 @@ const WatchContainer = ({
     };
   }, []);
 
+  useEffect(() => {
+  const updateContinueWatching = () => {
+    if (!currentEpisode || !animeInfoData || !episodes) return;
+
+    try {
+      // Get current episode details
+      const currentEpNum = episodes.find(ep => ep.episodeId === currentEpisode)?.number;
+
+      // Get existing data from localStorage
+      const conWaData = JSON.parse(localStorage.getItem("conWa-v1") || "[]");
+
+      // Find anime index in array
+      const animeIndex = conWaData.findIndex(item => item.animeId === animeId);
+
+      // Get current date (set to midnight for grouping by day)
+      const currentTime = Date.now();
+      const currentDate = new Date();
+      currentDate.setHours(0, 0, 0, 0); // Normalize to start of the day (timestamp)
+
+      const newEntry = {
+        animeId,
+        animeEngName: animeInfoData.anime.info.name,
+        animeJpName: "",
+        poster: animeInfoData.anime.info.poster,
+        lastEp: {
+          epId: currentEpisode,
+          epNum: currentEpNum
+        },
+        date: currentDate.getTime(), // Store date for grouping
+        eps: [
+          {
+            ep: currentEpNum,
+            date: currentTime
+          }
+        ]
+      };
+
+      if (animeIndex === -1) {
+        // Add new anime entry
+        conWaData.unshift(newEntry);
+      } else {
+        // Update existing entry
+        const existing = conWaData[animeIndex];
+
+        // Update last episode info
+        existing.lastEp = newEntry.lastEp;
+
+        // Check if episode already exists in history
+        const existingEpIndex = existing.eps.findIndex(e => e.ep === currentEpNum);
+
+        if (existingEpIndex === -1) {
+          existing.eps.unshift({
+            ep: currentEpNum,
+            date: currentTime
+          });
+        } else {
+          // Update timestamp if already exists
+          existing.eps[existingEpIndex].date = currentTime;
+        }
+
+        // Ensure unique episodes and limit history
+        existing.eps = existing.eps
+          .filter((v, i, a) => a.findIndex(t => t.ep === v.ep) === i)
+          .slice(0, 50); // Keep last 50 unique episodes
+
+        // Always update the date to the latest watch date
+        existing.date = currentDate.getTime();
+
+        // Move to front of array
+        conWaData.splice(animeIndex, 1);
+        conWaData.unshift(existing);
+      }
+
+      // Limit to 30 unique anime entries
+      const uniqueAnime = conWaData
+        .filter((v, i, a) => a.findIndex(t => t.animeId === v.animeId) === i)
+        .slice(0, 30);
+
+      localStorage.setItem("conWa-v1", JSON.stringify(uniqueAnime));
+    } catch (error) {
+      console.error("Error updating continue watching:", error);
+    }
+  };
+
+  // Run whenever current episode changes
+  updateContinueWatching();
+}, [currentEpisode, animeId, episodes, animeInfoData]);
+
   return (
     <>
       <div

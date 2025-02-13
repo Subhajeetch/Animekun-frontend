@@ -51,25 +51,27 @@ l6 117 207 0 207 0 7 -117 c6 -117 13 -160 42 -261 l15 -52 66 0 c58 0 64 2
           </Link>
         </SheetClose>
 
-        <div
-          className="flex gap-7 items-center hover:bg-backgroundHover py-2.5 pl-3
+        <SheetClose asChild>
+          <Link
+            className="flex gap-7 items-center hover:bg-backgroundHover py-2.5 pl-3
         rounded-[9px]"
-        >
-          {/*History Icon*/}
-          <div className="h-[28px]">
-            <svg
-              version="1.0"
-              viewBox="0 0 100.000000 100.000000"
-              preserveAspectRatio="xMidYMid meet"
-              className="h-full"
-              style={{ fill: "var(--foreground)" }}
-            >
-              <g
-                transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)"
-                stroke="none"
+            href="/history"
+          >
+            {/*History Icon*/}
+            <div className="h-[28px]">
+              <svg
+                version="1.0"
+                viewBox="0 0 100.000000 100.000000"
+                preserveAspectRatio="xMidYMid meet"
+                className="h-full"
+                style={{ fill: "var(--foreground)" }}
               >
-                <path
-                  d="M425 979 c-90 -13 -196 -68 -266 -138 -254 -255 -152 -685 190 -801
+                <g
+                  transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)"
+                  stroke="none"
+                >
+                  <path
+                    d="M425 979 c-90 -13 -196 -68 -266 -138 -254 -255 -152 -685 190 -801
 78 -26 212 -28 291 -5 142 42 263 157 315 298 21 57 11 93 -30 103 -27 7 -75
 -17 -75 -37 0 -6 -12 -34 -26 -63 -107 -214 -392 -264 -573 -101 -21 19 -53
 63 -72 97 -33 60 -34 68 -34 168 0 100 1 108 34 168 39 72 88 120 163 159 48
@@ -77,17 +79,18 @@ l6 117 207 0 207 0 7 -117 c6 -117 13 -160 42 -261 l15 -52 66 0 c58 0 64 2
 c-33 -33 -55 -64 -52 -70 5 -7 60 -11 161 -11 142 0 155 2 165 19 15 29 13
 283 -3 304 -11 16 -17 12 -67 -38 -30 -30 -58 -55 -63 -55 -5 0 -23 12 -40 26
 -96 81 -249 122 -382 103z"
-                />
-                <path
-                  d="M397 662 c-14 -15 -17 -41 -17 -134 0 -150 -2 -148 152 -148 126 0
+                  />
+                  <path
+                    d="M397 662 c-14 -15 -17 -41 -17 -134 0 -150 -2 -148 152 -148 126 0
 148 9 148 63 0 40 -33 57 -112 57 l-68 0 0 68 c0 80 -17 112 -59 112 -15 0
 -35 -8 -44 -18z"
-                />
-              </g>
-            </svg>
-          </div>
-          <span className="font-[700] text-[14px]">History</span>
-        </div>
+                  />
+                </g>
+              </svg>
+            </div>
+            <span className="font-[700] text-[14px]">History</span>
+          </Link>
+        </SheetClose>
 
         <div
           className="flex gap-7 items-center hover:bg-backgroundHover py-2.5 pl-3
