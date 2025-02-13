@@ -12,6 +12,7 @@ import AnimeCard from "../../Sections/Universal/AnimeCard.jsx";
 import NewsCard from "../../Sections/Universal/NewsCard.jsx";
 import ScheduleComponent from "./Schedule.jsx";
 import Top10AnimeList from "./Top10.jsx";
+import ContinueWatching from "./continueWatching.jsx";
 
 export const metadata = {
   title:
@@ -84,6 +85,7 @@ export default async function Home() {
         {data && <GenreSection />}
 
         <div className="h-[30px] w-full"></div>
+        <ContinueWatching />
 
         <div
           className="relative h-[40px] bg-gradient-to-l
