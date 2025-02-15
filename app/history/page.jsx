@@ -1,11 +1,26 @@
-"use client"; // Ensures it runs on the client side
+"use client";
+
 import { useState, useEffect } from "react";
 import {
   ArrowLeft,
   CircleChevronDown,
   CircleChevronUp,
-  MessageCircleQuestion
+  MessageCircleQuestion,
+  Trash2
 } from "lucide-react";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
+
 import Link from "next/link";
 import "./some.css";
 
@@ -45,8 +60,45 @@ const History = () => {
     setWatchHistory(groupedData);
   }, []);
 
+  const handleDelete = animeId => {
+    const storedData = JSON.parse(localStorage.getItem("conWa-v1")) || [];
+
+    const updatedData = storedData.filter(anime => anime.animeId !== animeId);
+
+    localStorage.setItem("conWa-v1", JSON.stringify(updatedData));
+
+    // Re-group data by date
+    const groupedData = updatedData.reduce((acc, anime) => {
+      const animeDate = new Date(anime.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+
+      let formattedDate;
+      if (animeDate.getTime() === today.getTime()) {
+        formattedDate = "Today";
+      } else if (animeDate.getTime() === yesterday.getTime()) {
+        formattedDate = "Yesterday";
+      } else {
+        formattedDate = animeDate.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "2-digit"
+        });
+      }
+
+      if (!acc[formattedDate]) acc[formattedDate] = [];
+      acc[formattedDate].push(anime);
+      return acc;
+    }, {});
+
+    // Update state with re-grouped data
+    setWatchHistory(groupedData);
+  };
+
   return (
-    <main className="px-4 pt-4 md:px-[54px] min-h-screen bg-backgroundtwo">
+    <main className="p-4 md:px-[54px] min-h-screen bg-backgroundtwo">
       <div className=" mb-10 flex justify-start">
         <Link
           className="flex justify-between items-center bg-background gap-2
@@ -77,7 +129,11 @@ const History = () => {
             </h3>
             <div className="space-y-4">
               {animes.map(anime => (
-                <AnimeCard key={anime.animeId} anime={anime} />
+                <AnimeCard
+                  key={anime.animeId}
+                  anime={anime}
+                  handleDelete={handleDelete}
+                />
               ))}
             </div>
           </div>
@@ -88,21 +144,19 @@ const History = () => {
 };
 
 // Anime Card Component
-const AnimeCard = ({ anime }) => {
+const AnimeCard = ({ anime, handleDelete }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="bg-background shadow-md rounded-xl overflow-hidden">
       {/* Anime Info */}
       <div className="flex items-start p-3 cursor-pointer">
-      <Link
-      href={`/watch/${anime.animeId}`}
-      >
-        <img
-          src={anime.poster}
-          alt={anime.animeEngName}
-          className="w-16 h-24 object-cover rounded-lg"
-        />
+        <Link href={`/watch/${anime.animeId}`}>
+          <img
+            src={anime.poster}
+            alt={anime.animeEngName}
+            className="w-16 h-24 object-cover rounded-lg"
+          />
         </Link>
         <Link
           className="ml-4 flex-1 h-24 flex flex-col"
@@ -116,13 +170,64 @@ const AnimeCard = ({ anime }) => {
             <span className="font-[800]">Episode {anime.lastEp.epNum}</span>
           </p>
         </Link>
-        <button
-          className="text-gray-500 hover:text-gray-700 h-24 flex items-center
-        justify-center ml-4"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <CircleChevronUp /> : <CircleChevronDown />}
-        </button>
+        <div className="flex flex-col w-[50px] items-center h-24">
+          <AlertDialog>
+            <AlertDialogTrigger>
+              {" "}
+              <div className="p-3 rounded-full hover:bg-backgroundHover">
+                <Trash2 />
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  The following anime will be deleted from history. Are you sure?
+                </AlertDialogTitle>
+                <AlertDialogDescription></AlertDialogDescription>
+
+                <div className="flex items-start p-3 bg-backgroundtwo rounded-xl">
+                  <div href={`/watch/${anime.animeId}`}>
+                    <img
+                      src={anime.poster}
+                      alt={anime.animeEngName}
+                      className="w-16 h-24 object-cover rounded-lg"
+                    />
+                  </div>
+                  <div
+                    className="ml-4 flex-1 h-24 flex flex-col"
+                    href={`/watch/${anime.animeId}`}
+                  >
+                    <h4 className="text-[16px] text-left font-bold line-clamp-2">
+                      {anime.animeEngName}
+                    </h4>
+                    <p className="text-sm text-left font-[500] text-gray-500 mt-1">
+                      Last watched{" "}
+                      <span className="font-[800]">
+                        Episode {anime.lastEp.epNum}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => handleDelete(anime.animeId)}
+                  className="bg-backgroundHover hover:bg-main"
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          <button
+            className="p-3 rounded-full hover:bg-backgroundHover"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <CircleChevronUp /> : <CircleChevronDown />}
+          </button>
+        </div>
       </div>
 
       {/* Episode Dropdown */}

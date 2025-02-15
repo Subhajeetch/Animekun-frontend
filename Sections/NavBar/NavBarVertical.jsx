@@ -92,9 +92,11 @@ c-33 -33 -55 -64 -52 -70 5 -7 60 -11 161 -11 142 0 155 2 165 19 15 29 13
           </Link>
         </SheetClose>
 
-        <div
+        <SheetClose asChild>
+        <Link
           className="flex gap-7 items-center hover:bg-backgroundHover py-2.5 pl-3
         rounded-[9px]"
+        href="/watchlist"
         >
           <div className="h-[28px]">
             <svg
@@ -126,7 +128,8 @@ m484 -210 c123 -84 144 -102 136 -122 -5 -14 -214 -163 -245 -175 -33 -12 -42
             </svg>
           </div>
           <span className="font-[700] text-[14px]">Watchlist</span>
-        </div>
+        </Link>
+                </SheetClose>
 
         {/* separator line */}
         <div className="h-[2px] w-full bg-separatorOnBackground rounded-full mt-3 mb-2"></div>

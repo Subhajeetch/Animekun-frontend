@@ -3,6 +3,7 @@ import "./globals.css";
 import ScrollToTop from "@/Sections/Universal/ScrollToTop.jsx";
 import NavBar from "@/Sections/NavBar/NavBar.jsx";
 import FooterSection from "@/Sections/Universal/FooterSection.jsx";
+import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -122,6 +123,7 @@ export default function RootLayout({ children }) {
         <ScrollToTop />
         {children}
         <FooterSection />
+        <Toaster />
       </body>
     </html>
   );

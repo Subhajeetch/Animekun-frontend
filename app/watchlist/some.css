@@ -1,0 +1,20 @@
+.text-sh {
+  text-shadow: 0 0 10px #f0f, 0 0 20px #f0f; /*  Two glowing shadows, no offset */
+}
+
+.anime-card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: popUp 0.4s ease-out forwards;
+}
+
+@keyframes popUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

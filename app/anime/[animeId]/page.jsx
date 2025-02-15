@@ -4,7 +4,8 @@ import AnimeCard from "../../../Sections/Universal/AnimeCard.jsx";
 import "../../../Styles/AnimeCardGrid.css";
 import React from "react";
 import CastAndCh from "./CastAndCh.jsx";
-import { ArrowDownToLine, ListFilterPlus } from "lucide-react";
+import AddToWatchlist from "./AddToList.jsx";
+
 import { getAnimeInfo, getAnimeInfoUtils } from "@/DataRoutes/index.js";
 
 // Dynamic metadata generation function
@@ -187,7 +188,7 @@ export default async function AnimeInfo({ params }) {
           >
             <div
               className="flex
-            w-full p-2 pr-4 gap-1 max-w-[600px]"
+            w-full p-2 pr-4 gap-2 max-w-[600px]"
             >
               <Link href={`/watch/${info.id}`} className="flex-1">
                 <div
@@ -228,27 +229,7 @@ export default async function AnimeInfo({ params }) {
                 </div>
               </Link>
 
-              <Link
-                href={`/download/${info.id}`}
-                className="bg-status
-              flex justify-center items-center gap-2 rounded-lg min-w-[40px]
-              md:px-3"
-              >
-                <ArrowDownToLine className="text-infoForeground" />
-
-                <span className="hidden md:flex text-infoForeground font-[800]">
-                  Download
-                </span>
-              </Link>
-              <button
-                className="min-w-[40px] bg-status flex justify-center
-              items-center gap-2 rounded-lg md:px-3"
-              >
-                <ListFilterPlus className="text-infoForeground" />
-                <span className="hidden md:flex text-infoForeground font-[800]">
-                  Add To List
-                </span>
-              </button>
+              <AddToWatchlist anime={animeData.anime} />
             </div>
           </div>
 
