@@ -101,13 +101,14 @@ const WatchlistPage = () => {
         {categories.map(({ display, id, icon: Icon }) => (
           <button
             key={id}
-            className={`px-3 py-6 rounded-xl flex gap-4 font-semibold transition-all ${
+            className={`px-2 md:px-4 py-4 md:py-6 rounded-xl flex items-center gap-2 md:gap-4
+            font-bold transition-all ${
               activeTab === id ? "bg-main text-white" : "bg-background"
             }`}
             onClick={() => setActiveTab(id)}
           >
             <Icon />
-            <span>{display}</span>
+            <span className="text-[12px] md:text-[16px]">{display}</span>
           </button>
         ))}
       </div>
