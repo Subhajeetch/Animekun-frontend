@@ -415,7 +415,7 @@ c-54 0 -102 -3 -105 -7z"
           {/* social icons */}
           <div className="ml-4 gap-1 justify-center items-center hidden md:flex">
             <Link
-              href="https://discord.gg/fQWa2Ezm34"
+              href="https://discord.gg/D8fFtJT8TU"
               className="
             p-1 hover:bg-[#334346] rounded-full
             "

@@ -1,4 +1,49 @@
 import Form from "./Form.jsx";
+export async function generateMetadata() {
+  return {
+    title: "Report Bug - AnimeKun",
+    description:
+      "Animekun bug reports page, contact us about any bugs you find in the site, we'll fix it as soon as possible",
+    keywords: [
+      `bug report animekun`,
+      `how to send bug report to animekun`,
+      `animekun contact`,
+      `anime genres to watch`,
+      `watch anime online by specific genre`,
+      "anime to watch",
+      "no ads anime website",
+      "watch anime",
+      "ad free anime site",
+      "anime online",
+      "free anime online",
+      "online anime",
+      "anime streaming",
+      "stream anime online",
+      "english anime",
+      "english dubbed anime"
+    ],
+    openGraph: {
+      title: "Report Bug - AnimeKun",
+      description:
+        "Animekun bug reports page, contact us about any bugs you find in the site, we'll fix it as soon as possible.",
+      url: `https://animekun.top/imp/bug-reports`,
+      siteName: "AnimeKun",
+      images: [
+        {
+          url: "https://i.imgur.com/MNnhK3G.jpeg",
+          width: 1200,
+          height: 430,
+          alt: `Animekun banner`
+        }
+      ],
+      locale: "en_US",
+      type: "website"
+    },
+    alternates: {
+      canonical: `/imp/bug-reports`
+    }
+  };
+}
 
 export default function BugReportPage() {
   return (

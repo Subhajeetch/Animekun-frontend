@@ -88,7 +88,7 @@ const Genre = async () => {
               className="absolute bottom-4 left-4 right-4 flex
             justify-between"
             >
-              <h3 className="font-[900] text-[42px] text-smm">{g.display}</h3>
+              <h3 className="font-[900] text-[36px] text-smm">{g.display}</h3>
               <div
                 className="bg-main hover:bg-[#d70000] rounded-xl flex justify-center
               items-center p-[16px]"

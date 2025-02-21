@@ -286,7 +286,7 @@ c-54 0 -102 -3 -105 -7z"
 
       <div className="flex items-center justify-center">
         <Link
-          href="https://discord.gg/fQWa2Ezm34"
+          href="https://discord.gg/D8fFtJT8TU"
           className="
             p-1 hover:bg-[#334346] rounded-full
             "

@@ -14,6 +14,8 @@ import ScheduleComponent from "./Schedule.jsx";
 import Top10AnimeList from "./Top10.jsx";
 import ContinueWatching from "./continueWatching.jsx";
 
+import DonationBanner from "@/Sections/Universal/Donate.jsx";
+
 export const metadata = {
   title:
     "Animekun HomePage - Watch Anime Online For Absolutely Free Without ADS",
@@ -67,6 +69,8 @@ export default async function Home() {
     return <h1>Error 404</h1>;
   }
 
+
+const h = true
   return (
     <>
       <main className="min-h-screen bg-backgroundtwo w-full">
@@ -83,6 +87,10 @@ export default async function Home() {
         <div className="h-[30px] w-full"></div>
 
         {data && <GenreSection />}
+
+        <div className="px-4 md:px-[54px] flex items-center justify-center">
+          <DonationBanner hmm={h} />
+        </div>
 
         <div className="h-[30px] w-full"></div>
         <ContinueWatching />

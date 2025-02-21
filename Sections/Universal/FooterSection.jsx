@@ -2,12 +2,19 @@ import Link from "next/link";
 import Image from "next/image";
 import categoryMap from "../../Utils/categoriesMap.js";
 import genreMap from "../../Utils/genreMap.js";
+import DonationBanner from "./Donate.jsx";
 
 const FooterSection = () => {
   const currentYear = new Date().getFullYear();
+  
+  const h = false
 
   return (
     <footer className="bg-background mt-2 flex flex-col px-4 md:px-[54px] pt-2 pb-4 relative">
+      <div className="flex items-center justify-center">
+        <DonationBanner hmm={h} />
+      </div>
+
       <div className=" flex flex-wrap gap-3 items-center">
         <div className="flex flex-col md:flex-row gap-3 items-center">
           {/* Logo */}
@@ -211,7 +218,7 @@ c-54 0 -102 -3 -105 -7z"
       >
         <div className="flex">
           <Link
-            href="https://discord.gg/fQWa2Ezm34"
+            href="https://discord.gg/D8fFtJT8TU"
             className="
             p-1 hover:bg-[#334346] rounded-full
             "

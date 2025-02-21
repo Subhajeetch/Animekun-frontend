@@ -91,7 +91,9 @@ const LandingPage = async () => {
               <Play size={18} />
             </Link>
 
-            <ShareComponent />
+            <div className="">
+              <ShareComponent />
+            </div>
           </div>
           <div className="hidden md:block">
             <img

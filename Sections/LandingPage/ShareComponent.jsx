@@ -37,9 +37,7 @@ const ShareComponent = () => {
       console.warn("Web Share API not supported, using fallback");
       fallbackCopy("https://animekun.top/home");
 
-      toast.warning(
-        "Sharing not supported. Copied to clipboard!"
-      );
+      toast.warning("Sharing not supported. Copied to clipboard!");
     }
   };
 
@@ -101,7 +99,7 @@ const ShareComponent = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4 mt-10 bg-black py-2 w-max">
+    <div className="flex flex-col gap-4 mt-10 bg-black py-2 w-full max-w-fit">
       <h3 className="text-lg font-semibold text-foreground">
         Share our website with your cool friends
       </h3>

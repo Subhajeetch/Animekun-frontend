@@ -27,7 +27,7 @@ const AnimeTop10 = ({ top10Animes }) => {
           <button
             key={period.key}
             onClick={() => setActiveTab(period.key)}
-            className={`px-3 py-2 font-[700] text-[14px] transition-colors ${
+            className={`px-3 py-2 font-[700] text-[12px] md:text-[15px] transition-colors ${
               activeTab === period.key
                 ? "bg-main text-white"
                 : "bg-backgroundtwo text-discriptionForeground hover:bg-separatorOnBackgroundtwo hover:text-foreground"

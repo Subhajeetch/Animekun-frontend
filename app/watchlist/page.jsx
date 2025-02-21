@@ -107,8 +107,8 @@ const WatchlistPage = () => {
             }`}
             onClick={() => setActiveTab(id)}
           >
-            <Icon />
-            <span className="text-[12px] md:text-[16px]">{display}</span>
+            <Icon className="h-[16px] md:h-[24px]" />
+            <span className="text-[10px] md:text-[16px]">{display}</span>
           </button>
         ))}
       </div>
@@ -267,11 +267,11 @@ const AnimeCard = ({ anime, category, onRemove, onMove }) => {
           <EllipsisVertical />
 
           {dropdownOpen && (
-            <div className="absolute top-full w-[200px] right-0 bg-status shadow-lg rounded-xl z-50">
+            <div className="absolute top-full w-[230px] right-0 bg-status shadow-lg rounded-xl z-50">
               <button
                 className="block text-left px-4 py-2 rounded-xl
                 text-background font-bold flex gap-3 cursor-pointer
-                hover:bg-[#dab089]"
+                hover:bg-[#dab089] w-full"
                 onClick={() => onRemove(category, anime)}
               >
                 <FolderMinus />
@@ -292,7 +292,7 @@ const AnimeCard = ({ anime, category, onRemove, onMove }) => {
                 {/* Move Dropdown */}
                 {moveDropdownOpen && (
                   <div
-                    className="absolute right-5 top-10 w-[200px] bg-white
+                    className="absolute right-5 top-10 w-[230px] bg-white
                     shadow-lg rounded-xl z-50"
                     ref={moveDropdownRef}
                     onClick={e => e.stopPropagation()} // Prevents closing when clicking inside
