@@ -135,7 +135,9 @@ const VideoPlayer = ({
   toggleFullscreen,
   isFullScreen,
   episodeName,
-  isLastEpisode
+  isLastEpisode,
+  artWorkUrl,
+  animeNameFF
 }) => {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
@@ -880,6 +882,68 @@ const VideoPlayer = ({
       video.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, [isLastEpisode, allEpisodeEnded, setAllEpisodeEnded]);
+
+  // rich notification (media session)
+  useEffect(() => {
+    if ("mediaSession" in navigator && videoRef.current) {
+      const video = videoRef.current;
+
+      // Set Metadata
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: `EP ${episodeNumber} - ${episodeName}`,
+        artist: "Animekun",
+        album: animeNameFF || "",
+        artwork: [{ src: artWorkUrl, sizes: "300x400", type: "image/jpg" }]
+      });
+
+      // Playback State
+      const updatePlaybackState = () => {
+        navigator.mediaSession.playbackState = video.paused
+          ? "paused"
+          : "playing";
+      };
+
+      // Media Controls
+      navigator.mediaSession.setActionHandler("play", () => togglePlay());
+      navigator.mediaSession.setActionHandler("pause", () => togglePlay());
+      navigator.mediaSession.setActionHandler("seekbackward", details => {
+        video.currentTime = Math.max(
+          video.currentTime - (details.seekOffset || 10),
+          0
+        );
+        updatePlaybackState(); // Ensure playback state updates after seeking
+      });
+      navigator.mediaSession.setActionHandler("seekforward", details => {
+        video.currentTime = Math.min(
+          video.currentTime + (details.seekOffset || 10),
+          video.duration
+        );
+        updatePlaybackState(); // Ensure playback state updates after seeking
+      });
+      navigator.mediaSession.setActionHandler("seekto", details => {
+        if (details.seekTime !== undefined) {
+          video.currentTime = details.seekTime;
+          updatePlaybackState(); // Ensure playback state updates after seeking
+        }
+      });
+      navigator.mediaSession.setActionHandler("stop", () => {
+        togglePlay();
+        video.currentTime = 0;
+        updatePlaybackState();
+      });
+
+      // Update Playback State on Play/Pause/Seek
+      video.addEventListener("play", updatePlaybackState);
+      video.addEventListener("pause", updatePlaybackState);
+      video.addEventListener("seeked", updatePlaybackState); // Ensure state updates on manual seek
+
+      return () => {
+        video.removeEventListener("play", updatePlaybackState);
+        video.removeEventListener("pause", updatePlaybackState);
+        video.removeEventListener("seeked", updatePlaybackState);
+      };
+    }
+  }, [videoRef, episodeName]);
 
   return (
     <div

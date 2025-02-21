@@ -181,10 +181,10 @@ c-54 0 -102 -3 -105 -7z"
           <h4 className="text-[22px] font-[700] mb-1">Necessary</h4>
           <ul className="grid grid-cols-2 pl-2 gap-0.5">
             <li className="text-[#cacaca] text-[13px] hover:underline">
-              <Link href="#">Report bug</Link>
+              <Link href="/imp/bug-reports">Report bug</Link>
             </li>
             <li className="text-[#cacaca] text-[13px] hover:underline">
-              <Link href="#">Contact</Link>
+              <Link href="/imp/contact-us">Contact</Link>
             </li>
             <li className="text-[#cacaca] text-[13px] hover:underline">
               <Link href="#">Terms of service</Link>
