@@ -344,7 +344,7 @@ export default async function AnimeInfo({ params }) {
                 scrollbar-thin scrollbar-thumb-backgroundHover
           scrollbar-track-background pr-2"
               >
-                <p className="text-discriptionForeground text-[11px]">
+                <p className="text-discriptionForeground text-[14px]">
                   {info.description}
                 </p>
               </div>
@@ -358,44 +358,44 @@ export default async function AnimeInfo({ params }) {
                     )}, 0.3)`
                   }}
                 >
-                  <h2 className="text-[16px] font-[800] mb-4">Details</h2>
+                  <h2 className="text-[17px] font-[800] mb-4">Details</h2>
 
                   {moreInfo.aired && (
-                    <div className="flex gap-1 text-[11px]">
+                    <div className="flex gap-1 text-[14px]">
                       <span className="font-[600]">Aired:</span>{" "}
                       <span className="font-[300]">{moreInfo.aired}</span>
                     </div>
                   )}
 
                   {moreInfo.studios && (
-                    <div className="flex gap-1 text-[11px]">
+                    <div className="flex gap-1 text-[14px]">
                       <span className="font-[600]">Studios:</span>{" "}
                       <span className="font-[300]">{moreInfo.studios}</span>
                     </div>
                   )}
                   {moreInfo.japanese && (
-                    <div className="flex gap-1 text-[11px]">
+                    <div className="flex gap-1 text-[14px]">
                       <span className="font-[600]">Japanese:</span>{" "}
                       <span className="font-[300]">{moreInfo.japanese}</span>
                     </div>
                   )}
 
                   {moreInfo.premiered && (
-                    <div className="flex gap-1 text-[11px]">
+                    <div className="flex gap-1 text-[14px]">
                       <span className="font-[600]">Premiered:</span>{" "}
                       <span className="font-[300]">{moreInfo.premiered}</span>
                     </div>
                   )}
 
                   {moreInfo.synonyms && (
-                    <div className="flex gap-1 text-[11px]">
+                    <div className="flex gap-1 text-[14px]">
                       <span className="font-[600]">Synonyms:</span>{" "}
                       <span className="font-[300]">{moreInfo.synonyms}</span>
                     </div>
                   )}
 
                   {moreInfo.producers && (
-                    <div className="flex gap-1 text-[11px]">
+                    <div className="flex gap-1 text-[14px]">
                       <span className="font-[600]">Producers:</span>
                       <span className="block">
                         {moreInfo.producers.map((producer, index) => (
@@ -424,7 +424,7 @@ export default async function AnimeInfo({ params }) {
                     )}, 0.3)`
                   }}
                 >
-                  <h2 className="text-[16px] font-[800] mb-2">Ratings</h2>
+                  <h2 className="text-[17px] font-[800] mb-2">Ratings</h2>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                       <Image

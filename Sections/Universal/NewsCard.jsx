@@ -38,7 +38,7 @@ const AnimeCard = ({ news }) => {
         {news.title}
       </h3>
       <span className="text-[10px] pl-1 text-animeCardDimmerForeground">
-        {news.date}
+        {news.date || news.uploadedAt}
       </span>
       <p
         className="text-[10px] pl-1 font-[600] text-[#00c5e7e6] flex flex-wrap

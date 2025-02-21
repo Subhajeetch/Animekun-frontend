@@ -89,7 +89,7 @@ export default async function Home() {
 
         <div
           className="relative h-[40px] bg-gradient-to-l
-        from-transparent to-backgroundHover w-[200px] mx-4 md:mx-[54px] mb-[10px] p-2 flex
+        from-transparent to-backgroundHover max-w-fit mx-4 md:mx-[54px] mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
         >
           <svg
@@ -128,7 +128,7 @@ export default async function Home() {
             <div className="flex justify-between">
               <div
                 className="relative h-[40px] bg-gradient-to-l
-        from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
+        from-transparent to-backgroundHover max-w-fit mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
               >
                 <svg
@@ -170,7 +170,7 @@ export default async function Home() {
             <div className="flex justify-between">
               <div
                 className="relative h-[40px] bg-gradient-to-l
-        from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
+        from-transparent to-backgroundHover max-w-fit mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
               >
                 <svg
@@ -224,7 +224,7 @@ export default async function Home() {
             <div className="flex justify-between">
               <div
                 className="relative h-[40px] bg-gradient-to-l
-        from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
+        from-transparent to-backgroundHover max-w-fit mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
               >
                 <svg
@@ -300,7 +300,7 @@ c-75 0 -315 75 -452 140 -294 141 -564 401 -743 715 -28 49 -51 97 -51 107 0
             <div className="flex justify-between">
               <div
                 className="relative h-[40px] bg-gradient-to-l
-        from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
+        from-transparent to-backgroundHover max-w-fit mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
               >
                 <svg
@@ -403,7 +403,7 @@ c-75 0 -315 75 -452 140 -294 141 -564 401 -743 715 -28 49 -51 97 -51 107 0
               <div className="flex justify-between items-center">
                 <div
                   className="h-[40px] bg-gradient-to-l
-        from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
+        from-transparent to-backgroundHover max-w-fit mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
                 >
                   <div className="h-[28px] w-[8px] rounded-full bg-main"></div>

@@ -103,7 +103,7 @@ const HomepageSlides = ({ data }) => {
         <Link
           href={`/anime/${anime.id}`}
           className="
-         px-3 py-1.5 text-[13px] max-w-[120px] text-center bg-main rounded-full
+         px-4 py-2 text-[13px] max-w-fit text-center bg-main rounded-full
          mb-4 transition-all font-[800] flex gap-1.5 items-center
          justify-center"
         >

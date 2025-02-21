@@ -110,7 +110,7 @@ const AddToWatchlist = ({ anime }) => {
 
       {open && (
         <div
-          className="absolute right-0 mt-2 w-52 bg-background shadow-lg
+          className="absolute right-0 mt-2 w-[220px] bg-background shadow-lg
         rounded-xl overflow-hidden z-50 getSepa p-2"
         >
           {categories.map(category => (

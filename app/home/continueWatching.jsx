@@ -28,7 +28,7 @@ const ContinueWatching = () => {
 
           <div
             className="relative h-[40px] bg-gradient-to-l
-        from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
+        from-transparent to-backgroundHover max-w-fit mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
           >
             <div className="h-[30px] w-[8px] rounded-full bg-main"></div>

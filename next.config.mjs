@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     domains: [
@@ -6,6 +5,15 @@ const nextConfig = {
       "anotherdomain.com",
       "yetanotherdomain.com"
     ]
+  },
+  async redirects() {
+    return [
+      {
+        source: '/favicon.ico',
+        destination: '/public/favicon.ico',
+        permanent: true,
+      },
+    ];
   }
 };
 

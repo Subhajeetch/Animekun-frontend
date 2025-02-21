@@ -1,0 +1,205 @@
+hhhh {
+  --dot-bg: black;
+  --dot-color: white;
+  --dot-size: 2px;
+  --dot-space: 22px;
+  background:
+    linear-gradient(
+        90deg,
+        var(--dot-bg) calc(var(--dot-space) - var(--dot-size)),
+        transparent 1%
+      )
+      center / var(--dot-space) var(--dot-space),
+    linear-gradient(
+        var(--dot-bg) calc(var(--dot-space) - var(--dot-size)),
+        transparent 1%
+      )
+      center / var(--dot-space) var(--dot-space),
+    var(--dot-color);
+}
+
+
+
+.homepage-btn {
+  position: relative;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: var(--foreground);
+
+  background-color: var(--main);
+  box-shadow: var(--background) 2px 2px 22px;
+  border-radius: 4px;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.homepage-btn:hover {
+  outline-color: transparent;
+  box-shadow: rgba(109, 194, 255, 0.5) 2px 2px 10px;
+  background-color: var(--main);
+}
+
+/* bubbles */
+.homepage-btn::before {
+  content: "";
+  pointer-events: none;
+  opacity: 0.8;
+  background: radial-gradient(
+      circle at 20% 35%,
+      transparent 0,
+      transparent 2px,
+      var(--foreground) 3px,
+      var(--foreground) 4px,
+      transparent 4px
+    ),
+    radial-gradient(
+      circle at 75% 44%,
+      transparent 0,
+      transparent 2px,
+      var(--foreground) 3px,
+      var(--foreground) 4px,
+      transparent 4px
+    ),
+    radial-gradient(
+      circle at 46% 52%,
+      transparent 0,
+      transparent 4px,
+      var(--foreground) 5px,
+      var(--foreground) 6px,
+      transparent 6px
+    );
+
+  width: 100%;
+  height: 300%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  animation: bubbles 5s linear infinite both;
+}
+
+@keyframes bubbles {
+  from {
+    transform: translate();
+  }
+
+  to {
+    transform: translate(0, -66.666%);
+  }
+}
+
+@keyframes bg {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-xx {
+  --s: 29px; /* control the size */
+
+  --c: #292929 /* 1st color*/ calc(100% - 2px), #0000;
+  --r: calc(2.414 * var(--s));
+  --p: calc(1.414 * var(--s));
+  --g: radial-gradient(var(--s), var(--c));
+  background:
+    radial-gradient(var(--r) at 0 0, var(--c)),
+    radial-gradient(var(--r) at 0 100%, var(--c)),
+    radial-gradient(var(--r) at 100% 0, var(--c)),
+    radial-gradient(var(--r) at 100% 100%, var(--c)),
+    var(--g),
+    var(--g),
+    var(--g),
+    var(--g) #1b1b1b /* 2nd color */;
+  background-position:
+    var(--r) var(--r),
+    0 var(--p),
+    var(--p) 0,
+    calc(-1 * var(--s)) calc(-1 * var(--s));
+  background-size: calc(2 * var(--r)) calc(2 * var(--r));
+}
+
+.glowing-image {
+  position: relative;
+  display: inline-block;
+  filter: drop-shadow(0 0 20px #a802ff4b) drop-shadow(0 0 40px #a802ff4b)
+    drop-shadow(0 0 50px #a802ff4b);
+}
+
+/* Adding an inner glow effect */
+.glowing-image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #a802ff4b 20%, transparent 80%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.mobile-banner {
+  margin: 20px 0 0 0;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  transform: translateY(30px);
+}
+
+.anime-kun-mobile-bannner {
+  width: 100%;
+  border-radius: 25px;
+  border: 2px solid #92faff;
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.7) 50%,
+    black
+  );
+}
+
+
+
+
+.masonry-container {
+  -webkit-column-count: 2;
+  -moz-column-count: 2;
+  column-count: 2;
+
+  -webkit-column-gap: 8px;
+  -moz-column-gap: 8px;
+  column-gap: 8px;
+}
+.masonry-item {
+  display: inline-block;
+  width: 100%;
+}
+.masonry-item img {
+  display: block;
+  width: 100%;
+}
+
+@media (min-width: 690px) {
+  .masonry-container {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+}
+
+@media (min-width: 940px) {
+  .masonry-container {
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+  }
+}
