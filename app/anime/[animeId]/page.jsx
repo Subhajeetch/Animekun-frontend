@@ -160,6 +160,8 @@ export default async function AnimeInfo({ params }) {
     return `${r}, ${g}, ${b}`;
   };
 
+  const getHighlightProducer = moreInfo.studios || moreInfo.producers[0];
+
   return (
     <>
       <main className="bg-backgroundtwo">
@@ -356,12 +358,12 @@ export default async function AnimeInfo({ params }) {
                   <strong>
                     <Link
                       className="hover:underline"
-                      href={`/producer/${moreInfo.studios
+                      href={`/producer/${getHighlightProducer
                         .toLowerCase()
                         .replace(/\s+/g, "-")
-                        .replace(/[.:]/g, "")}`}
+                        .replace(/[.:;'\/+_*!]/g, "")}`}
                     >
-                      {moreInfo.studios}
+                      {getHighlightProducer}
                     </Link>
                   </strong>
                   . Check out similar shows, binge your favorites, and don’t
