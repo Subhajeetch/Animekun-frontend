@@ -160,7 +160,8 @@ export default async function AnimeInfo({ params }) {
     return `${r}, ${g}, ${b}`;
   };
 
-  const getHighlightProducer = moreInfo.studios || moreInfo.producers[0];
+  const getHighlightProducer = moreInfo.studios || moreInfo.producers[0] ||
+  "mappa";
 
   return (
     <>
