@@ -327,7 +327,10 @@ c-54 0 -102 -3 -105 -7z"
                           {results.slice(0, 3).map(anime => (
                             <Link
                               href={`/anime/${anime.id}`}
-                              onClick={handleClearQuery}
+                              onClick={e => {
+                                handleClearQuery();
+                                toggleMobileSearch();
+                              }}
                               key={`${anime.id}`}
                             >
                               <div
