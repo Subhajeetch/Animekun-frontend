@@ -77,7 +77,7 @@ export const metadata = {
   },
   verification: {
     google: "google",
-    yandex: "yandex",
+    yandex: "420a11c6038170e2",
     yahoo: "yahoo"
   },
   alternates: {
