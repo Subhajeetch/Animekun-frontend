@@ -6,6 +6,25 @@ const nextConfig = {
       "yetanotherdomain.com"
     ]
   },
+  
+  async headers() {
+    return [
+      {
+        source: "/sitemap.xml",
+        headers: [
+          {
+            key: "User-Agent",
+            value: "*",
+          },
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+        ],
+      },
+    ];
+  },
+  
   async redirects() {
     return [
       {
