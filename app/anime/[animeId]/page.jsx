@@ -160,8 +160,8 @@ export default async function AnimeInfo({ params }) {
     return `${r}, ${g}, ${b}`;
   };
 
-  const getHighlightProducer = moreInfo.studios || moreInfo.producers[0] ||
-  "mappa";
+  const getHighlightProducer =
+    moreInfo.studios || moreInfo.producers[0] || "mappa";
 
   return (
     <>
@@ -425,9 +425,9 @@ export default async function AnimeInfo({ params }) {
                           <React.Fragment key={index}>
                             <Link
                               href={`/producer/${producer
-                                .toLowerCase()
-                                .replace(/\s+/g, "-")
-                                .replace(/[.:]/g, "")}`}
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")
+                        .replace(/[.:;'\/+_*!]/g, "")}`}
                               className="font-[300] inline hover:underline"
                             >
                               {producer}
