@@ -60,6 +60,7 @@ const NavBar = () => {
   const handleMoreResults = () => {
     const formattedQuery = query.trim().replace(/\s+/g, "-");
     router.push(`/search?q=${formattedQuery}`);
+    setQuery("")
   };
 
   const toggleMobileSearch = () => {

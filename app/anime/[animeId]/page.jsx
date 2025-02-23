@@ -347,6 +347,26 @@ export default async function AnimeInfo({ params }) {
                 <p className="text-discriptionForeground text-[14px]">
                   {info.description}
                 </p>
+                <br></br>
+                <br></br>
+                <p>
+                  So, want to watch <strong>{info.name}</strong>? You’re in the
+                  right place! Animekun has all the best anime, including ones
+                  from{" "}
+                  <strong>
+                    <Link
+                      className="hover:underline"
+                      href={`/producer/${moreInfo.studios
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")
+                        .replace(/[.:]/g, "")}`}
+                    >
+                      {moreInfo.studios}
+                    </Link>
+                  </strong>
+                  . Check out similar shows, binge your favorites, and don’t
+                  forget to share the anime with your cool friends!
+                </p>
               </div>
 
               <div className="flex flex-col md:flex-row gap-2 max-w-[834px]">
@@ -403,7 +423,8 @@ export default async function AnimeInfo({ params }) {
                             <Link
                               href={`/producer/${producer
                                 .toLowerCase()
-                                .replace(/\s+/g, "-")}`}
+                                .replace(/\s+/g, "-")
+                                .replace(/[.:]/g, "")}`}
                               className="font-[300] inline hover:underline"
                             >
                               {producer}
