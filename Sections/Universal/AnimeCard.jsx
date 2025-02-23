@@ -36,8 +36,12 @@ const AnimeCard = ({ anime }) => {
         </div>
       </div>
       <div className="flex flex-col py-1">
-        <h3 className="text-[14px] line-clamp-1 font-[700]
-        pl-1">{anime.name}</h3>
+        <h3
+          className="text-[14px] line-clamp-1 font-[700]
+        pl-1"
+        >
+          {anime.name}
+        </h3>
         <p className="text-[10px] pl-1 text-animeCardDimmerForeground">
           {anime.type}
           <span className="px-2">&#x2022;</span>

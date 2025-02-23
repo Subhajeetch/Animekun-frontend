@@ -36,69 +36,63 @@ const HomepageSlides = ({ data }) => {
         md:left-[186px]"
       ></div>
       <div
-        className="relative flex flex-col z-10 p-4 md:p-[54px] max-w-xl h-full
-      text-foreground"
+        className="relative flex flex-col z-10 p-4 md:p-[54px] max-w-fit h-full
+      text-foreground "
       >
-        <div className="flex-1"></div>
-        <span className="text-[10px] text-shadow-on-slides">
+        <div className="flex-1 "></div>
+        <span className="text-[12px] md:text-[16px] text-shadow-on-slides">
           Rank: #{anime.rank}
         </span>
         <h2
-          className="text-[18px] md:text-[24px] font-[700] truncate w-[65%]
-        md:w-full drop-shadow-md text-shadow-on-slides"
+          className="text-[18px] md:text-[24px] font-[700] line-clamp-2 w-[250px]
+        md:w-[610px] drop-shadow-md text-shadow-on-slides"
         >
           {anime.name}
         </h2>
-        <p
-          className="line-clamp-2 md:line-clamp-3 text-[8px] md:text-[13px]
-        w-[65%] md:w-full font-[500] drop-shadow-md text-shadow-on-slides"
-        >
-          {anime.description}
-        </p>
         <div className="flex flex-col mt-2">
           <span
-            className="text-[8px] flex gap-1 mb-1 md:text-[13px] font-[500]
+            className="text-[10px] flex gap-1 mb-1 md:text-[14px] font-[600]
           text-shadow-on-slides"
           >
             <span>{anime.type}</span> &#x2022; <span>{anime.otherInfo[1]}</span>{" "}
             &#x2022;
             <span> {anime.otherInfo[2]}</span>
           </span>
-          <span className="text-[8px] md:text-[13px] flex gap-1 mb-4 md:mb-6">
+          <div className="text-[10px] md:text-[14px] flex gap-1 mb-4 md:mb-6">
             {anime.episodes.dub > 0 && (
               <div
-                className="bg-dubBackground rounded-sm text-[9px] md:text-[11px]
+                className="bg-dubBackground rounded-sm text-[11px] md:text-[14px]
                         px-[6px] py-[2px] flex gap-1 shadow-md
                         text-dubForeground w-max"
               >
                 <span className="font-[900]">EN</span>
-                <span className="font-[500]">{anime.episodes.dub}</span>
+                <span className="font-[700]">{anime.episodes.dub}</span>
               </div>
             )}
             {anime.episodes.sub > 0 && (
               <div
-                className="bg-subBackground rounded-sm text-[9px] md:text-[11px]
+                className="bg-subBackground rounded-sm text-[11px] md:text-[14px]
                         px-[6px] py-[2px] flex gap-1 shadow-md
                         text-subForeground w-max
                         "
               >
                 <span className="font-[900]">JP</span>
-                <span className="font-[500]">{anime.episodes.sub}</span>
+                <span className="font-[700]">{anime.episodes.sub}</span>
               </div>
             )}
 
             {anime.otherInfo[3] && anime.otherInfo[3] === "HD" && (
               <div className="bg-quality rounded-sm">
                 <p
-                  className="text-[9px] px-[6px] py-[2px] font-[700]
-                  md:text-[11px]
+                  className="text-[11px] px-[6px] py-[2px] font-[700]
+                  md:text-[14px]
                   text-infoForeground"
                 >
                   {anime.otherInfo[3]}
                 </p>
               </div>
             )}
-          </span>
+          </div>
         </div>
         <Link
           href={`/anime/${anime.id}`}

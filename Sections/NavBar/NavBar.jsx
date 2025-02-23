@@ -10,9 +10,10 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/CustomSheetForNavBar.jsx";
+import LoadingSke from "@/Sections/Universal/Loader.jsx";
 import { Button } from "@/components/ui/button";
 import NavBarVertical from "./NavBarVertical.jsx";
-import { AlignRight, Search, X, TextSearch } from "lucide-react";
+import { AlignRight, Search, X, TextSearch, Cat } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -21,26 +22,40 @@ const NavBar = () => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [debouncedQuery, setDebouncedQuery] = useState(query);
+  const [searchLoading, setSearchLoading] = useState(false);
   const searchInputRef = useRef(null);
   const router = useRouter();
 
+  useEffect(() => {
+    setSearchLoading(true); // Start loading
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 500); // Adjust delay (e.g., 500ms)
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [query]);
+
   const handleSearch = async () => {
-    if (query.trim() === "") return;
+    if (debouncedQuery.trim() === "") return;
     try {
       const response = await fetch(
-        `https://getdata.animekun.top/api/mantox/searchsuggestion?q=${query}`
+        `https://getdata.animekun.top/api/mantox/searchsuggestion?q=${debouncedQuery}`
       );
       const data = await response.json();
       setResults(data.suggestions || []);
+      setSearchLoading(false);
     } catch (error) {
       console.error("Error fetching anime data:", error);
     }
   };
 
   useEffect(() => {
-    if (query) handleSearch();
+    if (debouncedQuery) handleSearch();
     else setResults([]);
-  }, [query]);
+  }, [debouncedQuery]);
 
   const handleMoreResults = () => {
     const formattedQuery = query.trim().replace(/\s+/g, "-");
@@ -59,6 +74,10 @@ const NavBar = () => {
   const handleMoreResultsClickInMobile = () => {
     handleMoreResults();
     toggleMobileSearch();
+  };
+
+  const handleLogin = () => {
+    alert("Login feature will be available shortly.");
   };
 
   return (
@@ -282,52 +301,81 @@ c-54 0 -102 -3 -105 -7z"
                   onClick={toggleMobileSearch}
                 />
               </div>
-              {results.length > 0 && query.trim() !== "" && (
+              {query.trim() !== "" && (
                 <div className="mt-2 bg-background rounded-md z-[40]">
-                  {results.slice(0, 3).map(anime => (
-                    <Link
-                      href={`/anime/${anime.id}`}
-                      onClick={toggleMobileSearch}
-                      key={`${anime.id}`}
-                    >
-                      <div
-                        key={anime.id}
-                        className="flex gap-2 p-2 hover:bg-backgroundHover
-                            "
+                  {searchLoading ? (
+                    // Show loading state when searching
+                    <div className="flex justify-center items-center p-4">
+                      <LoadingSke />
+                      <span
+                        className="ml-2 text-foreground text-[16px]
+                      font-[700]"
                       >
-                        <img
-                          src={anime.poster}
-                          alt={anime.name}
-                          className="w-12 h-16 object-cover rounded-sm"
-                        />
-                        <div className="w-10/12 pt-1">
-                          <h3
-                            className="text-sm font-semibold truncate
+                        Searching...
+                      </span>
+                    </div>
+                  ) : results.length > 0 ? (
+                    // Show results when search is complete
+                    <>
+                      {results.length > 0 && query.trim() !== "" && (
+                        <div className="mt-2 bg-background rounded-md z-[40]">
+                          {results.slice(0, 3).map(anime => (
+                            <Link
+                              href={`/anime/${anime.id}`}
+                              onClick={toggleMobileSearch}
+                              key={`${anime.id}`}
+                            >
+                              <div
+                                key={anime.id}
+                                className="flex gap-2 p-2 hover:bg-backgroundHover
+                            "
+                              >
+                                <img
+                                  src={anime.poster}
+                                  alt={anime.name}
+                                  className="w-12 h-16 object-cover rounded-sm"
+                                />
+                                <div className="w-10/12 pt-1">
+                                  <h3
+                                    className="text-sm font-semibold truncate
                               text-foreground"
-                          >
-                            {anime.name}
-                          </h3>
-                          <p
-                            className="text-xs
+                                  >
+                                    {anime.name}
+                                  </h3>
+                                  <p
+                                    className="text-xs
                               text-animeCardDimmerForeground"
-                          >
-                            {anime.moreInfo[1]} • {anime.moreInfo[2]}
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                  <div className="text-center pt-2 w-full bg-background">
-                    <div
-                      className="text-foreground flex justify-center items-center
+                                  >
+                                    {anime.moreInfo[1]} • {anime.moreInfo[2]}
+                                  </p>
+                                </div>
+                              </div>
+                            </Link>
+                          ))}
+                          <div className="text-center pt-2 w-full bg-background">
+                            <div
+                              className="text-foreground flex justify-center items-center
                           gap-2 font-[800] py-2 bg-main
                           w-full rounded-sm"
-                      onClick={handleMoreResultsClickInMobile}
+                              onClick={handleMoreResultsClickInMobile}
+                            >
+                              <TextSearch size={24} />
+                              <span>More results</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    // Show nothing if no results
+                    <div
+                      className="text-muted p-4 flex
+                    gap-2 items-center justify-center"
                     >
-                      <TextSearch size={24} />
-                      <span>More results</span>
+                      <Cat />
+                      <span className="font-[700]">No results found</span>
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
             </div>
@@ -363,53 +411,88 @@ c-54 0 -102 -3 -105 -7z"
                 <Search />
               </div>
             </div>
-            {showSearch && results.length > 0 && query.trim() !== "" && (
-              <div
+            {showSearch && query.trim() !== "" && (
+                            <div
                 className="absolute top-full left-0 w-full bg-background
                 shadow-md rounded-md z-[40] p-1"
               >
-                {results.slice(0, 5).map(anime => (
-                  <Link href={`/anime/${anime.id}`} key={`${anime.id}`}>
-                    <div
-                      key={anime.id}
-                      className="flex gap-2 p-2 hover:bg-backgroundHover rounded-sm
-                        cursor-pointer"
-                    >
-                      <img
-                        src={anime.poster}
-                        alt={anime.name}
-                        className="w-12 h-16 object-cover rounded-sm"
-                      />
-                      <div className="w-10/12 pt-1">
-                        <h3
-                          className="text-sm font-semibold truncate
-                          text-foreground"
-                        >
-                          {anime.name}
-                        </h3>
-                        <p
-                          className="text-xs
-                          text-animeCardDimmerForeground"
-                        >
-                          {anime.moreInfo[1]} • {anime.moreInfo[2]}
-                        </p>
-                      </div>
+                <div className="mt-2 bg-background rounded-md z-[40]">
+                  {searchLoading ? (
+                    // Show loading state when searching
+                    <div className="flex justify-center items-center p-4">
+                      <LoadingSke />
+                      <span
+                        className="ml-2 text-foreground text-[16px]
+                      font-[700]"
+                      >
+                        Searching...
+                      </span>
                     </div>
-                  </Link>
-                ))}
-                <div className="text-center mt-2">
-                  <div
-                    className="text-foreground flex justify-center items-center
-                          gap-1 font-[800] py-2 bg-main
-                          w-full rounded-sm cursor-pointer"
-                    onClick={handleMoreResults}
-                  >
-                    <TextSearch size={24} />
-                    <span>More results</span>
-                  </div>
+                  ) : results.length > 0 ? (
+                    // Show results when search is complete
+                    <>
+                      {results.length > 0 && query.trim() !== "" && (
+                        <div className="mt-2 bg-background rounded-md z-[40]">
+                          {results.slice(0, 3).map(anime => (
+                            <Link
+                              href={`/anime/${anime.id}`}
+                              onClick={toggleMobileSearch}
+                              key={`${anime.id}`}
+                            >
+                              <div
+                                key={anime.id}
+                                className="flex gap-2 p-2 hover:bg-backgroundHover
+                            "
+                              >
+                                <img
+                                  src={anime.poster}
+                                  alt={anime.name}
+                                  className="w-12 h-16 object-cover rounded-sm"
+                                />
+                                <div className="w-10/12 pt-1">
+                                  <h3
+                                    className="text-sm font-semibold truncate
+                              text-foreground"
+                                  >
+                                    {anime.name}
+                                  </h3>
+                                  <p
+                                    className="text-xs
+                              text-animeCardDimmerForeground"
+                                  >
+                                    {anime.moreInfo[1]} • {anime.moreInfo[2]}
+                                  </p>
+                                </div>
+                              </div>
+                            </Link>
+                          ))}
+                          <div className="text-center pt-2 w-full bg-background">
+                            <div
+                              className="text-foreground flex justify-center items-center
+                          gap-2 font-[800] py-2 bg-main
+                          w-full rounded-sm"
+                              onClick={handleMoreResultsClickInMobile}
+                            >
+                              <TextSearch size={24} />
+                              <span>More results</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    // Show nothing if no results
+                    <div
+                      className="text-muted p-4 flex
+                    gap-2 items-center justify-center"
+                    >
+                      <Cat />
+                      <span className="font-[700]">No results found</span>
+                    </div>
+                  )}
+                                </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
 
           {/* social icons */}
@@ -476,7 +559,9 @@ c-54 0 -102 -3 -105 -7z"
 
           {/* Account actions */}
           <div>
-            <Button className="px-3 h-8">Login</Button>
+            <Button onClick={handleLogin} className="px-3 h-8">
+              Login
+            </Button>
           </div>
         </div>
       </header>
@@ -485,3 +570,5 @@ c-54 0 -102 -3 -105 -7z"
 };
 
 export default NavBar;
+
+           

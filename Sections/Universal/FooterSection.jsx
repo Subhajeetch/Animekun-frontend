@@ -6,8 +6,8 @@ import DonationBanner from "./Donate.jsx";
 
 const FooterSection = () => {
   const currentYear = new Date().getFullYear();
-  
-  const h = false
+
+  const h = false;
 
   return (
     <footer className="bg-background mt-2 flex flex-col px-4 md:px-[54px] pt-2 pb-4 relative">
@@ -194,19 +194,16 @@ c-54 0 -102 -3 -105 -7z"
               <Link href="/imp/contact-us">Contact</Link>
             </li>
             <li className="text-[#cacaca] text-[13px] hover:underline">
-              <Link href="#">Terms of service</Link>
+              <Link href="/imp/terms">Terms of use</Link>
             </li>
             <li className="text-[#cacaca] text-[13px] hover:underline">
-              <Link href="#">Privacy policy</Link>
+              <Link href="/imp/policy">Privacy policy</Link>
             </li>
             <li className="text-[#cacaca] text-[13px] hover:underline">
-              <Link href="#">DMCA</Link>
+              <Link href="/imp/dmca">DMCA</Link>
             </li>
             <li className="text-[#cacaca] text-[13px] hover:underline">
               <Link href="/anime/news">Anime news</Link>
-            </li>
-            <li className="text-[#cacaca] text-[13px] hover:underline">
-              <Link href="#">Recent updates</Link>
             </li>
           </ul>
         </div>
