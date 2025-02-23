@@ -349,7 +349,7 @@ export default async function AnimeInfo({ params }) {
                 </p>
                 <br></br>
                 <br></br>
-                <p>
+                <p className="text-discriptionForeground text-[14px]">
                   So, want to watch <strong>{info.name}</strong>? You’re in the
                   right place! Animekun has all the best anime, including ones
                   from{" "}

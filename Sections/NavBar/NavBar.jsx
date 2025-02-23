@@ -60,7 +60,7 @@ const NavBar = () => {
   const handleMoreResults = () => {
     const formattedQuery = query.trim().replace(/\s+/g, "-");
     router.push(`/search?q=${formattedQuery}`);
-    setQuery("")
+    setQuery("");
   };
 
   const toggleMobileSearch = () => {
@@ -75,6 +75,10 @@ const NavBar = () => {
   const handleMoreResultsClickInMobile = () => {
     handleMoreResults();
     toggleMobileSearch();
+  };
+
+  const handleClearQuery = () => {
+    setQuery("");
   };
 
   const handleLogin = () => {
@@ -323,7 +327,7 @@ c-54 0 -102 -3 -105 -7z"
                           {results.slice(0, 3).map(anime => (
                             <Link
                               href={`/anime/${anime.id}`}
-                              onClick={toggleMobileSearch}
+                              onClick={handleClearQuery}
                               key={`${anime.id}`}
                             >
                               <div
@@ -413,7 +417,7 @@ c-54 0 -102 -3 -105 -7z"
               </div>
             </div>
             {showSearch && query.trim() !== "" && (
-                            <div
+              <div
                 className="absolute top-full left-0 w-full bg-background
                 shadow-md rounded-md z-[40] p-1"
               >
@@ -437,7 +441,7 @@ c-54 0 -102 -3 -105 -7z"
                           {results.slice(0, 3).map(anime => (
                             <Link
                               href={`/anime/${anime.id}`}
-                              onClick={toggleMobileSearch}
+                              onClick={handleClearQuery}
                               key={`${anime.id}`}
                             >
                               <div
@@ -491,9 +495,9 @@ c-54 0 -102 -3 -105 -7z"
                       <span className="font-[700]">No results found</span>
                     </div>
                   )}
-                                </div>
                 </div>
-              )}
+              </div>
+            )}
           </div>
 
           {/* social icons */}
@@ -571,5 +575,3 @@ c-54 0 -102 -3 -105 -7z"
 };
 
 export default NavBar;
-
-           
