@@ -2,4 +2,10 @@ User-agent: *
 Disallow: /api/
 Allow: /
 
+User-agent: DotBot  
+Disallow: /
+
+User-agent: SemrushBot  
+Disallow: /
+
 Sitemap: https://animekun.top/sitemap.xml
