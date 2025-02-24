@@ -90,7 +90,8 @@ export const metadata = {
     "apple-mobile-web-app-title": "Animekun",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black",
-    "msapplication-TileImage": "/icon-192.png"
+    "msapplication-TileImage": "/icon-192.png",
+    "google-adsense-account": "ca-pub-8933586789581443"
   }
 };
 
