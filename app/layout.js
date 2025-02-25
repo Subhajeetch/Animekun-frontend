@@ -76,7 +76,7 @@ export const metadata = {
     type: "website"
   },
   verification: {
-    google: "google",
+    google: "_r54_cQsPPcpRnn_c9DwRWUMlhObRzBJ9s9ir0pfQrY",
     yandex: "420a11c6038170e2",
     yahoo: "yahoo"
   },
