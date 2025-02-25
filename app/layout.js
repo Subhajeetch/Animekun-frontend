@@ -3,7 +3,7 @@ import "./globals.css";
 import ScrollToTop from "@/Sections/Universal/ScrollToTop.jsx";
 import NavBar from "@/Sections/NavBar/NavBar.jsx";
 import FooterSection from "@/Sections/Universal/FooterSection.jsx";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -76,7 +76,7 @@ export const metadata = {
     type: "website"
   },
   verification: {
-    google: "_r54_cQsPPcpRnn_c9DwRWUMlhObRzBJ9s9ir0pfQrY",
+    google: "IddIgo59Nd7ODs33MaPD4lAWqqa1HsfNdGM1QsRdQ_s",
     yandex: "420a11c6038170e2",
     yahoo: "yahoo"
   },
@@ -114,8 +114,11 @@ export default function RootLayout({ children }) {
             `
           }}
         />
-        <script defer src="https://cloud.umami.is/script.js"
-        data-website-id="cc9b2338-3391-46a8-ab5c-b57c0ebcddcf"></script>
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="cc9b2338-3391-46a8-ab5c-b57c0ebcddcf"
+        ></script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
