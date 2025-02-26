@@ -32,7 +32,7 @@ export async function generateMetadata() {
     openGraph: {
       title: "Recent Anime News - Read all anime news with daily updates",
       description: "Recent Anime News - Read all anime news with daily updates",
-      url: `https://animekun.top/anime/news`,
+      url: `https://animekun.lol/anime/news`,
       siteName: "AnimeKun",
       images: [
         {

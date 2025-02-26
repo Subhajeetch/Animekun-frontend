@@ -25,7 +25,7 @@ export async function generateMetadata() {
       title: "History - AnimeKun",
       description:
         "Your watch history on animekun. View your history data to the fullest capacity with all data of exactly when you watched",
-      url: `https://animekun.top/history`,
+      url: `https://animekun.lol/history`,
       siteName: "AnimeKun",
       images: [
         {

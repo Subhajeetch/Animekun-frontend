@@ -27,7 +27,7 @@ export const metadata = {
     title: "Privacy policy - Animekun",
     description:
       "Read our privacy policy so you can use animekun site with it's full potential.",
-    url: "https://animekun.top/imp/policy",
+    url: "https://animekun.lol/imp/policy",
     siteName: "AnimeKun",
     images: [
       {

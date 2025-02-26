@@ -26,7 +26,7 @@ export async function generateMetadata() {
       title: "Report Bug - AnimeKun",
       description:
         "Animekun bug reports page, contact us about any bugs you find in the site, we'll fix it as soon as possible.",
-      url: `https://animekun.top/imp/bug-reports`,
+      url: `https://animekun.lol/imp/bug-reports`,
       siteName: "AnimeKun",
       images: [
         {

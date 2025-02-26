@@ -26,7 +26,7 @@ export async function generateMetadata() {
       title: "My Watchlist - AnimeKun",
       description:
         "Your desired watch lists on animekun. Save your favourite animes on specific lists and sort them out to watch later",
-      url: `https://animekun.top/watchlist`,
+      url: `https://animekun.lol/watchlist`,
       siteName: "AnimeKun",
       images: [
         {

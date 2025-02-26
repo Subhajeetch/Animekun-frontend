@@ -28,7 +28,7 @@ export async function generateMetadata() {
         "Contact Us - AnimeKun",
       description:
         "Animekun contact page, contact us about any queries you have.",
-      url: `https://animekun.top/imp/contact-us`,
+      url: `https://animekun.lol/imp/contact-us`,
       siteName: "AnimeKun",
       images: [
         {

@@ -27,7 +27,7 @@ export const metadata = {
     title: "Terms of use - Animekun",
     description:
       "Read our terms of use so you can use animekun site with it's full potential.",
-    url: "https://animekun.top/imp/terms",
+    url: "https://animekun.lol/imp/terms",
     siteName: "AnimeKun",
     images: [
       {

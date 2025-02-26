@@ -35,7 +35,7 @@ export async function generateMetadata() {
         "Watch Anime Online By Specific Genre In English Dub & Sub In HD Quality - AnimeKun",
       description:
         "Watch and download Animes online by specific genre in English Dub/Sub options. Stream your favorite episodes with HD-quality video for a good experience.",
-      url: `https://animekun.top/anime/genres`,
+      url: `https://animekun.lol/anime/genres`,
       siteName: "AnimeKun",
       images: [
         {

@@ -27,7 +27,7 @@ export const metadata = {
     title: "DMCA policy - Animekun",
     description:
       "Read our DMCA policy so you can use animekun site with it's full potential.",
-    url: "https://animekun.top/imp/dmca",
+    url: "https://animekun.lol/imp/dmca",
     siteName: "AnimeKun",
     images: [
       {
