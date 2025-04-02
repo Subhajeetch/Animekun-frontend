@@ -40,7 +40,7 @@ export async function POST(request) {
 
     // Send the bug report to the Discord bot API using Axios
     const response = await axios.post(
-      "https://slight-albertine-html-to-image-f508de38.koyeb.app/bug/report",
+      "https://dbot-sectet-production.up.railway.app/report",
       bugData,
       {
         headers: { "Content-Type": "application/json" }
