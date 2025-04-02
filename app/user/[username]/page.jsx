@@ -15,7 +15,7 @@ const Profile = async ({ params }) => {
     }
 
     const response = await axios.post(
-        "http://localhost:3000/api/mantox/auth/get/profile",
+        "https://animekun.top/api/mantox/auth/get/profile",
         { username },
         {
             headers: { "Content-Type": "application/json" }
