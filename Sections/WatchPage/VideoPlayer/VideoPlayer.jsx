@@ -264,7 +264,7 @@ const VideoPlayer = ({
     );
   } else {
     
-    videoUrl = `https://unfortunate-darlene-animekun-discord-bot-f0aebe99.koyeb.app/api/mantox/proxy?url=${data.sources[0].url}`
+    videoUrl = `https://animekun-backend-production.up.railway.app/api/mantox/proxy?url=${data.sources[0].url}`
   }
 
   useEffect(() => {
