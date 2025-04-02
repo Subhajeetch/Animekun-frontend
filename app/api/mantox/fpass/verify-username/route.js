@@ -1,5 +1,6 @@
 import axios from "axios";
 import { cookies, headers } from "next/headers";
+import MineConfig from "@/mine.config.js";
 
 // Handle preflight CORS requests
 export async function OPTIONS() {
@@ -42,7 +43,7 @@ export async function POST(req) {
         };
 
         const response = await axios.post(
-            "http://0.0.0.0:8787/find-user-fpass",
+            `${MineConfig.dataBaseUrl}/find-user-fpass`,
             userInput,
             {
                 headers: { "Content-Type": "application/json" },

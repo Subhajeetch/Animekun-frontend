@@ -1,4 +1,5 @@
 import axios from "axios";
+import MineConfig from "@/mine.config.js";
 
 export async function OPTIONS() {
   return new Response(null, {
@@ -40,7 +41,7 @@ export async function POST(request) {
 
     // Send the bug report to the Discord bot API using Axios
     const response = await axios.post(
-      "https://dbot-sectet-production.up.railway.app/report",
+      `${MineConfig.discordBotApiUrl}/report`,
       bugData,
       {
         headers: { "Content-Type": "application/json" }

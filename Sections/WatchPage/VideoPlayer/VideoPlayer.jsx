@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 import DOMPurify from "dompurify";
 import SubtitleSettings from "./SubtitleSettings.jsx";
+import MineConfig from "@/mine.config.js";
 
 // icons
 import {
@@ -267,7 +268,7 @@ const VideoPlayer = ({
             </div>
         );
     } else {
-        videoUrl = `https://m3u8-streaming-proxy-production.up.railway.app/api/v1/streamingProxy?url=${data.sources[0].url}`;
+        videoUrl = `${MineConfig.m3u8ProxyApiUrl}${data.sources[0].url}`;
     }
 
     useEffect(() => {

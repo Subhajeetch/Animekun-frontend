@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import axios from "axios";
+import MineConfig from "@/mine.config.js";
 
 export async function GET(request) {
     try {
@@ -18,7 +19,7 @@ export async function GET(request) {
         }
 
         const response = await axios.post(
-            "http://0.0.0.0:8787/get-user",
+            `${MineConfig.dataBaseUrl}/get-user`,
             { accessToken, refreshToken },
             {
                 headers: { "Content-Type": "application/json" },

@@ -37,7 +37,9 @@ export function UserNav() {
     };
 
     const hmm = () => {
-        console.log(user);
+        alert(
+            "This feature will be available soon. You can join our discord for updates!"
+        );
     };
 
     return (
@@ -90,11 +92,14 @@ export function UserNav() {
                 <div className='my-6 w-full rounded-full h-0.5 bg-[#666666]'></div>
 
                 <div className='flex flex-col gap-2'>
-                    <button className='w-full p-4 bg-backgroundtwo rounded-full text-left font-[500] flex gap-4 hover:bg-[#272727]'>
-                        <CircleFadingPlus /> Create Post
-                    </button>
                     <button className='w-full p-4 bg-backgroundtwo rounded-full text-left font-[500] flex gap-4 hover:bg-[#272727]'
                     onClick={hmm}
+                    >
+                        <CircleFadingPlus /> Create Post
+                    </button>
+                    <button
+                        className='w-full p-4 bg-backgroundtwo rounded-full text-left font-[500] flex gap-4 hover:bg-[#272727]'
+                        onClick={hmm}
                     >
                         <MessagesSquare /> Community
                     </button>
@@ -105,8 +110,8 @@ export function UserNav() {
                         <UserRoundPen />
                         Full Profile
                     </Link>
-                    <button
-                        className='w-full p-4 bg-backgroundtwo rounded-full text-left font-[500] flex gap-4 hover:bg-[#272727]'
+                    <button className='w-full p-4 bg-backgroundtwo rounded-full text-left font-[500] flex gap-4 hover:bg-[#272727]'
+                    onClick={hmm}
                     >
                         <Settings />
                         Settings

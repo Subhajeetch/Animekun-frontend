@@ -1,4 +1,5 @@
 import axios from "axios";
+import MineConfig from "@/mine.config.js";
 
 // Handle preflight CORS requests
 export async function OPTIONS() {
@@ -17,7 +18,7 @@ export async function POST(req) {
         const { username } = await req.json();
 
         const response = await axios.post(
-            "http://0.0.0.0:8787/get-profile",
+            `${MineConfig.dataBaseUrl}/get-profile`,
             { username },
             {
                 headers: { "Content-Type": "application/json" }

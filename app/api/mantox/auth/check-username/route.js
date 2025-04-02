@@ -1,4 +1,5 @@
 import axios from "axios";
+import MineConfig from "@/mine.config.js";
 
 // Handle preflight CORS requests
 export async function OPTIONS() {
@@ -31,7 +32,7 @@ export async function POST(req) {
 
         // Send request to Cloudflare Worker API
         const response = await axios.post(
-            "http://0.0.0.0:8787/check-username",
+            `${MineConfig.dataBaseUrl}/check-username`,
             { userName },
             { headers: { "Content-Type": "application/json" } }
         );

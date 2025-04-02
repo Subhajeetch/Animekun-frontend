@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import axios from "axios";
+import MineConfig from "@/mine.config.js";
 
 export async function POST(req) {
     try {
@@ -10,7 +11,7 @@ export async function POST(req) {
         
 
         const response = await axios.post(
-            "http://0.0.0.0:8787/login",
+            `${MineConfig.dataBaseUrl}/login`,
             { identifier, password },
             {
                 headers: { "Content-Type": "application/json" },
