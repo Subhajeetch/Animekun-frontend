@@ -161,9 +161,12 @@ const VideoPlayer = ({
     const [manualShow, setManualShow] = useState(false); // Track manual override
     
     // for handle mouse move function:
-        const [lastMouseX, setLastMouseX] = useState(0);
-const [lastMouseY, setLastMouseY] = useState(0);
 const movementThreshold = 5; // Ignore tiny movements
+const movementDelay = 500; // 500ms delay
+
+const [lastMouseX, setLastMouseX] = useState(0);
+const [lastMouseY, setLastMouseY] = useState(0);
+const timerRef = useRef(null);
     
     
     
@@ -568,6 +571,7 @@ const movementThreshold = 5; // Ignore tiny movements
     
     
 
+
 const handleMouseMove = (event) => {
     const { clientX, clientY } = event;
 
@@ -575,15 +579,22 @@ const handleMouseMove = (event) => {
     const dx = Math.abs(clientX - lastMouseX);
     const dy = Math.abs(clientY - lastMouseY);
 
-    // Only show controls if movement is significant
-    if ((dx > movementThreshold || dy > movementThreshold) && !manualShow) {
-        setShowControls(true);
-        resetTimer();
-        setLastMouseX(clientX);
-        setLastMouseY(clientY);
+    // Clear previous timer if movement happens before 500ms
+    if (timerRef.current) {
+        clearTimeout(timerRef.current);
     }
-};
 
+    // Start a new timer
+    timerRef.current = setTimeout(() => {
+        // Only show controls if movement is significant
+        if ((dx > movementThreshold || dy > movementThreshold) && !manualShow) {
+            setShowControls(true);
+            resetTimer();
+            setLastMouseX(clientX);
+            setLastMouseY(clientY);
+        }
+    }, movementDelay);
+};
 /*
     const handleMouseMove = () => {
         if (!manualShow) {
