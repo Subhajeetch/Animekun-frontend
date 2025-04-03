@@ -159,6 +159,14 @@ const VideoPlayer = ({
     const [showControls, setShowControls] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [manualShow, setManualShow] = useState(false); // Track manual override
+    
+    // for handle mouse move function:
+        const [lastMouseX, setLastMouseX] = useState(0);
+const [lastMouseY, setLastMouseY] = useState(0);
+const movementThreshold = 5; // Ignore tiny movements
+    
+    
+    
     const [currentPlaybackSpeed, setCurrentPlaybackSpeed] = useState("1x");
     const playbackSpeeds = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
     const fadeOutTimer = useRef(null);
@@ -557,13 +565,33 @@ const VideoPlayer = ({
             }
         }, 3000);
     };
+    
+    
 
+const handleMouseMove = (event) => {
+    const { clientX, clientY } = event;
+
+    // Calculate the movement distance
+    const dx = Math.abs(clientX - lastMouseX);
+    const dy = Math.abs(clientY - lastMouseY);
+
+    // Only show controls if movement is significant
+    if ((dx > movementThreshold || dy > movementThreshold) && !manualShow) {
+        setShowControls(true);
+        resetTimer();
+        setLastMouseX(clientX);
+        setLastMouseY(clientY);
+    }
+};
+
+/*
     const handleMouseMove = () => {
         if (!manualShow) {
             setShowControls(true);
             resetTimer();
         }
     };
+*/
 
     const togglePause = () => {
         setIsPaused(prev => !prev);
