@@ -446,13 +446,16 @@ const WatchContainer = ({
                     : episodes.find(ep => ep.episodeId === currentEpisode)
                         ?.title
                 }
-                handleNextEpisode={handleAutoPlay}
+                handleNextEpisode={handleNextEpisode}
+                handlePreviousEpisode={handlePreviousEpisode}
                 skipIntroOutro={skipIntroOutro}
                 toggleFullscreen={toggleFullscreen}
                 isFullScreen={isFullScreen}
                 isLastEpisode={isLastEpisode}
+                isFirstEpisode={isFirstEpisode}
                 artWorkUrl={artWorkUrl}
                 animeNameFF={animeNameFF}
+                animeId={animeId}
               />
             )}
           </div>

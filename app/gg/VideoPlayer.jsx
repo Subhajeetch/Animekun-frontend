@@ -137,7 +137,6 @@ const VideoPlayer = ({
     data,
     episodeNumber,
     handleNextEpisode,
-    handlePreviousEpisode,
     skipIntroOutro,
     toggleFullscreen,
     isFullScreen,
@@ -1648,8 +1647,7 @@ const VideoPlayer = ({
                             </div>
 
                             <button
-                                onClick={handlePreviousEpisode}
-                                disabled={isFirstEpisode}
+                                onClick={togglePlay}
                                 className=' text-white w-[38px] h-[38px] flex justify-center
                 items-center active:bg-[#9d9d9ddb] md:hover:bg-[#9d9d9ddb] rounded-full transition-all
                 duration-300 cursor-pointer'
@@ -1675,8 +1673,7 @@ const VideoPlayer = ({
                                 )}
                             </div>
                             <button
-                                onClick={handleNextEpisode}
-                                disabled={isLastEpisode}
+                                onClick={togglePlay}
                                 className=' text-white w-[38px] h-[38px] flex justify-center
                 items-center active:bg-[#9d9d9ddb] md:hover:bg-[#9d9d9ddb] rounded-full transition-all
                 duration-300 cursor-pointer'
