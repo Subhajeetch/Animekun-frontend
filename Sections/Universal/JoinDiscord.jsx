@@ -37,7 +37,7 @@ const JoinDiscordBanner = ({ hmm }) => {
     rounded-xl gap-3 border border-[#ffffff73] ${hmm ? "mt-[30px]" : "mb-3"}`}
         >
             <p className="text-[#acacac] text-[12px] md:text-[16px]">
-                Help us to improve by joining our Discord Community & share your experience with us.
+                Help us improve by joining our Discord community and sharing your experience with us.
             </p>
             <div className="flex items-center gap-3">
                 <Link href="https://discord.gg/nB8jW7rAZS" target="_blank">
