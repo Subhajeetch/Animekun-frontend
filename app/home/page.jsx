@@ -14,7 +14,7 @@ import ScheduleComponent from "./Schedule.jsx";
 import Top10AnimeList from "./Top10.jsx";
 import ContinueWatching from "./continueWatching.jsx";
 
-import DonationBanner from "@/Sections/Universal/Donate.jsx";
+import JoinDiscordBanner from "@/Sections/Universal/JoinDiscord.jsx";
 
 export const metadata = {
   title:
@@ -70,7 +70,7 @@ export default async function Home() {
   }
 
 
-const h = true
+  const h = true
   return (
     <>
       <main className="min-h-screen bg-backgroundtwo w-full">
@@ -89,7 +89,7 @@ const h = true
         {data && <GenreSection />}
 
         <div className="px-4 md:px-[54px] flex items-center justify-center">
-          <DonationBanner hmm={h} />
+          <JoinDiscordBanner hmm={h} />
         </div>
 
         <div className="h-[30px] w-full"></div>

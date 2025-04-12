@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import useAuthStore from "@/AuthStore/userStore.js";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import axios from "axios";
+import { Pencil, Upload } from 'lucide-react';
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -114,10 +115,67 @@ export default function EditProfile() {
     };
 
     return (
-        <main className='max-w-3xl mx-auto p-6 bg-backgroundtwo'>
-            <h1 className='text-2xl font-bold mb-4'>Edit Profile</h1>
-            
-            
+        <main className='bg-backgroundtwo min-h-screen'>
+            <div
+                className='relative w-full h-56 md:h-72 lg:h-96 rounded-b-2xl
+                    bg-amber-100 shadow-md'
+            >
+                <div className='h-full w-full rounded-b-2xl overflow-hidden'>
+                    <img
+                        className='h-full w-full object-cover'
+                        src='https://s4.anilist.co/file/anilistcdn/media/anime/banner/21-wf37VakJmZqs.jpg'
+                    ></img>
+
+                    <div className='absolute top-3 right-3 bg-backgroundHover shadow-lg flex gap-2 rounded-xl items-center cursor-pointer px-3 py-2'>
+                        <Upload size={20} /> <span>Upload Cover</span>
+                    </div>
+                </div>
+
+                <div
+                    className='absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t
+          from-black/70 to-transparent rounded-b-2xl'
+                ></div>
+
+                <div className='absolute bottom-[-58px] lg:bottom-[-90px] left-6 md:left-[60px] cursor-pointer'>
+                    <img
+                        src={user?.profilePicture || "https://i.imgur.com/Frqsihe.jpeg"}
+                        alt='Profile'
+                        className='w-24 lg:h-40 h-24 lg:w-40 rounded-full border-4 border-backgroundHover'
+                    />
+
+                    <div className="absolute top-1 right-1 rounded-full p-1 border-4 border-backgroundHover bg-background">
+                        <Pencil size={18} />
+                    </div>
+                </div>
+            </div>
+
+
+            {/* username & display name Info */}
+            <div
+                className='flex items-center pt-3 px-4 md:px-[54px]
+                '
+            >
+                <div className='ml-[112px] lg:ml-[176px]'>
+                    <h3 className='text-[24px] font-bold leading-[0.9]'>
+                        {"MANTO999"}
+                    </h3>
+                    <p className='text-gray-600 text-[16px]'>
+                        @{"manto999"} &#x2022; {"he/him"}
+                    </p>
+                </div>
+            </div>
+
+
+            <div className='px-4 md:px-[54px] mt-14'>
+                <h2 className="font-semibold text-[20px] mb-1">Display Name</h2>
+                <input type="text" value={"MANTO999"} className="outline-none w-full md:w-[410px] px-3 py-2 rounded-md bg-[#2c2c2c]" />
+
+                <h2 className="font-semibold text-[20px] mb-1 mt-4">Username</h2>
+                <input type="text" value={"manto999"} className="outline-none w-full md:w-[410px] px-3 py-2 rounded-md bg-[#2c2c2c]" />
+
+                <h2 className="font-semibold text-[20px] mb-1 mt-4">Pronouns</h2>
+                <input type="text" value={"he/him"} className="outline-none w-full md:w-[410px] px-3 py-2 rounded-md bg-[#2c2c2c]" />
+            </div>
         </main>
     );
 }

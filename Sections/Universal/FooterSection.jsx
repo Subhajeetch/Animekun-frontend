@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import categoryMap from "../../Utils/categoriesMap.js";
 import genreMap from "../../Utils/genreMap.js";
-import DonationBanner from "./Donate.jsx";
+import JoinDiscordBanner from "./JoinDiscord.jsx";
 
 const FooterSection = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +12,7 @@ const FooterSection = () => {
   return (
     <footer className="bg-background mt-2 flex flex-col px-4 md:px-[54px] pt-2 pb-4 relative">
       <div className="flex items-center justify-center">
-        <DonationBanner hmm={h} />
+        <JoinDiscordBanner hmm={h} />
       </div>
 
       <div className=" flex flex-wrap gap-3 items-center">
