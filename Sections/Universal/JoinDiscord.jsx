@@ -40,7 +40,7 @@ const JoinDiscordBanner = ({ hmm }) => {
                 Help us improve by joining our Discord community and sharing your experience with us.
             </p>
             <div className="flex items-center gap-3">
-                <Link href="https://discord.gg/nB8jW7rAZS" target="_blank">
+                <Link href="https://discord.gg/Qj6T3nerQT" target="_blank">
                     <button
                         className="bg-foreground text-background px-3 py-2 rounded-xl
         hover:bg-[#dfdfdf] flex gap-1 font-[600] text-[14px] items-center

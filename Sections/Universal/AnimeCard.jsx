@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CustomImage from './CustomImage.jsx';
 
 const AnimeCard = ({ anime }) => {
   return (
@@ -8,7 +9,7 @@ const AnimeCard = ({ anime }) => {
       href={`/anime/${anime.id}`}
     >
       <div className="relative rounded-md overflow-hidden">
-        <img
+        <CustomImage
           src={anime.poster}
           alt={anime.name}
           className="object-cover object-top aspect-[9/12] w-full "

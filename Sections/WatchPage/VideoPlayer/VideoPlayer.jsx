@@ -26,9 +26,7 @@ import Loader from "@/Sections/Universal/Loader.jsx";
 import {
     Maximize2,
     Minimize2,
-    SlidersVertical,
     Captions,
-    CaptionsOff,
     Check,
     Settings,
     CircleGauge,
@@ -429,8 +427,8 @@ const VideoPlayer = ({
             if (hls) hls.destroy();
             video.removeEventListener("timeupdate", updateStats);
             video.removeEventListener("progress", updateStats);
-            video.removeEventListener("loadedmetadata", () => {});
-            video.removeEventListener("canplaythrough", () => {});
+            video.removeEventListener("loadedmetadata", () => { });
+            video.removeEventListener("canplaythrough", () => { });
         };
     }, [videoUrl]);
 
@@ -565,8 +563,8 @@ const VideoPlayer = ({
             return `${hours}:${minutes
                 .toString()
                 .padStart(2, "0")}:${remainingSeconds
-                .toString()
-                .padStart(2, "0")}`;
+                    .toString()
+                    .padStart(2, "0")}`;
         } else {
             return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
         }
@@ -681,9 +679,8 @@ const VideoPlayer = ({
             pink: "255, 192, 203",
             black: "0, 0, 0"
         };
-        const rgbaTextColor = `rgba(${
-            colorMap[textColor.toLowerCase()] || "255, 255, 255"
-        }, ${textOpacity})`;
+        const rgbaTextColor = `rgba(${colorMap[textColor.toLowerCase()] || "255, 255, 255"
+            }, ${textOpacity})`;
 
         // Convert bgColor to text shadow color
         const shadowRGB = colorMap[bgColor.toLowerCase()] || "0, 0, 0";
@@ -764,8 +761,8 @@ const VideoPlayer = ({
             const bufferedTime =
                 videoRef.current.buffered.length > 0
                     ? videoRef.current.buffered.end(
-                          videoRef.current.buffered.length - 1
-                      )
+                        videoRef.current.buffered.length - 1
+                    )
                     : 0;
             setBuffered(bufferedTime);
         }
@@ -1083,9 +1080,8 @@ const VideoPlayer = ({
     return (
         <div
             ref={containerRef}
-            className={`flex w-full h-full aspect-video bg-[#000000] ${
-                loading ? "cursor-wait" : ""
-            }`}
+            className={`flex w-full h-full aspect-video bg-[#000000] ${loading ? "cursor-wait" : ""
+                }`}
         >
             <div className='relative w-full'>
                 {/* Video Player */}
@@ -1245,11 +1241,10 @@ const VideoPlayer = ({
                                             }}
                                             className={`flex items-center justify-between
                               text-foreground px-3 py-1 rounded-lg cursor-pointer
-                              hover:bg-backgroundHover transition-all ${
-                                  currentQuality === "auto"
-                                      ? "bg-backgroundHover"
-                                      : ""
-                              }`}
+                              hover:bg-backgroundHover transition-all ${currentQuality === "auto"
+                                                    ? "bg-backgroundHover"
+                                                    : ""
+                                                }`}
                                         >
                                             <span className='text-[13px] font-semibold'>
                                                 Auto
@@ -1275,22 +1270,21 @@ const VideoPlayer = ({
                                                     }}
                                                     className={`flex items-center justify-between
                                 text-foreground px-3 py-1 rounded-lg cursor-pointer
-                                hover:bg-backgroundHover transition-all ${
-                                    currentQuality === label
-                                        ? "bg-backgroundHover"
-                                        : ""
-                                }`}
+                                hover:bg-backgroundHover transition-all ${currentQuality === label
+                                                            ? "bg-backgroundHover"
+                                                            : ""
+                                                        }`}
                                                 >
                                                     <span className='text-[13px] font-semibold'>
                                                         {label}
                                                     </span>
                                                     {currentQuality ===
                                                         label && (
-                                                        <Check
-                                                            size={16}
-                                                            className='text-white ml-2'
-                                                        />
-                                                    )}
+                                                            <Check
+                                                                size={16}
+                                                                className='text-white ml-2'
+                                                            />
+                                                        )}
                                                 </div>
                                             )
                                         )}
@@ -1311,11 +1305,10 @@ const VideoPlayer = ({
                                         }}
                                         className={`flex items-center text-foreground px-3 py-1
                             rounded-full transition-all duration-200
-                            cursor-pointer mx-2 hover:bg-backgroundHover ${
-                                currentSubtitleTrack === -1
-                                    ? "bg-backgroundHover"
-                                    : ""
-                            }`}
+                            cursor-pointer mx-2 hover:bg-backgroundHover ${currentSubtitleTrack === -1
+                                                ? "bg-backgroundHover"
+                                                : ""
+                                            }`}
                                     >
                                         <span className='flex-1 text-[13px] font-semibold'>
                                             Off
@@ -1337,11 +1330,10 @@ const VideoPlayer = ({
                                             }}
                                             className={`flex items-center text-foreground px-3 py-1
                               rounded-full transition-all duration-200
-                              cursor-pointer mx-2 hover:bg-backgroundHover ${
-                                  currentSubtitleTrack === index
-                                      ? "bg-backgroundHover"
-                                      : ""
-                              }`}
+                              cursor-pointer mx-2 hover:bg-backgroundHover ${currentSubtitleTrack === index
+                                                    ? "bg-backgroundHover"
+                                                    : ""
+                                                }`}
                                         >
                                             <span className='flex-1 text-[13px] font-semibold'>
                                                 {track.label}
@@ -1375,20 +1367,19 @@ const VideoPlayer = ({
                                             }
                                             className={`flex items-center justify-between
                               text-foreground px-3 py-1 rounded-lg cursor-pointer
-                              transition-all hover:bg-backgroundHover ${
-                                  currentPlaybackSpeed === `${speed}x`
-                                      ? "bg-backgroundHover"
-                                      : ""
-                              }`}
+                              transition-all hover:bg-backgroundHover ${currentPlaybackSpeed === `${speed}x`
+                                                    ? "bg-backgroundHover"
+                                                    : ""
+                                                }`}
                                         >
                                             <span className='text-[13px] font-semibold'>{`${speed}x`}</span>
                                             {currentPlaybackSpeed ===
                                                 `${speed}x` && (
-                                                <Check
-                                                    size={16}
-                                                    className='text-white ml-2'
-                                                />
-                                            )}
+                                                    <Check
+                                                        size={16}
+                                                        className='text-white ml-2'
+                                                    />
+                                                )}
                                         </div>
                                     ))}
                                 </div>
@@ -1418,7 +1409,7 @@ const VideoPlayer = ({
                     <div
                         className={`absolute w-max  px-4 py-2 bg-[#ffffff]
   text-[#131313] text-[14px]
-  font-[700] rounded-xl cursor-pointer right-[20px] transition-all overflow-hidden duration-200 z-[29]
+  font-[700] rounded-xl cursor-pointer right-[20px] transition-all overflow-hidden duration-200 z-[31]
   ${showControls ? "bottom-[74px]" : "bottom-[14px]"}
   `}
                         onClick={handleNextEpisode}
@@ -1442,9 +1433,8 @@ const VideoPlayer = ({
                 {/* Custom Controls */}
                 <div
                     className={` flex flex-col absolute z-20 top-0 w-full h-full
-          transition-opacity duration-300 ${
-              showControls ? "opacity-100" : "opacity-0"
-          }
+          transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"
+                        }
         }`}
                     style={fadeEffectStyles}
                 >
@@ -1552,14 +1542,12 @@ const VideoPlayer = ({
                     bg-introOutroHighlight z-[12]
                     cursor-pointer'
                                         style={{
-                                            left: `${
-                                                (introStart / duration) * 100
-                                            }%`,
-                                            width: `${
-                                                ((introEnd - introStart) /
+                                            left: `${(introStart / duration) * 100
+                                                }%`,
+                                            width: `${((introEnd - introStart) /
                                                     duration) *
                                                 100
-                                            }%`
+                                                }%`
                                         }}
                                     ></div>
                                 )}
@@ -1572,14 +1560,12 @@ const VideoPlayer = ({
                     bg-introOutroHighlight z-[12]
                     cursor-pointer'
                                         style={{
-                                            left: `${
-                                                (outroStart / duration) * 100
-                                            }%`,
-                                            width: `${
-                                                ((outroEnd - outroStart) /
+                                            left: `${(outroStart / duration) * 100
+                                                }%`,
+                                            width: `${((outroEnd - outroStart) /
                                                     duration) *
                                                 100
-                                            }%`
+                                                }%`
                                         }}
                                     ></div>
                                 )}
@@ -1588,9 +1574,8 @@ const VideoPlayer = ({
                                     className='absolute top-0 left-0 h-full bg-main 
                   z-10 cursor-pointer'
                                     style={{
-                                        width: `${
-                                            (currentTime / duration) * 100
-                                        }%`
+                                        width: `${(currentTime / duration) * 100
+                                            }%`
                                     }}
                                 ></div>
                                 <div
@@ -1605,9 +1590,8 @@ const VideoPlayer = ({
                                         className='absolute top-[-2px] w-2 h-2 bg-[#f01515]
                     border-[1px] border-white rounded-full z-10 cursor-pointer'
                                         style={{
-                                            left: `${
-                                                (currentTime / duration) * 100
-                                            }%`,
+                                            left: `${(currentTime / duration) * 100
+                                                }%`,
                                             transform: "translateX(-50%)"
                                         }}
                                     ></div>
