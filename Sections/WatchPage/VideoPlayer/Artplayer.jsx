@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { SkipForward, FastForward } from "lucide-react";
+import { renderToString } from "react-dom/server";
 
 const ARTPLAYER_CSS = "https://unpkg.com/artplayer/dist/artplayer.css";
 
@@ -49,12 +51,12 @@ const ArtplayerComponent = ({
         let hls = null;
         let isCleanedUp = false;
 
-        console.log("🎬 Initializing player...");
+        console.log("Initializing player...");
 
         // Build highlights from intro/outro data - create range markers
         const buildHighlights = () => {
             try {
-                console.log('🎬 Raw intro/outro data:', { intro: data.intro, outro: data.outro });
+                console.log('Raw intro/outro data:', { intro: data.intro, outro: data.outro });
 
                 const highlights = [];
 
@@ -75,10 +77,10 @@ const ArtplayerComponent = ({
                         const time = data.intro.start + (introDuration * i / introMarkers);
                         highlights.push({
                             time: Math.round(time),
-                            text: i === 0 ? '⏭️ Intro Start' : i === introMarkers ? '⏭️ Intro End' : '⏭️ Intro'
+                            text: i === 0 ? 'Intro Start' : i === introMarkers ? 'Intro End' : 'Intro'
                         });
                     }
-                    console.log('✅ Added intro highlights from', data.intro.start, 'to', data.intro.end);
+                    console.log('Added intro highlights from', data.intro.start, 'to', data.intro.end);
                 }
 
                 // Validate and add outro range
@@ -98,17 +100,17 @@ const ArtplayerComponent = ({
                         const time = data.outro.start + (outroDuration * i / outroMarkers);
                         highlights.push({
                             time: Math.round(time),
-                            text: i === 0 ? '⏭️ Outro Start' : i === outroMarkers ? '⏭️ Outro End' : '⏭️ Outro'
+                            text: i === 0 ? 'Outro Start' : i === outroMarkers ? 'Outro End' : 'Outro'
                         });
                     }
-                    console.log('✅ Added outro highlights from', data.outro.start, 'to', data.outro.end);
+                    console.log('Added outro highlights from', data.outro.start, 'to', data.outro.end);
                 }
 
-                console.log('📊 Total highlights:', highlights.length);
+                console.log('Total highlights:', highlights.length);
                 return highlights;
 
             } catch (error) {
-                console.error('❌ Error building highlights:', error);
+                console.error('Error building highlights:', error);
                 return [];
             }
         };
@@ -122,7 +124,7 @@ const ArtplayerComponent = ({
             import('hls.js')
         ]).then(([ArtplayerModule, HlsModule]) => {
             if (isCleanedUp) {
-                console.log("⚠️ Component unmounted before player creation");
+                console.log("Component unmounted before player creation");
                 return;
             }
 
@@ -338,7 +340,7 @@ const ArtplayerComponent = ({
                                 hlsRef.current = hls;
 
                                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                                    console.log("📊 HLS levels:", hls.levels);
+                                    console.log("HLS levels:", hls.levels);
 
                                     if (hls.levels.length > 1) {
                                         const qualityLevels = [
@@ -360,7 +362,7 @@ const ArtplayerComponent = ({
                                             icon: '<img width="22" height="22" src="/settings.svg" style="filter: brightness(0) invert(1);">',
                                             selector: qualityLevels,
                                             onSelect(item) {
-                                                console.log("🎬 Quality selected:", item.html, "Level:", item.level);
+                                                console.log("Quality selected:", item.html, "Level:", item.level);
 
                                                 const currentTime = video.currentTime;
                                                 const wasPlaying = !video.paused;
@@ -388,7 +390,7 @@ const ArtplayerComponent = ({
                                         ? 'Auto'
                                         : `${hls.levels[currentLevel].height}p`;
 
-                                    console.log("📊 Quality switched to:", qualityText);
+                                    console.log("Quality switched to:", qualityText);
 
                                     if (art && art.setting && art.setting.option) {
                                         const qualityOption = art.setting.option.find(opt => opt.html === 'Quality');
@@ -443,7 +445,7 @@ const ArtplayerComponent = ({
                 art = new Artplayer(options);
                 playerRef.current = art;
                 setPlayerReady(true);
-                console.log("✅ Player ready with", highlights.length, "highlights");
+                console.log("Player ready with", highlights.length, "highlights");
 
                 // Apply saved settings after player is ready
                 art.on('ready', () => {
@@ -453,66 +455,282 @@ const ArtplayerComponent = ({
                     }
                 });
 
-                // Add skip intro/outro functionality
-                let skipButton = null;
+                // Track button states
+                let skipIntroLayer = null;
+                let skipOutroLayer = null;
+                let nextEpisodeLayer = null;
+                let introTimeout = null;
+                let outroTimeout = null;
+                let nextEpisodeTimeout = null;
+
+                // Generate icon SVG strings
+                const skipForwardIcon = renderToString(<FastForward size={18} />);
+                const nextEpisodeIcon = renderToString(<SkipForward size={18} />);
+
+                // Add animated skip intro/outro and next episode buttons
                 art.on('video:timeupdate', () => {
                     const currentTime = art.currentTime;
+                    const duration = art.duration;
 
-                    // Check if in intro range
+                    // Skip Intro Button (show only for first 8 seconds of intro)
                     if (data.intro &&
                         currentTime >= data.intro.start &&
-                        currentTime < data.intro.end) {
+                        currentTime < Math.min(data.intro.start + 8, data.intro.end)) {
 
-                        if (!skipButton) {
-                            skipButton = art.layers.add({
+                        if (!skipIntroLayer) {
+                            const timeInIntro = currentTime - data.intro.start;
+                            const remainingTime = Math.max(8 - timeInIntro, 0.1);
+
+                            skipIntroLayer = art.layers.add({
                                 name: 'skip-intro',
-                                html: '<button style="padding: 10px 20px; background: rgba(35, 173, 229, 0.9); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: bold;">Skip Intro ⏭️</button>',
+                                html: `
+                                    <div style="
+                                        position: relative;
+                                        padding: 10px 20px;
+                                        background: #ffffff;
+                                        color: #131313;
+                                        border: none;
+                                        border-radius: 12px;
+                                        cursor: pointer;
+                                        font-size: 14px;
+                                        font-weight: 700;
+                                        overflow: hidden;
+                                        z-index: 31;
+                                    ">
+                                        <div style="
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            height: 100%;
+                                            background: rgba(189, 189, 189, 0.7);
+                                            width: 0%;
+                                            animation: progressIntro ${remainingTime}s linear forwards;
+                                        "></div>
+                                        <div style="display: flex; align-items: center; gap: 8px; position: relative; z-index: 1;">
+                                            ${skipForwardIcon}
+                                            <span>Skip Intro</span>
+                                        </div>
+                                    </div>
+                                    <style>
+                                        @keyframes progressIntro {
+                                            from { width: 0%; }
+                                            to { width: 100%; }
+                                        }
+                                    </style>
+                                `,
                                 style: {
                                     position: 'absolute',
                                     bottom: '80px',
                                     right: '20px',
-                                    zIndex: 20
+                                    zIndex: 31
                                 },
                                 click() {
                                     art.currentTime = data.intro.end;
-                                    art.layers.remove('skip-intro');
-                                    skipButton = null;
+                                    if (skipIntroLayer) {
+                                        art.layers.remove('skip-intro');
+                                        skipIntroLayer = null;
+                                    }
+                                    if (introTimeout) {
+                                        clearTimeout(introTimeout);
+                                        introTimeout = null;
+                                    }
                                 }
                             });
+
+                            // Auto-remove after 8 seconds
+                            introTimeout = setTimeout(() => {
+                                if (skipIntroLayer) {
+                                    art.layers.remove('skip-intro');
+                                    skipIntroLayer = null;
+                                }
+                            }, remainingTime * 1000);
+                        }
+                    } else if (skipIntroLayer && (currentTime < data.intro?.start || currentTime >= data.intro?.start + 8)) {
+                        art.layers.remove('skip-intro');
+                        skipIntroLayer = null;
+                        if (introTimeout) {
+                            clearTimeout(introTimeout);
+                            introTimeout = null;
                         }
                     }
-                    // Check if in outro range
-                    else if (data.outro &&
-                        currentTime >= data.outro.start &&
-                        currentTime < data.outro.end) {
 
-                        if (!skipButton) {
-                            skipButton = art.layers.add({
+                    // Skip Outro Button (show only for first 8 seconds of outro)
+                    if (data.outro &&
+                        currentTime >= data.outro.start &&
+                        currentTime < Math.min(data.outro.start + 8, data.outro.end)) {
+
+                        if (!skipOutroLayer) {
+                            const timeInOutro = currentTime - data.outro.start;
+                            const remainingTime = Math.max(8 - timeInOutro, 0.1);
+
+                            skipOutroLayer = art.layers.add({
                                 name: 'skip-outro',
-                                html: '<button style="padding: 10px 20px; background: rgba(35, 173, 229, 0.9); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: bold;">Skip Outro ⏭️</button>',
+                                html: `
+                                    <div style="
+                                        position: relative;
+                                        padding: 10px 20px;
+                                        background: #ffffff;
+                                        color: #131313;
+                                        border: none;
+                                        border-radius: 12px;
+                                        cursor: pointer;
+                                        font-size: 14px;
+                                        font-weight: 700;
+                                        overflow: hidden;
+                                        z-index: 31;
+                                    ">
+                                        <div style="
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            height: 100%;
+                                            background: rgba(189, 189, 189, 0.7);
+                                            width: 0%;
+                                            animation: progressOutro ${remainingTime}s linear forwards;
+                                        "></div>
+                                        <div style="display: flex; align-items: center; gap: 8px; position: relative; z-index: 1;">
+                                            ${skipForwardIcon}
+                                            <span>Skip Outro</span>
+                                        </div>
+                                    </div>
+                                    <style>
+                                        @keyframes progressOutro {
+                                            from { width: 0%; }
+                                            to { width: 100%; }
+                                        }
+                                    </style>
+                                `,
                                 style: {
                                     position: 'absolute',
                                     bottom: '80px',
                                     right: '20px',
-                                    zIndex: 20
+                                    zIndex: 31
                                 },
                                 click() {
                                     art.currentTime = data.outro.end;
-                                    art.layers.remove('skip-outro');
-                                    skipButton = null;
+                                    if (skipOutroLayer) {
+                                        art.layers.remove('skip-outro');
+                                        skipOutroLayer = null;
+                                    }
+                                    if (outroTimeout) {
+                                        clearTimeout(outroTimeout);
+                                        outroTimeout = null;
+                                    }
                                 }
                             });
+
+                            // Auto-remove after 8 seconds
+                            outroTimeout = setTimeout(() => {
+                                if (skipOutroLayer) {
+                                    art.layers.remove('skip-outro');
+                                    skipOutroLayer = null;
+                                }
+                            }, remainingTime * 1000);
+                        }
+                    } else if (skipOutroLayer && (currentTime < data.outro?.start || currentTime >= data.outro?.start + 8)) {
+                        art.layers.remove('skip-outro');
+                        skipOutroLayer = null;
+                        if (outroTimeout) {
+                            clearTimeout(outroTimeout);
+                            outroTimeout = null;
                         }
                     }
-                    // Remove button if outside intro/outro range
-                    else if (skipButton) {
-                        if (art.layers['skip-intro']) {
-                            art.layers.remove('skip-intro');
+
+                    // Next Episode Button Logic
+                    // Only show if NOT last episode
+                    if (!isLastEpisode && handleNextEpisode && duration > 0) {
+                        let shouldShowNextEpisode = false;
+
+                        if (data.outro && data.outro.end) {
+                            // Check time after outro
+                            const timeAfterOutro = duration - data.outro.end;
+
+                            // If there's more than 20 seconds after outro, show in last 10 seconds
+                            if (timeAfterOutro > 20) {
+                                shouldShowNextEpisode = currentTime >= duration - 10;
+                            }
+                        } else {
+                            // No outro - show in last 10 seconds
+                            shouldShowNextEpisode = currentTime >= duration - 10;
                         }
-                        if (art.layers['skip-outro']) {
-                            art.layers.remove('skip-outro');
+
+                        if (shouldShowNextEpisode && !nextEpisodeLayer) {
+                            const timeRemaining = Math.max(duration - currentTime, 0.1);
+                            const animDuration = Math.min(timeRemaining, 10);
+
+                            nextEpisodeLayer = art.layers.add({
+                                name: 'next-episode',
+                                html: `
+                                    <div style="
+                                        position: relative;
+                                        padding: 10px 20px;
+                                        background: #ffffff;
+                                        color: #131313;
+                                        border: none;
+                                        border-radius: 12px;
+                                        cursor: pointer;
+                                        font-size: 14px;
+                                        font-weight: 700;
+                                        overflow: hidden;
+                                        z-index: 31;
+                                    ">
+                                        <div style="
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            height: 100%;
+                                            background: rgba(189, 189, 189, 0.7);
+                                            width: 0%;
+                                            animation: progressNext ${animDuration}s linear forwards;
+                                        "></div>
+                                        <div style="display: flex; align-items: center; gap: 8px; position: relative; z-index: 1;">
+                                            ${nextEpisodeIcon}
+                                            <span>Next Episode</span>
+                                        </div>
+                                    </div>
+                                    <style>
+                                        @keyframes progressNext {
+                                            from { width: 0%; }
+                                            to { width: 100%; }
+                                        }
+                                    </style>
+                                `,
+                                style: {
+                                    position: 'absolute',
+                                    bottom: '80px',
+                                    right: '20px',
+                                    zIndex: 31
+                                },
+                                click() {
+                                    if (handleNextEpisode) {
+                                        handleNextEpisode();
+                                    }
+                                    if (nextEpisodeLayer) {
+                                        art.layers.remove('next-episode');
+                                        nextEpisodeLayer = null;
+                                    }
+                                    if (nextEpisodeTimeout) {
+                                        clearTimeout(nextEpisodeTimeout);
+                                        nextEpisodeTimeout = null;
+                                    }
+                                }
+                            });
+
+                            // Auto-remove after animation completes
+                            nextEpisodeTimeout = setTimeout(() => {
+                                if (nextEpisodeLayer) {
+                                    art.layers.remove('next-episode');
+                                    nextEpisodeLayer = null;
+                                }
+                            }, animDuration * 1000);
+                        } else if (!shouldShowNextEpisode && nextEpisodeLayer) {
+                            art.layers.remove('next-episode');
+                            nextEpisodeLayer = null;
+                            if (nextEpisodeTimeout) {
+                                clearTimeout(nextEpisodeTimeout);
+                                nextEpisodeTimeout = null;
+                            }
                         }
-                        skipButton = null;
                     }
                 });
 
@@ -532,7 +750,7 @@ const ArtplayerComponent = ({
 
         return () => {
             isCleanedUp = true;
-            console.log("🧹 Cleaning up player (component unmounted)");
+            console.log("Cleaning up player (component unmounted)");
 
             if (playerRef.current?.video) {
                 try {
@@ -563,7 +781,7 @@ const ArtplayerComponent = ({
             }
 
             setPlayerReady(false);
-            console.log("✅ Cleanup complete");
+            console.log("Cleanup complete");
         };
     }, [data, episodeNumber, animeNameFF, artWorkUrl, autoPlay, isLastEpisode, handleNextEpisode, backendUrl]);
 
