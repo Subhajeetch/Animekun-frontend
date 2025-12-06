@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import axios from "axios";
-import MineConfig from "@/mine.config.js";
+const baseUrl = process.env.CF_DB_URI;
 
 export async function GET(request) {
     try {
@@ -19,7 +19,7 @@ export async function GET(request) {
         }
 
         const response = await axios.post(
-            `${MineConfig.dataBaseUrl}/get-user`,
+            `${baseUrl}/get-user`,
             { accessToken, refreshToken },
             {
                 headers: { "Content-Type": "application/json" },

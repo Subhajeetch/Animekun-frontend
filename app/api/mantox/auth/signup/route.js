@@ -1,6 +1,6 @@
 import axios from "axios";
 import { cookies, headers } from "next/headers";
-import MineConfig from "@/mine.config.js";
+const baseUrl = process.env.CF_DB_URI;
 
 // Handle preflight CORS requests
 export async function OPTIONS() {
@@ -68,7 +68,7 @@ export async function POST(req) {
 
         // Send request to backend sign-up API
         const response = await axios.post(
-            `${MineConfig.dataBaseUrl}/sign-up`,
+            `${baseUrl}/sign-up`,
             signUpData,
             {
                 headers: { "Content-Type": "application/json" },

@@ -12,35 +12,24 @@ import {
     SheetTitle,
     SheetTrigger
 } from "@/components/ui/CustomSheetForNavBar.jsx";
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious
-} from "@/components/ui/pagination";
 
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog";
 import LoadingSke from "@/Sections/Universal/Loader.jsx";
-import { Button } from "@/components/ui/button";
 import NavBarVertical from "./NavBarVertical.jsx";
 import AuthSection from "./LoginSignup.jsx";
 
-import { AlignRight, Search, X, TextSearch, Cat } from "lucide-react";
+import { Search, X, TextSearch, Cat } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { UserNav } from "./UserNav.jsx";
+
+import MineConfig from "@/mine.config.js";
+const { backendUrl } = MineConfig;
 
 const NavBar = () => {
     const { user, isAuthenticated, logout, isLoading } = useAuthStore();
@@ -69,7 +58,7 @@ const NavBar = () => {
         if (debouncedQuery.trim() === "") return;
         try {
             const response = await fetch(
-                `https://getdata.animekun.top/api/mantox/searchsuggestion?q=${debouncedQuery}`
+                `${backendUrl}/api/mantox/searchsuggestion?q=${debouncedQuery}`
             );
             const data = await response.json();
             setResults(data.suggestions || []);
@@ -417,7 +406,7 @@ c-54 0 -102 -3 -105 -7z'
                                                             <div
                                                                 className='text-foreground flex justify-center items-center
                           gap-2 font-[800] py-2 bg-main
-                          w-full rounded-sm'
+                          w-full rounded-sm courser-pointer'
                                                                 onClick={
                                                                     handleMoreResultsClickInMobile
                                                                 }
@@ -560,7 +549,7 @@ c-54 0 -102 -3 -105 -7z'
                                                             <div
                                                                 className='text-foreground flex justify-center items-center
                           gap-2 font-[800] py-2 bg-main
-                          w-full rounded-sm'
+                          w-full rounded-sm cursor-pointer'
                                                                 onClick={
                                                                     handleMoreResultsClickInMobile
                                                                 }

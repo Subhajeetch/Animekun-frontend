@@ -1,6 +1,6 @@
 import axios from "axios";
 import { cookies, headers } from "next/headers";
-import MineConfig from "@/mine.config.js";
+const baseUrl = process.env.CF_DB_URI;
 
 // Handle preflight CORS requests
 export async function OPTIONS() {
@@ -74,7 +74,7 @@ export async function POST(req) {
         };
 
         const response = await axios.post(
-            `${MineConfig.dataBaseUrl}/change-pass-fpass`,
+            `${baseUrl}/change-pass-fpass`,
             userInput,
             {
                 headers: { "Content-Type": "application/json" },

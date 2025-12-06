@@ -1,5 +1,6 @@
 import axios from "axios";
-import MineConfig from "@/mine.config.js";
+
+const discordWebhookContactsUrl = process.env.DISCORD_WEBHOOK_URI_CONTACTS;
 
 export async function OPTIONS() {
   return new Response(null, {
@@ -31,17 +32,41 @@ export async function POST(request) {
       );
     }
 
-    // Prepare data to send to the Discord bot API
-    const contactData = { name, email, desc: description };
+    // Ensure webhook URL is configured
+    if (!discordWebhookContactsUrl) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Server not configured: missing Discord webhook URL" }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          }
+        }
+      );
+    }
 
-    // Send the bug report to the Discord bot API using Axios
-    const response = await axios.post(
-                  `${MineConfig.discordBotApiUrl}/contact`,
-      contactData,
-      {
-        headers: { "Content-Type": "application/json" }
-      }
-    );
+    // Truncate long description to fit Discord embed limits (1024 per field)
+    const sanitizedDescription = description.length > 1024 ? description.slice(0, 1021) + "..." : description;
+
+    // Build Discord webhook payload with an embed
+    const embed = {
+      title: "New Contact Message",
+      color: 3447003,
+      fields: [
+        { name: "Name", value: name || "(not provided)", inline: true },
+        { name: "Email", value: email || "(not provided)", inline: true },
+        { name: "Message", value: sanitizedDescription }
+      ],
+      timestamp: new Date().toISOString()
+    };
+
+    const payload = { embeds: [embed] };
+
+    // Send the contact message to the Discord webhook
+    const response = await axios.post(discordWebhookContactsUrl, payload, {
+      headers: { "Content-Type": "application/json" }
+    });
 
     // Return success response
     return new Response(
@@ -59,7 +84,7 @@ export async function POST(request) {
       }
     );
   } catch (error) {
-    console.error("Error processing bug report:", error.message);
+    console.error("Error processing contact request:", error.message);
 
     // Handle Axios-specific errors
     const errorMessage =

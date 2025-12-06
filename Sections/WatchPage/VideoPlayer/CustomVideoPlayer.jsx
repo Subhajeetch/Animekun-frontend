@@ -5,6 +5,8 @@ import Hls from "hls.js";
 import DOMPurify from "dompurify";
 import SubtitleSettings from "./SubtitleSettings.jsx";
 import MineConfig from "@/mine.config.js";
+const { backendUrl } = MineConfig;
+
 import VideoSkipOverlay from "./skipAnimetion.jsx";
 
 // icons
@@ -32,7 +34,8 @@ import {
     CircleGauge,
     FolderCog,
     TriangleAlert,
-    X
+    X,
+    RefreshCw
 } from "lucide-react";
 import {
     Tabs,
@@ -131,7 +134,7 @@ const useSubtitleSync = (videoRef, subtitleTracks, currentSubtitleTrack) => {
 };
 
 // start
-const VideoPlayer = ({
+const CustomVideoPlayer = ({
     data,
     episodeNumber,
     handleNextEpisode,
@@ -248,24 +251,7 @@ const VideoPlayer = ({
 
     const [subtitleStyles, setSubtitleStyles] = useState(initialSubtitleStyles);
 
-    if (data.sources[0].isM3U8 === false) {
-        return (
-            <div
-                className='w-full h-full flex flex-col justify-center items-center aspect-video
-    bg-[#1a1a1a] gap-1'
-            >
-                <span
-                    className='text-[16px] flex items-center gap-1 text-[#efefef]
-        font-[800]'
-                >
-                    <TriangleAlert size={24} /> Server busy!
-                </span>
-                <span className='text-[10px] text-[#cccccc]'>
-                    Please switch to different server.
-                </span>
-            </div>
-        );
-    }
+
 
     let videoUrl;
 
@@ -284,10 +270,36 @@ const VideoPlayer = ({
                 <span className='text-[10px] text-[#cccccc]'>
                     This usually happens when video server is down.
                 </span>
+                <span className='text-[10px] text-[#cccccc]'>
+                    You can try refreshing the page
+                </span>
+
+
+                <button onClick={() => window.location.reload()} className="flex items-center gap-2 px-3 py-1 bg-foreground text-background rounded-md mt-4 font-bold">
+                    <RefreshCw size={20} />
+                    Refresh
+                </button>
+            </div>
+        );
+    } else if (data.sources[0].isM3U8 === false) {
+        return (
+            <div
+                className='w-full h-full flex flex-col justify-center items-center aspect-video
+    bg-[#1a1a1a] gap-1'
+            >
+                <span
+                    className='text-[16px] flex items-center gap-1 text-[#efefef]
+        font-[800]'
+                >
+                    <TriangleAlert size={24} /> Server busy!
+                </span>
+                <span className='text-[10px] text-[#cccccc]'>
+                    Please switch to different server.
+                </span>
             </div>
         );
     } else {
-        videoUrl = `${MineConfig.m3u8ProxyApiUrl}${data.sources[0].url}`;
+        videoUrl = `${backendUrl}/api/mantox/proxy/?url=${data.sources[0].url}`;
     }
 
     useEffect(() => {
@@ -308,20 +320,62 @@ const VideoPlayer = ({
 
             setLoading(true); // Show loading spinner at the start
 
-            const tracks = data.tracks.filter(
-                track => track.kind === "captions"
-            );
-            setSubtitleTracks(tracks);
-            if (tracks.length > 0) {
-                // Check if any track has `default: true`
-                const defaultTrackIndex = tracks.findIndex(
-                    track => track.default === true
-                );
-                setCurrentSubtitleTrack(
-                    defaultTrackIndex !== -1 ? defaultTrackIndex : 0
-                );
+            // Normalize different subtitle track shapes. Some servers return
+            // { url, lang } while others may return { kind, file, label }.
+            const rawTracks = Array.isArray(data.tracks) ? data.tracks : [];
+
+            const processedTracks = rawTracks
+                .filter(t => {
+                    const url = t.url || t.file || "";
+                    const lang = (t.lang || t.label || "").toString().toLowerCase();
+
+                    // Exclude thumbnail VTTs
+                    if (!url) return false;
+                    if (lang.includes("thumb") || url.toLowerCase().includes("thumbnails.vtt")) return false;
+
+                    return true;
+                })
+                .map(t => {
+                    const file = t.url || t.file;
+                    let label = t.label || t.lang || "Unknown";
+
+                    // If label is not meaningful, try to derive from filename
+                    if (!label || label === "Unknown") {
+                        try {
+                            const path = new URL(file).pathname;
+                            label = path.split("/").pop();
+                        } catch (e) {
+                            label = file;
+                        }
+                    }
+
+                    return {
+                        file,
+                        label,
+                        default: !!t.default
+                    };
+                });
+
+            setSubtitleTracks(processedTracks);
+
+            if (processedTracks.length > 0) {
+                // Prefer an explicit default flag
+                const defaultTrackIndex = processedTracks.findIndex(t => t.default === true);
+
+                // Try to find an English track (label or filename heuristics)
+                const englishTrackIndex = processedTracks.findIndex(t => {
+                    const label = (t.label || "").toLowerCase();
+                    const file = (t.file || "").toLowerCase();
+
+                    if (label.includes("eng") || label.includes("english") || label === "en") return true;
+                    if (file.includes("/eng-") || file.includes("/en-") || file.endsWith("-eng.vtt") || file.endsWith("-en.vtt") || file.includes("eng.vtt") || file.includes("en.vtt")) return true;
+                    return false;
+                });
+
+                const chosenIndex = defaultTrackIndex !== -1 ? defaultTrackIndex : (englishTrackIndex !== -1 ? englishTrackIndex : 0);
+                setCurrentSubtitleTrack(chosenIndex);
             } else {
-                setCurrentSubtitleTrack(-1); // No tracks available
+                setCurrentSubtitleTrack(-1);
             }
 
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -1545,7 +1599,7 @@ const VideoPlayer = ({
                                             left: `${(introStart / duration) * 100
                                                 }%`,
                                             width: `${((introEnd - introStart) /
-                                                    duration) *
+                                                duration) *
                                                 100
                                                 }%`
                                         }}
@@ -1563,7 +1617,7 @@ const VideoPlayer = ({
                                             left: `${(outroStart / duration) * 100
                                                 }%`,
                                             width: `${((outroEnd - outroStart) /
-                                                    duration) *
+                                                duration) *
                                                 100
                                                 }%`
                                         }}
@@ -1733,4 +1787,4 @@ const VideoPlayer = ({
     );
 };
 
-export default VideoPlayer;
+export default CustomVideoPlayer;

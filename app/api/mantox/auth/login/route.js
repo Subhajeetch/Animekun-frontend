@@ -1,17 +1,17 @@
 import { cookies } from "next/headers";
 import axios from "axios";
-import MineConfig from "@/mine.config.js";
+const baseUrl = process.env.CF_DB_URI;
 
 export async function POST(req) {
     try {
         const cookieStore = cookies();
-        
+
         const { identifier, password } = await req.json();
-        
-        
+
+
 
         const response = await axios.post(
-            `${MineConfig.dataBaseUrl}/login`,
+            `${baseUrl}/login`,
             { identifier, password },
             {
                 headers: { "Content-Type": "application/json" },

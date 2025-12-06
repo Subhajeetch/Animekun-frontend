@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import FormData from "form-data";
 
-const CLIENT_ID = "f7d96def22b509b";
-const CLIENT_SECRET = "e8ff3355c92cb283ba1cdeae90670a865ca1b9cf";
-const REFRESH_TOKEN = "4956bd1f247985e659f106d110811533bf1f8477";
+const CLIENT_ID = process.env.IMGUR_CLIENT_ID;
+const CLIENT_SECRET = process.env.IMGUR_CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.IMGUR_REFRESH_TOKEN;
 
 let accessToken = null; // Will be updated dynamically
 

@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 import { CalendarDays, UserRound, Flame, ChevronRight } from "lucide-react";
 import axios from "axios";
 import EditButton from "./EditButton.jsx";
@@ -14,8 +14,7 @@ const Profile = async ({ params }) => {
         );
     }
 
-    const response = await axios.post(
-        "https://animekun.top/api/mantox/auth/get/profile",
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_SITE_URL}/api/mantox/auth/get/profile`,
         { username },
         {
             headers: { "Content-Type": "application/json" }

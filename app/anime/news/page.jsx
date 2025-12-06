@@ -3,6 +3,10 @@ import NewsCard from "../../../Sections/Universal/NewsCard.jsx";
 import "./some.css";
 import Link from "next/link";
 
+import MineConfig from "@/mine.config.js";
+
+const { backendUrl } = MineConfig;
+
 export async function generateMetadata() {
   return {
     title: "Recent Anime News - Read all anime news with daily updates",
@@ -57,14 +61,12 @@ const newsFeed = async () => {
   }
 
   try {
-    const fetchedData = await axios.get(
-      "https://animekun.top/api/mantox/get/news/feed"
-    );
+    const fetchedData = await axios.get(`${backendUrl}/api/mantox/get/news?topic=anime`);
 
-    if (!fetchedData.data.manto) {
+    if (!fetchedData.data) {
       return <h1>Error 404</h1>;
     }
-    const mainData = fetchedData.data.data;
+    const mainData = fetchedData.data;
 
     return (
       <>

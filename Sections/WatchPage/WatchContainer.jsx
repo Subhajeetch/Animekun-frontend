@@ -3,16 +3,22 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 
-import VideoPlayer from "./VideoPlayer/VideoPlayer.jsx";
+import CustomVideoPlayer from "./VideoPlayer/CustomVideoPlayer.jsx";
 import Loader from "../Universal/Loader.jsx";
 
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert, RefreshCw } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 import EpisodeSection from "./EpisodesSection.jsx";
 import LessThenFiftyEpisodeSection from "./LessThenFiftyEpisodesSection.jsx";
 import SeasonsCarousel from "./AnimePageSeasonsCarousel.jsx";
+
+import ArtplayerPlayer from '@/components/ArtplayerPlayer';
+
+import MineConfig from "@/mine.config.js";
+const { backendUrl } = MineConfig;
+
 
 const WatchContainer = ({
   episodes,
@@ -34,6 +40,8 @@ const WatchContainer = ({
   const [loadingVideo, setLoadingVideo] = useState(true);
   const [autoPlay, setAutoPlay] = useState(true);
   const [skipIntroOutro, setSkipIntroOutro] = useState(true);
+
+  const [resfreshToggle, setResfreshToggle] = useState(false);
 
   const [noServerSelected, setNoServerSelected] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(
@@ -67,6 +75,7 @@ const WatchContainer = ({
   // Fetch servers and update state when the current episode or language changes
   const fetchServers = async episodeId => {
     try {
+      setLoadingVideo(true);
       const f = await axios.get(`/api/mantox/get/servers/${episodeId}`);
 
       const data = f.data.data;
@@ -91,22 +100,70 @@ const WatchContainer = ({
       setLoadingVideo(true);
       try {
         const fd = await axios.get(
-          `/api/mantox/get/sources/${currentEpisode}&s=${selectedServer}&c=${selectedLanguage}`
+          `${backendUrl}/api/mantox/episode/sources/${currentEpisode}&s=${selectedServer}&c=${selectedLanguage}`
         );
 
-        setStreamingData(fd.data.data);
+        const rawData = fd.data || {};
+
+        // Normalize streaming data for Artplayer
+        // Ensure sources array has proper structure with isM3U8 flag
+        let sources = [];
+        if (rawData.sources && Array.isArray(rawData.sources)) {
+          sources = rawData.sources.map(src => ({
+            url: src.url || src.file || "",
+            file: src.url || src.file || "",
+            label: src.label || src.quality || "Source",
+            isM3U8: (src.url || src.file || "").toLowerCase().includes(".m3u8")
+          }));
+        }
+
+        // Normalize tracks (subtitles)
+        let tracks = [];
+        if (rawData.tracks && Array.isArray(rawData.tracks)) {
+          tracks = rawData.tracks.map(track => ({
+            url: track.url || track.file || "",
+            file: track.url || track.file || "",
+            label: track.label || track.lang || track.language || "Subtitle",
+            lang: track.lang || track.language || track.label || "Unknown"
+          }));
+        }
+
+        // Prefer English subtitles
+        if (tracks.length > 0) {
+          const englishTrackIdx = tracks.findIndex(t =>
+            /english|eng|en\b/i.test(t.lang || t.label || "")
+          );
+          if (englishTrackIdx > 0) {
+            const englishTrack = tracks.splice(englishTrackIdx, 1)[0];
+            tracks.unshift(englishTrack);
+          }
+        }
+
+        setStreamingData({
+          sources: sources.length > 0 ? sources : [],
+          tracks: tracks.length > 0 ? tracks : [],
+          intro: rawData.intro || undefined,
+          outro: rawData.outro || undefined
+        });
+
+        // console.log("Normalized streaming data:", { sources, tracks });
       } catch (error) {
         console.error("Error fetching streaming data:", error);
+
+        // Provide a safe fallback so the player can still render without crashing.
+        // The player expects at least `sources` and `tracks` arrays on `data`.
+        setStreamingData({ sources: [], tracks: [] });
       } finally {
         setLoadingVideo(false);
       }
     };
 
     fetchStreamingData();
-  }, [currentEpisode, selectedServer, selectedLanguage]);
+  }, [currentEpisode, selectedServer, selectedLanguage, resfreshToggle]);
 
   // Handle episode changes
   const handleEpisodeChange = episodeId => {
+    setLoadingVideo(true);
     setCurrentEpisode(episodeId);
 
     // Save the current episode in localStorage
@@ -125,6 +182,7 @@ const WatchContainer = ({
 
   // Handle next and previous episodes
   const handleNextEpisode = () => {
+    setLoadingVideo(true);
     const currentIndex = episodes.findIndex(
       ep => ep.episodeId === currentEpisode
     );
@@ -134,6 +192,7 @@ const WatchContainer = ({
   };
 
   const handlePreviousEpisode = () => {
+    setLoadingVideo(true);
     const currentIndex = episodes.findIndex(
       ep => ep.episodeId === currentEpisode
     );
@@ -143,11 +202,13 @@ const WatchContainer = ({
   };
 
   const handleLanguageChange = language => {
+    setLoadingVideo(true);
     setSelectedLanguage(language);
     localStorage.setItem("language", language);
   };
 
   const handleServerChange = serverName => {
+    setLoadingVideo(true);
     setSelectedServer(serverName);
 
     // Save the selected server to local storage
@@ -403,27 +464,25 @@ const WatchContainer = ({
         bg-backgroundtwo"
       >
         <div className="flex-1 md:min-w-[400px] lg:max-w-[940px]">
+
           <div ref={targetRef}>
-            {loadingVideo && !noServerSelected && (
+            {/* Show loader when loading video */}
+            {loadingVideo && (
               <AspectRatio
                 ratio={16 / 9}
-                className="bg-[#070707] flex justify-center
-            items-center"
+                className="bg-[#070707] flex justify-center items-center"
               >
                 <Loader />
               </AspectRatio>
             )}
 
-            {noServerSelected && (
+            {/* Show error when no server selected */}
+            {!loadingVideo && noServerSelected && (
               <AspectRatio
                 ratio={16 / 9}
-                className="bg-[#0f0f0f] flex flex-col justify-center
-            items-center"
+                className="bg-[#0f0f0f] flex flex-col justify-center items-center"
               >
-                <span
-                  className="text-[16px] flex items-center gap-2 text-[#efefef]
-        font-[800]"
-                >
+                <span className="text-[16px] flex items-center gap-2 text-[#efefef] font-[800]">
                   <TriangleAlert size={24} /> No selected server.
                 </span>
                 <span className="text-[10px] text-[#cccccc] mt-1">
@@ -432,8 +491,50 @@ const WatchContainer = ({
               </AspectRatio>
             )}
 
-            {!loadingVideo && !noServerSelected && streamingData && (
-              <VideoPlayer
+            {/* Show error when sources are empty */}
+            {!loadingVideo && !noServerSelected && streamingData && (!streamingData.sources || streamingData.sources.length === 0) && (
+              <AspectRatio
+                ratio={16 / 9}
+                className="bg-[#1a1a1a] flex flex-col justify-center items-center gap-1"
+              >
+                <span className="text-[16px] flex items-center gap-1 text-[#efefef] font-[800]">
+                  <TriangleAlert size={24} /> Something went wrong!
+                </span>
+                <span className="text-[10px] text-[#cccccc]">
+                  This usually happens when video server is down.
+                </span>
+                <span className="text-[10px] text-[#cccccc]">
+                  You can try refreshing the page
+                </span>
+                <button
+                  onClick={() => setResfreshToggle(prev => !prev)}
+                  className="flex items-center gap-2 px-3 py-1 bg-foreground text-background rounded-md mt-4 font-bold hover:opacity-80 transition-opacity"
+                >
+                  <RefreshCw size={20} />
+                  Refresh
+                </button>
+              </AspectRatio>
+            )}
+
+            {/* Show error when first source is not M3U8 */}
+            {!loadingVideo && !noServerSelected && streamingData && streamingData.sources && streamingData.sources.length > 0 && streamingData.sources[0].isM3U8 === false && (
+              <AspectRatio
+                ratio={16 / 9}
+                className="bg-[#1a1a1a] flex flex-col justify-center items-center gap-1"
+              >
+                <span className="text-[16px] flex items-center gap-1 text-[#efefef] font-[800]">
+                  <TriangleAlert size={24} /> Server busy!
+                </span>
+                <span className="text-[10px] text-[#cccccc]">
+                  Please switch to different server.
+                </span>
+              </AspectRatio>
+            )}
+
+            {/* Only render player when everything is valid */}
+            {!loadingVideo && !noServerSelected && streamingData && streamingData.sources && streamingData.sources.length > 0 && streamingData.sources[0].isM3U8 !== false && (
+              <ArtplayerPlayer
+                key={`${currentEpisode}-${selectedServer}-${selectedLanguage}`}
                 data={streamingData}
                 episodeNumber={
                   episodes.find(ep => ep.episodeId === currentEpisode)?.number
@@ -442,9 +543,8 @@ const WatchContainer = ({
                   episodes
                     .find(ep => ep.episodeId === currentEpisode)
                     ?.title.match(/Episode \d+/i)
-                    ? "" // You can also use any alternative text here, like "Untitled"
-                    : episodes.find(ep => ep.episodeId === currentEpisode)
-                        ?.title
+                    ? ""
+                    : episodes.find(ep => ep.episodeId === currentEpisode)?.title
                 }
                 handleNextEpisode={handleNextEpisode}
                 handlePreviousEpisode={handlePreviousEpisode}
@@ -459,6 +559,8 @@ const WatchContainer = ({
               />
             )}
           </div>
+
+
           <div
             className="flex items-center justify-between h-[40px]
             bg-background px-2 md:px-4 border-b-[1px] border-separatorOnBackgroundtwo"
@@ -474,9 +576,8 @@ const WatchContainer = ({
               >
                 <span className="text-[9px] md:text-[12px]">Auto Next: </span>
                 <span
-                  className={`text-[9px] md:text-[12px] text-dimmerMain w-[20px] ${
-                    autoPlay ? "text-main font-[800]" : "text-dimmerMain"
-                  }`}
+                  className={`text-[9px] md:text-[12px] text-dimmerMain w-[20px] ${autoPlay ? "text-main font-[800]" : "text-dimmerMain"
+                    }`}
                 >
                   {autoPlay ? "ON" : "OFF"}
                 </span>
@@ -492,9 +593,8 @@ const WatchContainer = ({
                   Skip Intro & Outro:{" "}
                 </span>
                 <span
-                  className={`text-[9px] md:text-[12px] text-dimmerMain ${
-                    skipIntroOutro ? "text-main font-[800]" : "text-dimmerMain"
-                  }`}
+                  className={`text-[9px] md:text-[12px] text-dimmerMain ${skipIntroOutro ? "text-main font-[800]" : "text-dimmerMain"
+                    }`}
                 >
                   {skipIntroOutro ? "ON" : "OFF"}
                 </span>
@@ -629,7 +729,7 @@ const WatchContainer = ({
                     ?.title.match(/Episode \d+/i)
                     ? "" // You can also use any alternative text here, like "Untitled"
                     : episodes.find(ep => ep.episodeId === currentEpisode)
-                        ?.title}
+                      ?.title}
                 </span>
               </div>
             </div>
@@ -710,11 +810,10 @@ const WatchContainer = ({
                     <div
                       key={server.serverId}
                       className={`px-2 py-1 flex justify-center w-max rounded
-                      cursor-pointer ${
-                        selectedServer === server.serverName
+                      cursor-pointer ${selectedServer === server.serverName
                           ? "bg-main text-foreground font-[800]"
                           : "bg-background hover:bg-backgroundHover"
-                      }`}
+                        }`}
                       onClick={() => handleServerChange(server.serverName)}
                     >
                       <span className="text-bold text-[12px]">
@@ -731,11 +830,10 @@ const WatchContainer = ({
                     <div
                       key={server.serverId}
                       className={`px-2 py-1 flex justify-center w-max rounded
-                      cursor-pointer ${
-                        selectedServer === server.serverName
+                      cursor-pointer ${selectedServer === server.serverName
                           ? "bg-main text-foreground font-[800]"
                           : "bg-background hover:bg-backgroundHover"
-                      }`}
+                        }`}
                       onClick={() => handleServerChange(server.serverName)}
                     >
                       <span className="text-bold text-[12px]">
@@ -752,11 +850,10 @@ const WatchContainer = ({
                     <div
                       key={server.serverId}
                       className={`px-2 py-1 flex justify-center w-max rounded
-                      cursor-pointer ${
-                        selectedServer === server.serverName
+                      cursor-pointer ${selectedServer === server.serverName
                           ? "bg-main text-foreground font-[800]"
                           : "bg-background hover:bg-backgroundHover"
-                      }`}
+                        }`}
                       onClick={() => handleServerChange(server.serverName)}
                     >
                       <span className="text-bold text-[12px]">

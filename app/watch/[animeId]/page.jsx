@@ -5,7 +5,7 @@ import {
   getAnimeInfoUtils
 } from "@/DataRoutes/index.js";
 
-import WatchContainer from "../../../Sections/WatchPage/WatchContainer999.jsx";
+import WatchContainer from "../../../Sections/WatchPage/WatchContainer.jsx";
 import AnimeInfoSection from "../../../Sections/WatchPage/AnimeInfoOnWatchPage.jsx";
 import AnimeRecommendations from "../../../Sections/WatchPage/AnimeRecommendationsOnWarchPage.jsx";
 import SeasonsCarousel from "../../../Sections/WatchPage/AnimePageSeasonsCarousel.jsx";

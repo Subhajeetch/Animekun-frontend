@@ -5,6 +5,9 @@ import AnimeCard from "@/Sections/Universal/AnimeCard.jsx";
 import { ArrowLeft, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import ReadAloud from "./ReadAloud.jsx";
+import MineConfig from "@/mine.config.js";
+
+const { backendUrl } = MineConfig;
 
 export async function generateMetadata({ params }) {
   const { id = "Unknown-News" } = await params;
@@ -78,16 +81,16 @@ const GenrePage = async ({ params }) => {
 
   try {
     const fetchedData = await axios.get(
-      `https://animekun.top/api/mantox/get/news/info?id=${getRealId(id)}`
+      `${backendUrl}/api/mantox/get/news/info?id=${getRealId(id)}`
     );
 
     const animeData = await getAnimesByCategory("underrated", 1);
     const { animes } = animeData.data;
 
-    if (!fetchedData.data.manto) {
+    if (!fetchedData.data) {
       return <h1>Error 404</h1>;
     }
-    const news = fetchedData.data.data;
+    const news = fetchedData.data;
 
     return (
       <>

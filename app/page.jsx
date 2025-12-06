@@ -6,6 +6,9 @@ import ShareComponent from "@/Sections/LandingPage/ShareComponent.jsx";
 import axios from "axios";
 import NewsCard from "@/Sections/Universal/NewsCard.jsx";
 import { ChevronRight } from "lucide-react";
+import MineConfig from "@/mine.config.js";
+
+const { backendUrl } = MineConfig;
 
 export const metadata = {
   title:
@@ -54,20 +57,17 @@ export const metadata = {
 
 const LandingPage = async () => {
   try {
-    const fetchedData = await axios.get(
-      "https://animekun.top/api/mantox/get/news/feed"
-    );
+    const fetchedData = await axios.get(`${backendUrl}/api/mantox/get/news?topic=anime`);
 
-    if (!fetchedData.data.manto) {
-      return <h1>Error 404</h1>;
-    }
-    const mainData = fetchedData.data.data;
+    //console.log("data", fetchedData.data);
+
+    const mainData = fetchedData.data;
 
     return (
       <main className="bg-black bg-[radial-gradient(#bfbfbf36_1px,transparent_1px)] [background-size:16px_16px] p-4 md:px-[54px]">
         {/* Hero Section */}
         <div
-          className="flex flex-col gap-16 lg:gap-20 md:flex-row justify-center
+          className="flex flex-col gap-16 lg:gap-20 md:flex-row
        mt-10 md:mb-8 justify-between rounded-2xl p-4 md:px-10 md:py-6
        "
         >
@@ -313,40 +313,51 @@ const LandingPage = async () => {
           </div>
         </section>
 
-        <div className="flex flex-col mt-16">
-          <div className="flex justify-between items-center">
-            <div
-              className="h-[40px] bg-gradient-to-l
+
+
+        {
+          /* Recent News Section */
+          mainData && (
+            <div className="flex flex-col mt-16">
+              <div className="flex justify-between items-center">
+                <div
+                  className="h-[40px] bg-gradient-to-l
         from-transparent to-backgroundHover w-[200px] mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
-            >
-              <div className="h-[28px] w-[8px] rounded-full bg-main"></div>
+                >
+                  <div className="h-[28px] w-[8px] rounded-full bg-main"></div>
 
-              <h2>Recent news</h2>
-            </div>
-            <div>
-              <Link
-                href="/anime/news"
-                className=" mb-[10px] flex items-center text-[13px]
+                  <h2>Recent news</h2>
+                </div>
+                <div>
+                  <Link
+                    href="/anime/news"
+                    className=" mb-[10px] flex items-center text-[13px]
           hover:underline"
-              >
-                <span>View more</span>
-                <ChevronRight size={17} />
-              </Link>
+                  >
+                    <span>View more</span>
+                    <ChevronRight size={17} />
+                  </Link>
+                </div>
+              </div>
+              <div className="masonry-container">
+                {mainData.slice(0, 24).map(n => (
+                  <NewsCard news={n} />
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="masonry-container">
-            {mainData.slice(0, 24).map(n => (
-              <NewsCard news={n} />
-            ))}
-          </div>
-        </div>
+          )
+        }
       </main>
     );
   } catch (e) {
+    console.log("Error in landing page:", e);
     return (
       <div className="min-h-screen flex justify-center items-center">
         <h1>Error 404</h1>
+        <p>
+          {e.message ? e.message : "An unexpected error occurred."}
+        </p>
       </div>
     );
   }
