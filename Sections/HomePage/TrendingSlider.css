@@ -15,8 +15,20 @@ div.trending-slider div.splide ul.splide__pagination {
   justify-content: flex-end;
 }
 
+.splide__arrow--prev {
+  left: 210px;
+  top: -30px;
+}
+
+.splide__arrow--next {
+  left: 250px;
+  top: -30px;
+}
+
 @media (max-width: 680px) {
   .splide__arrow {
     display: none;
   }
-} /* Smaller than & equal to */
+}
+
+/* Smaller than & equal to */

@@ -1,9 +1,11 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./some.css";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { Play } from "@/Sections/Universal/icons.jsx";
 import Link from "next/link";
+
+import CustomImage from "@/Sections/Universal/CustomImage";
 
 const ContinueWatching = () => {
   const [watchHistory, setWatchHistory] = useState([]);
@@ -16,7 +18,7 @@ const ContinueWatching = () => {
   return (
     <>
       {watchHistory && watchHistory.length > 0 && (
-        <div className="w-full px-4 md:px-[54px] mb-[30px] relative">
+        <div className="w-full mb-[30px] relative max-w-[1200px] mx-auto px-4">
           <Link
             className="absolute top-[10px] right-[12px] flex items-center text-[13px]
           hover:underline"
@@ -42,7 +44,7 @@ const ContinueWatching = () => {
                   .getElementById("scroll-container")
                   .scrollBy({ left: -300, behavior: "smooth" })
               }
-              className="absolute left-[-38px] top-1/2 -translate-y-1/2
+              className="absolute left-[210px] top-[-45px]
               bg-backgroundHover hover:bg-separatorOnBackgroundtwo
               text-white p-1 rounded-full hidden md:block hover:bg-gray-700
               transition-colors"
@@ -107,7 +109,7 @@ const ContinueWatching = () => {
                   <Link
                     key={anime.animeId}
                     className="w-[280px] shrink-0 bg-background rounded-xl
-              overflow-hidden p-3 flex relative"
+              overflow-hidden p-3 flex relative card-item"
                     href={`/watch/${anime.animeId}`}
                   >
                     <img
@@ -115,8 +117,9 @@ const ContinueWatching = () => {
                       alt={anime.animeEngName}
                       className="w-16 h-24 object-cover rounded-lg"
                     />
+
                     <div className="px-2">
-                      <h3 className="text-sm font-bold text-white line-clamp-2">
+                      <h3 className="text-md font-bold text-white line-clamp-2">
                         {anime.animeEngName}
                       </h3>
                       <p className="text-xs text-gray-400 mt-2">
@@ -148,7 +151,7 @@ const ContinueWatching = () => {
                   .getElementById("scroll-container")
                   .scrollBy({ left: 300, behavior: "smooth" })
               }
-              className="absolute right-[-38px] top-1/2 -translate-y-1/2
+              className="absolute left-[250px] top-[-45px]
               bg-backgroundHover hover:bg-separatorOnBackgroundtwo
               text-white p-1 rounded-full hidden md:block hover:bg-gray-700
               transition-colors"

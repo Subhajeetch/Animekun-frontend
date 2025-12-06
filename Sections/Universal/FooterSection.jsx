@@ -10,7 +10,7 @@ const FooterSection = () => {
   const h = false;
 
   return (
-    <footer className="bg-background mt-2 flex flex-col px-4 md:px-[54px] pt-2 pb-4 relative">
+    <footer className="bg-background mt-2 flex flex-col px-4 md:px-[54px] pt-2 pb-4 relative max-w-[1200px] mx-auto px-4">
       <div className="flex items-center justify-center">
         <JoinDiscordBanner hmm={h} />
       </div>

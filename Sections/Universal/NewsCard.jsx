@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "../../app/home/some.css";
+import CustomImage from "./CustomImage";
 
 const AnimeCard = ({ news }) => {
   function getFakeId(id) {
@@ -20,17 +21,17 @@ const AnimeCard = ({ news }) => {
   return (
     <Link
       key={getFakeId(news.id) || index}
-      className="flex flex-col p-2 mb-3 masonry-item"
+      className="flex flex-col p-2 mb-3 masonry-item bg-red"
       href={`/anime/news/${getFakeId(news.id)}`}
     >
-      <img
+      <CustomImage
         src={news.thumbnail}
+        alt={news.title}
         className="rounded-md"
         style={{
           gridRowEnd: `span ${getRowSpan()}`
         }}
-        alt={news.title}
-      ></img>
+      />
       <h3
         className="text-[14px] line-clamp-2 font-[700]
         pl-1 mt-1"

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import "./TrendingSlider.css";
@@ -13,9 +12,9 @@ const TrendingAnime = ({ data }) => {
     if (window.innerWidth < 480) return 2;
     if (window.innerWidth < 760) return 3;
     if (window.innerWidth < 1000) return 4;
-    if (window.innerWidth < 1400) return 6;
-    if (window.innerWidth < 1600) return 7;
-    return 8;
+    if (window.innerWidth < 1400) return 5;
+    if (window.innerWidth < 1600) return 6;
+    return 6;
   };
 
   const [perPage, setPerPage] = useState(getPerPage());
@@ -33,15 +32,15 @@ const TrendingAnime = ({ data }) => {
   const OPTIONS = {
     rewind: false,
     perPage: perPage,
-    gap: "10px",
+    gap: "2px",
     perMove: 1
   };
 
   return (
-    <div className="trending-slider">
+    <div className="trending-slider max-w-[1200px] mx-auto px-4">
       <Splide
         options={OPTIONS}
-        className="will-change-transform px-4 md:px-[54px]"
+        className="will-change-transform"
       >
         {data.map(anime => (
           <SplideSlide
@@ -51,8 +50,9 @@ const TrendingAnime = ({ data }) => {
           >
             <Link
               className="absolute top-0 right-0 w-full
-          aspect-[9/12] flex flex-col"
+          aspect-[9/12] flex flex-col card-item p-2 rounded-md"
               href={`/anime/${anime.id}`}
+              style={{ borderRadius: "10px" }}
             >
               <div className="flex-1 relative overflow-hidden">
                 <img

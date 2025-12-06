@@ -9,7 +9,7 @@ const GenreSection = () => {
   const displayedGenres = GenreMap.slice(0, 11);
 
   return (
-    <div className="px-4 md:px-[54px]">
+    <div className=" max-w-[1200px] mx-auto px-4">
       <div
         className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4
         overflow-hidden
@@ -18,7 +18,7 @@ const GenreSection = () => {
         {displayedGenres.map((genre, index) => (
           <Link
             className="relative h-[60px] bg-[#f94b00] overflow-hidden flex
-        items-center justify-center rounded-md "
+        items-center justify-center rounded-md card-item"
             style={{
               backgroundColor: genre.backgroundColor,
               color: genre.foreground
@@ -45,7 +45,7 @@ const GenreSection = () => {
 
         <Link
           className="h-[60px] absolute right-0 bottom-0 bg-backgroundtwo
-          w-[calc(100%/2-8px)] md:w-[calc(100%/4-12px)] lg:w-[calc(100%/6-12px)]"
+          w-[calc(100%/2-8px)] md:w-[calc(100%/4-12px)] lg:w-[calc(100%/6-12px)] card-item"
           href="/anime/genres"
         >
           <div
@@ -60,7 +60,7 @@ const GenreSection = () => {
             </div>
           </div>
         </Link>
-        
+
       </div>
     </div>
   );
@@ -72,7 +72,7 @@ const GenreSectionSkeliton = () => {
   return (
     <div className="w-full flex flex-col p-4 md:p-[54px]">
       <div
-        className="grid grid-cols-2 md:grid-cols-4 md:grid-cols-6 gap-4
+        className="grid grid-cols-2  md:grid-cols-6 gap-4
       genre-container overflow-hidden"
       >
         {displayedGenres.map((genre, index) => (

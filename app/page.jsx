@@ -68,8 +68,8 @@ const LandingPage = async () => {
         {/* Hero Section */}
         <div
           className="flex flex-col gap-16 lg:gap-20 md:flex-row
-       mt-10 md:mb-8 justify-between rounded-2xl p-4 md:px-10 md:py-6
-       "
+       mt-10 md:mb-8 justify-between rounded-2xl p-4 md:py-6
+       max-w-[1200px] mx-auto px-4"
         >
           <div className="md:my-10">
             <h1 className="text-4xl lg:text-6xl font-bold">
@@ -112,7 +112,7 @@ const LandingPage = async () => {
           ></img>
         </div>
 
-        <section className="md:mt-16 bg-black">
+        <section className="md:mt-16 bg-black bg-opacity-40 max-w-[1200px] mx-auto px-4">
           <div>
             <h2 className="font-[800] text-[20px] mt-[40px] mb-[6px]">
               1// What is Animekun?
@@ -318,7 +318,7 @@ const LandingPage = async () => {
         {
           /* Recent News Section */
           mainData && (
-            <div className="flex flex-col mt-16">
+            <div className="flex flex-col mt-16 max-w-[1200px] mx-auto px-4">
               <div className="flex justify-between items-center">
                 <div
                   className="h-[40px] bg-gradient-to-l
@@ -342,7 +342,7 @@ const LandingPage = async () => {
               </div>
               <div className="masonry-container">
                 {mainData.slice(0, 24).map(n => (
-                  <NewsCard news={n} />
+                  <NewsCard news={n} key={n.id} />
                 ))}
               </div>
             </div>

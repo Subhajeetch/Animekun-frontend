@@ -95,25 +95,26 @@ export default async function Home() {
         <div className="h-[30px] w-full"></div>
         <ContinueWatching />
 
-        <div
-          className="relative h-[40px] bg-gradient-to-l
-        from-transparent to-backgroundHover max-w-fit mx-4 md:mx-[54px] mb-[10px] p-2 flex
-        items-center font-[700] text-[18px] rounded-l-md gap-2"
-        >
-          <svg
-            version="1.0"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512.000000 512.000000"
-            preserveAspectRatio="xMidYMid meet"
-            className="h-[24px] w-[24px]"
-            style={{ fill: "var(--foreground)" }}
+        <div className="max-w-[1200px] mx-auto px-4">
+          <div
+            className="relative h-[40px] bg-gradient-to-l
+        from-transparent to-backgroundHover max-w-fit mb-[10px] p-2 flex
+        items-center font-[700] text-[18px] rounded-l-md gap-2 "
           >
-            <g
-              transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-              stroke="none"
+            <svg
+              version="1.0"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512.000000 512.000000"
+              preserveAspectRatio="xMidYMid meet"
+              className="h-[24px] w-[24px]"
+              style={{ fill: "var(--foreground)" }}
             >
-              <path
-                d="M3056 3945 c-36 -19 -53 -40 -65 -82 -20 -69 -7 -85 254 -324 135
+              <g
+                transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                stroke="none"
+              >
+                <path
+                  d="M3056 3945 c-36 -19 -53 -40 -65 -82 -20 -69 -7 -85 254 -324 135
 -123 243 -229 241 -236 -3 -6 -170 -203 -373 -437 l-368 -426 -400 399 c-373
 372 -404 400 -458 420 -110 40 -233 22 -319 -46 -34 -27 -235 -291 -700 -923
 -358 -487 -658 -897 -666 -913 -20 -41 -6 -83 46 -140 87 -92 140 -98 221 -23
@@ -121,18 +122,19 @@ export default async function Home() {
 356 -402 379 -423 57 -52 134 -79 223 -80 123 -1 127 3 828 603 l630 540 277
 -277 278 -278 56 0 c51 0 58 3 86 34 l31 35 -5 846 -5 847 -25 55 c-28 60 -74
 102 -135 124 -31 10 -199 13 -858 13 -714 1 -824 -1 -849 -14z"
-              />
-            </g>
-          </svg>
+                />
+              </g>
+            </svg>
 
-          <h2>Trending Animes</h2>
+            <h2>Trending Animes</h2>
+          </div>
         </div>
 
         {data && <TrendingAnime data={data.trendingAnimes} />}
 
         <div className="h-[30px] w-full"></div>
-        <div className="w-full grid md:grid-cols-2 md:gap-x-14 px-4 md:px-[54px]">
-          <div className="mb-[40px] w-full">
+        <div className="w-full grid md:grid-cols-2 md:gap-x-4 max-w-[1200px] mx-auto px-4">
+          <div className="mb-[16px] w-full">
             <div className="flex justify-between">
               <div
                 className="relative h-[40px] bg-gradient-to-l
@@ -174,7 +176,7 @@ export default async function Home() {
             {data && <HomePageCetagoryTemplate data={data.topAiring} />}
           </div>
 
-          <div className="mb-[40px] w-full">
+          <div className="mb-[16px] w-full">
             <div className="flex justify-between">
               <div
                 className="relative h-[40px] bg-gradient-to-l

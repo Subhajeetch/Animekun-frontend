@@ -5,18 +5,19 @@ import "./HomepageSections.css";
 const HomePageCetagoryTemplate = ({ data }) => {
   return (
     <div
-      className="grid gap-y-4 gap-2
+      className="grid
     template-parent"
     >
       {data.map((anime, index) => (
         <div
           key={anime.id || index}
           className="relative flex items-center justify-between w-full
-          overflow-hidden aspect-[9/12] template-child"
+          overflow-hidden aspect-[9/12] template-child "
         >
           <Link
-            className="absolute top-0 right-0 flex flex-col w-full aspect-[9/12]"
+            className="absolute top-0 right-0 flex flex-col w-full aspect-[9/12] card-item p-2"
             href={`/anime/${anime.id}`}
+            style={{ borderRadius: "10px" }}
           >
             <div className="flex-1 rounded-md relative overflow-hidden">
               <img
