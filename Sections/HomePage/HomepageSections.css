@@ -90,10 +90,10 @@
 
 @media (min-width: 800px) {
   .template-parent {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .template-parent .template-child:nth-child(-n+6) {
+  .template-parent .template-child:nth-child(-n+8) {
     display: flex;
   }
 }

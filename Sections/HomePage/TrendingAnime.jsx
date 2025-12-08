@@ -12,9 +12,9 @@ const TrendingAnime = ({ data }) => {
     if (window.innerWidth < 480) return 2;
     if (window.innerWidth < 760) return 3;
     if (window.innerWidth < 1000) return 4;
-    if (window.innerWidth < 1400) return 5;
-    if (window.innerWidth < 1600) return 6;
-    return 6;
+    if (window.innerWidth < 1400) return 6;
+    if (window.innerWidth < 1600) return 7;
+    return 7;
   };
 
   const [perPage, setPerPage] = useState(getPerPage());
@@ -37,7 +37,7 @@ const TrendingAnime = ({ data }) => {
   };
 
   return (
-    <div className="trending-slider max-w-[1200px] mx-auto px-4">
+    <div className="trending-slider max-w-[1800px] mx-auto px-4">
       <Splide
         options={OPTIONS}
         className="will-change-transform"

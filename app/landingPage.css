@@ -4,17 +4,11 @@ hhhh {
   --dot-size: 2px;
   --dot-space: 22px;
   background:
-    linear-gradient(
-        90deg,
-        var(--dot-bg) calc(var(--dot-space) - var(--dot-size)),
-        transparent 1%
-      )
-      center / var(--dot-space) var(--dot-space),
-    linear-gradient(
-        var(--dot-bg) calc(var(--dot-space) - var(--dot-size)),
-        transparent 1%
-      )
-      center / var(--dot-space) var(--dot-space),
+    linear-gradient(90deg,
+      var(--dot-bg) calc(var(--dot-space) - var(--dot-size)),
+      transparent 1%) center / var(--dot-space) var(--dot-space),
+    linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)),
+      transparent 1%) center / var(--dot-space) var(--dot-space),
     var(--dot-color);
 }
 
@@ -46,30 +40,24 @@ hhhh {
   content: "";
   pointer-events: none;
   opacity: 0.8;
-  background: radial-gradient(
-      circle at 20% 35%,
+  background: radial-gradient(circle at 20% 35%,
       transparent 0,
       transparent 2px,
       var(--foreground) 3px,
       var(--foreground) 4px,
-      transparent 4px
-    ),
-    radial-gradient(
-      circle at 75% 44%,
+      transparent 4px),
+    radial-gradient(circle at 75% 44%,
       transparent 0,
       transparent 2px,
       var(--foreground) 3px,
       var(--foreground) 4px,
-      transparent 4px
-    ),
-    radial-gradient(
-      circle at 46% 52%,
+      transparent 4px),
+    radial-gradient(circle at 46% 52%,
       transparent 0,
       transparent 4px,
       var(--foreground) 5px,
       var(--foreground) 6px,
-      transparent 6px
-    );
+      transparent 6px);
 
   width: 100%;
   height: 300%;
@@ -104,9 +92,12 @@ hhhh {
 }
 
 .bg-xx {
-  --s: 29px; /* control the size */
+  --s: 29px;
+  /* control the size */
 
-  --c: #292929 /* 1st color*/ calc(100% - 2px), #0000;
+  --c: #292929
+    /* 1st color*/
+    calc(100% - 2px), #0000;
   --r: calc(2.414 * var(--s));
   --p: calc(1.414 * var(--s));
   --g: radial-gradient(var(--s), var(--c));
@@ -118,7 +109,9 @@ hhhh {
     var(--g),
     var(--g),
     var(--g),
-    var(--g) #1b1b1b /* 2nd color */;
+    var(--g) #1b1b1b
+    /* 2nd color */
+  ;
   background-position:
     var(--r) var(--r),
     0 var(--p),
@@ -130,8 +123,7 @@ hhhh {
 .glowing-image {
   position: relative;
   display: inline-block;
-  filter: drop-shadow(0 0 20px #a802ff4b) drop-shadow(0 0 40px #a802ff4b)
-    drop-shadow(0 0 50px #a802ff4b);
+  filter: drop-shadow(0 0 10px #a602ff10) drop-shadow(0 0 20px #a602ff10) drop-shadow(0 0 30px #a602ff10);
 }
 
 /* Adding an inner glow effect */
@@ -142,7 +134,7 @@ hhhh {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, #a802ff4b 20%, transparent 80%);
+  background: radial-gradient(circle, #a602ff10 10%, transparent 90%);
   filter: blur(20px);
   pointer-events: none;
 }
@@ -159,18 +151,16 @@ hhhh {
   width: 100%;
   border-radius: 25px;
   border: 2px solid #92faff;
-  mask-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.7) 50%,
-    black
-  );
+  mask-image: linear-gradient(to top,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.7) 50%,
+      black);
 }
 
 
 
 
-.masonry-container {
+.masonry-container1 {
   -webkit-column-count: 2;
   -moz-column-count: 2;
   column-count: 2;
@@ -179,17 +169,19 @@ hhhh {
   -moz-column-gap: 8px;
   column-gap: 8px;
 }
+
 .masonry-item {
   display: inline-block;
   width: 100%;
 }
+
 .masonry-item img {
   display: block;
   width: 100%;
 }
 
 @media (min-width: 690px) {
-  .masonry-container {
+  .masonry-container1 {
     -webkit-column-count: 3;
     -moz-column-count: 3;
     column-count: 3;
@@ -197,9 +189,9 @@ hhhh {
 }
 
 @media (min-width: 940px) {
-  .masonry-container {
-    -webkit-column-count: 4;
-    -moz-column-count: 4;
-    column-count: 4;
+  .masonry-container1 {
+    -webkit-column-count: 5;
+    -moz-column-count: 5;
+    column-count: 5;
   }
 }

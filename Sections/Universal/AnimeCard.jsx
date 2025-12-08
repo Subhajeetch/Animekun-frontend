@@ -5,7 +5,7 @@ const AnimeCard = ({ anime }) => {
   return (
     <Link
       key={anime.id || index}
-      className="flex flex-col"
+      className="flex flex-col card-item rounded-md p-2"
       href={`/anime/${anime.id}`}
     >
       <div className="relative rounded-md overflow-hidden">

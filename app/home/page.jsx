@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getCustomHomePage } from "../../DataRoutes/index.js";
-import { getSearchSuggetion } from "@/DataRoutes/index.js";
 import { ChevronRight } from "lucide-react";
 import "./some.css";
 
@@ -95,7 +94,7 @@ export default async function Home() {
         <div className="h-[30px] w-full"></div>
         <ContinueWatching />
 
-        <div className="max-w-[1200px] mx-auto px-4">
+        <div className="max-w-[1800px] mx-auto px-4">
           <div
             className="relative h-[40px] bg-gradient-to-l
         from-transparent to-backgroundHover max-w-fit mb-[10px] p-2 flex
@@ -133,7 +132,7 @@ export default async function Home() {
         {data && <TrendingAnime data={data.trendingAnimes} />}
 
         <div className="h-[30px] w-full"></div>
-        <div className="w-full grid md:grid-cols-2 md:gap-x-4 max-w-[1200px] mx-auto px-4">
+        <div className="w-full grid md:grid-cols-2 md:gap-x-4 max-w-[1800px] mx-auto px-4">
           <div className="mb-[16px] w-full">
             <div className="flex justify-between">
               <div
@@ -406,7 +405,7 @@ c-75 0 -315 75 -452 140 -294 141 -564 401 -743 715 -28 49 -51 97 -51 107 0
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row px-4 md:px-[54px] gap-12 pb-12">
+        <div className="flex flex-col lg:flex-row max-w-[1800px] mx-auto px-4 gap-8 pb-12">
           {/* specials */}
           <div className="flex flex-col gap-12">
             <div className="flex flex-col">
@@ -431,9 +430,9 @@ c-75 0 -315 75 -452 140 -294 141 -564 401 -743 715 -28 49 -51 97 -51 107 0
                   </Link>
                 </div>
               </div>
-              <div className="grid gap-4 gridcard">
-                {data.special.slice(0, 12).map(anime => (
-                  <AnimeCard anime={anime} />
+              <div className="grid gap-2 gridcard">
+                {data.special.slice(0, 14).map(anime => (
+                  <AnimeCard anime={anime} key={anime.id} />
                 ))}
               </div>
             </div>
@@ -461,7 +460,7 @@ c-75 0 -315 75 -452 140 -294 141 -564 401 -743 715 -28 49 -51 97 -51 107 0
               </div>
               <div className="masonry-container">
                 {data.newsFeed.map(n => (
-                  <NewsCard news={n} />
+                  <NewsCard news={n} key={n.id} />
                 ))}
               </div>
             </div>

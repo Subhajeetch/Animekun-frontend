@@ -43,8 +43,13 @@ const CastAndCh = ({ getutilsData }) => {
   };
 
   return (
-    <div className="relative w-full px-4 md:px-[54px]">
+    <div className="relative w-full max-w-[1800px] mx-auto px-4">
       {/* Scroll Buttons - Visible only on larger screens */}
+      <h2
+        className="flex mb-1 text-[17px] font-[800] mt-8 mb-4"
+      >
+        Cast & Characters
+      </h2>
       <button
         className="hidden md:block absolute left-[20px] top-1/2 transform
         -translate-y-1/2 text-white p-2 rounded-full"
@@ -63,7 +68,7 @@ const CastAndCh = ({ getutilsData }) => {
       {/* Scrollable Container */}
       <div
         id="scroll-container"
-        className="flex overflow-x-auto scroll-smooth no-scrollbar space-x-2"
+        className="flex flex-nowrap items-start overflow-x-auto scroll-smooth no-scrollbar space-x-2"
         style={{
           scrollSnapType: "x mandatory",
           scrollbarWidth: "none",
@@ -73,13 +78,10 @@ const CastAndCh = ({ getutilsData }) => {
         {getutilsData.ch.slice(0, 40).map((c, index) => (
           <div
             key={index}
-            className="w-[150px] flex"
+            className="w-[150px] flex-none"
             style={{ scrollSnapAlign: "start" }}
           >
-            <div
-              className="w-[150px] flex flex-col items-center
-            "
-            >
+            <div className="w-[150px] flex-none flex flex-col items-center">
               <img
                 src={getCImage(c)}
                 alt={`Cover of ${getCName(c)}`}

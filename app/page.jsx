@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import "./landingPage.css";
 import { Play } from "@/Sections/Universal/icons.jsx";
@@ -7,6 +6,7 @@ import axios from "axios";
 import NewsCard from "@/Sections/Universal/NewsCard.jsx";
 import { ChevronRight } from "lucide-react";
 import MineConfig from "@/mine.config.js";
+import CustomImage from "@/Sections/Universal/CustomImage";
 
 const { backendUrl } = MineConfig;
 
@@ -64,12 +64,12 @@ const LandingPage = async () => {
     const mainData = fetchedData.data;
 
     return (
-      <main className="bg-black bg-[radial-gradient(#bfbfbf36_1px,transparent_1px)] [background-size:16px_16px] p-4 md:px-[54px]">
+      <main className="bg-black bg-[radial-gradient(#bfbfbf36_1px,transparent_1px)] [background-size:16px_16px] p-4">
         {/* Hero Section */}
         <div
           className="flex flex-col gap-16 lg:gap-20 md:flex-row
        mt-10 md:mb-8 justify-between rounded-2xl p-4 md:py-6
-       max-w-[1200px] mx-auto px-4"
+       max-w-[1800px] mx-auto px-4"
         >
           <div className="md:my-10">
             <h1 className="text-4xl lg:text-6xl font-bold">
@@ -96,11 +96,11 @@ const LandingPage = async () => {
             </div>
           </div>
           <div className="hidden md:block">
-            <img
+            <CustomImage
               src="/extra/animekun-landingpage-banner.png"
               alt="Animekun Streaming Site Banner"
               className="max-h-[800px] glowing-image"
-            ></img>
+            />
           </div>
         </div>
 
@@ -112,7 +112,7 @@ const LandingPage = async () => {
           ></img>
         </div>
 
-        <section className="md:mt-16 bg-black bg-opacity-40 max-w-[1200px] mx-auto px-4">
+        <section className="md:mt-16 bg-black bg-opacity-40 max-w-[1800px] mx-auto px-4">
           <div>
             <h2 className="font-[800] text-[20px] mt-[40px] mb-[6px]">
               1// What is Animekun?
@@ -318,7 +318,7 @@ const LandingPage = async () => {
         {
           /* Recent News Section */
           mainData && (
-            <div className="flex flex-col mt-16 max-w-[1200px] mx-auto px-4">
+            <div className="flex flex-col mt-16 max-w-[1800px] mx-auto px-4">
               <div className="flex justify-between items-center">
                 <div
                   className="h-[40px] bg-gradient-to-l
@@ -340,7 +340,7 @@ const LandingPage = async () => {
                   </Link>
                 </div>
               </div>
-              <div className="masonry-container">
+              <div className="masonry-container1">
                 {mainData.slice(0, 24).map(n => (
                   <NewsCard news={n} key={n.id} />
                 ))}

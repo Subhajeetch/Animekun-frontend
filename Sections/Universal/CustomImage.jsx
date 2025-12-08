@@ -47,7 +47,7 @@ export default function CustomImage({
                 loading="lazy"
                 onLoad={() => setIsLoaded(true)}
                 onError={() => setIsLoaded(true)}
-                className={`w-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'
+                className={`w-full object-cover transition-opacity duration-500 ${className} ${isLoaded ? 'opacity-100' : 'opacity-0'
                     }`}
                 {...props}
             />

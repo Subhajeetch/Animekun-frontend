@@ -18,7 +18,7 @@ const ContinueWatching = () => {
   return (
     <>
       {watchHistory && watchHistory.length > 0 && (
-        <div className="w-full mb-[30px] relative max-w-[1200px] mx-auto px-4">
+        <div className="w-full mb-[30px] relative max-w-[1800px] mx-auto px-4">
           <Link
             className="absolute top-[10px] right-[12px] flex items-center text-[13px]
           hover:underline"

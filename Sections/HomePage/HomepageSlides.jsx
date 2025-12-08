@@ -22,7 +22,7 @@ const HomepageSlides = ({ data }) => {
     <div
       key={anime.id}
       className="relative flex items-center justify-between h-[270px]
-          md:h-[440px] w-full overflow-hidden"
+          md:h-[440px] w-full overflow-hidden "
     >
       <img
         src={anime.poster}
@@ -37,16 +37,16 @@ const HomepageSlides = ({ data }) => {
         md:left-[186px]"
       ></div>
       <div
-        className="relative flex flex-col z-10 p-4 md:p-[54px] max-w-fit h-full
-      text-foreground "
+        className="relative flex flex-col z-10 p-4 h-full w-full
+      text-foreground max-w-[1800px] mx-auto px-4"
       >
         <div className="flex-1 "></div>
-        <span className="text-[12px] md:text-[16px] text-shadow-on-slides">
+        <span className="text-[1px] md:text-[16px] text-shadow-on-slides">
           Rank: #{anime.rank}
         </span>
         <h2
-          className="text-[18px] md:text-[24px] font-[700] line-clamp-2 w-[250px]
-        md:w-[610px] drop-shadow-md text-shadow-on-slides"
+          className="text-[18px] md:text-[34px] font-[700] line-clamp-2 w-[250px]
+        md:w-[610px] drop-shadow-md text-shadow-on-slides leading-tight"
         >
           {anime.name}
         </h2>
@@ -100,7 +100,7 @@ const HomepageSlides = ({ data }) => {
           className="
          px-4 py-2 text-[13px] max-w-fit text-center bg-main rounded-full
          mb-4 transition-all font-[800] flex gap-1.5 items-center
-         justify-center"
+         justify-center md:text-[18px] hover:scale-105 hover:bg-hoverMain"
         >
           <svg
             version="1.0"
