@@ -29,6 +29,7 @@ import Link from "next/link";
 import { UserNav } from "./UserNav.jsx";
 
 import MineConfig from "@/mine.config.js";
+import CustomImage from "../Universal/CustomImage";
 const { backendUrl } = MineConfig;
 
 const NavBar = () => {
@@ -103,7 +104,7 @@ const NavBar = () => {
 
     return (
         <>
-            <header className='h-[50px] md:h-[64px] px-2.5 flex items-center bg-background'>
+            <header className='h-[50px] md:h-[64px] flex items-center bg-background max-w-[1800px] mx-auto p-4'>
                 {/* Sidebar trigger */}
                 <Sheet>
                     <SheetTrigger
@@ -366,7 +367,7 @@ c-54 0 -102 -3 -105 -7z'
                                                                         className='flex gap-2 p-2 hover:bg-backgroundHover
                             '
                                                                     >
-                                                                        <img
+                                                                        <CustomImage
                                                                             src={
                                                                                 anime.poster
                                                                             }
@@ -509,7 +510,7 @@ c-54 0 -102 -3 -105 -7z'
                                                                         className='flex gap-2 p-2 hover:bg-backgroundHover
                             '
                                                                     >
-                                                                        <img
+                                                                        <CustomImage
                                                                             src={
                                                                                 anime.poster
                                                                             }

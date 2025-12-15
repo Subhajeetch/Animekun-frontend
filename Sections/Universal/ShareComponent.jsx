@@ -1,4 +1,4 @@
-"use client"; // Add this at the top
+"use client";
 import {
   XIcon,
   WhatsAppIcon,
@@ -7,35 +7,32 @@ import {
 import { toast } from "sonner";
 import {
   Share,
-  MessageCircle,
   Send,
-  Twitter,
-  MessageSquare,
   CheckCheck,
   Files
 } from "lucide-react";
 import { useState } from "react";
 
-const ShareComponent = () => {
+const ShareComponent = ({ headingText, shareLink, shareTitle }) => {
   const [isCopied, setIsCopied] = useState(false);
   const shareText = encodeURIComponent(
-    "Watch your favourite anime for free without ads!! - Animekun\nhttps://animekun.top/home"
+    `${shareTitle}\n${shareLink}`
   );
 
   const handleNativeShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Share Animekun",
-          text: "Watch your favourite anime for free without ads!! - Animekun",
-          url: "https://animekun.top/home"
+          title: shareTitle,
+          text: shareTitle,
+          url: shareLink
         });
       } catch (err) {
         console.log("Sharing cancelled");
       }
     } else {
       console.warn("Web Share API not supported, using fallback");
-      fallbackCopy("https://animekun.top/home");
+      fallbackCopy(shareLink);
 
       toast.warning("Sharing not supported. Copied to clipboard!");
     }
@@ -44,7 +41,7 @@ const ShareComponent = () => {
   const handleCopy = () => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard
-        .writeText("https://animekun.top/home")
+        .writeText(shareLink)
         .then(() => {
           setIsCopied(true);
           setTimeout(() => setIsCopied(false), 2000);
@@ -52,7 +49,7 @@ const ShareComponent = () => {
         .catch(err => console.error("Failed to copy: ", err));
     } else {
       console.warn("Clipboard API not supported, using fallback");
-      fallbackCopy("https://animekun.top/home");
+      fallbackCopy(shareLink);
     }
   };
 
@@ -79,9 +76,9 @@ const ShareComponent = () => {
       icon: <Send className="w-5 h-5" />,
       color: "bg-blue-500 hover:bg-blue-600",
       url: `https://t.me/share/url?url=${encodeURIComponent(
-        "https://animekun.top/home"
+        shareLink
       )}&text=${encodeURIComponent(
-        "Watch your favourite anime for free without ads!! - Animekun"
+        shareTitle
       )}`
     },
     {
@@ -99,9 +96,9 @@ const ShareComponent = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4 mt-10 bg-black py-2 w-full max-w-fit">
+    <div className="flex flex-col gap-4 py-2 w-full max-w-fit">
       <h3 className="text-lg font-semibold text-foreground">
-        Share our website with your cool friends
+        {headingText}
       </h3>
 
       <div className="flex gap-3">

@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { X, Search } from "lucide-react";
+import { X, Search, Plus } from "lucide-react";
 
 const EpisodeSection = ({
   episodes,
   currentEpisode, // Prop for the current episode
   handleEpisodeChange,
   watchedEpisodes,
-  targetHeight
+  targetHeight,
+  isEpAnnouncementCollapsed
 }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -90,14 +91,14 @@ const EpisodeSection = ({
 
   return (
     <div className="bg-background">
-      <div className="bg-background pb-2">
+      <div className="">
         <div
-          className="w-full h-[38px] px-4 bg-background flex
+          className="w-full h-[38px] bg-background flex
               justify-between items-center border-b-2
-            border-separatorOnBackgroundtwo border-t-2"
+            border-separatorOnBackgroundtwo pb-1"
         >
-          <div className="flex items-center bg-backgroundHover px-2 rounded">
-            <span className="text-[12px] font-[600]">
+          <div className="flex items-center bg-backgroundHover rounded">
+            <span className="text-[14px] font-[600]">
               {/* Dropdown for Page Selection */}
               <div className="relative inline-block">
                 <div
@@ -105,8 +106,8 @@ const EpisodeSection = ({
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   <span
-                    className="text-[10px] flex gap-2 py-0.5 justify-center
-                items-center"
+                    className="text-[16px] flex gap-2 py-0.5 px-3
+                items-center cursor-pointer"
                   >
                     <svg
                       version="1.1"
@@ -155,14 +156,15 @@ const EpisodeSection = ({
                         episodes.length
                       )}
                     </span>
+
+                    <Plus size={18} />
                   </span>
                 </div>
                 {isDropdownOpen && (
                   <div
                     ref={dropdownRef}
-                    className="absolute top-[18px] left-[-6px] bg-background border
-                  shadow-lg mt-2 z-[12] overflow-y-auto w-[114px]
-              max-h-[200px] rounded"
+                    className="absolute top-[28px] left-[0px] bg-background border
+                  shadow-lg mt-2 z-[12] overflow-y-auto rounded max-h-[200px]"
                   >
                     {Array.from({ length: totalPages }, (_, index) => (
                       <div
@@ -188,17 +190,17 @@ const EpisodeSection = ({
               placeholder="Search ep..."
               value={searchQuery}
               onChange={handleSearch}
-              className="w-[100px] h-[20px] rounded
-                  bg-backgroundHover outline-0 pr-[20px] pl-[17px] text-[8px]"
+              className="w-[140px] h-[30px] rounded
+                  bg-backgroundHover outline-0 pr-[10px] pl-[26px] text-[14px]"
             />
-            <Search className="absolute h-[10px] left-[-2px]" />
+            <Search className="absolute left-[4px]" size={18} />
             {searchQuery && (
               <div
                 onClick={clearSearch}
-                className="absolute right-1 text-foreground
+                className="absolute right-1.5 text-foreground
                 bg-[#ff1717]"
               >
-                <X size={10} />
+                <X size={18} />
               </div>
             )}
           </div>
@@ -206,11 +208,14 @@ const EpisodeSection = ({
       </div>
 
       <div
-        className="px-2 flex flex-wrap py-2 bg-episodeContainerBackground items-center gap-1.5 overflow-y-auto
+        className=" flex flex-wrap bg-episodeContainerBackground gap-1.5 overflow-y-auto
               relative scrollbar-thin scrollbar-thumb-backgroundHover
-          scrollbar-track-background pr-2 justify-center"
+          scrollbar-track-background p-2"
         style={{
-          maxHeight: `${targetHeight + 50}px`
+          maxHeight:
+            typeof window !== "undefined" && window.innerWidth > 1280
+              ? `${targetHeight - 200}px`
+              : "500px"
         }}
       >
         {/* Overlay for search */}
@@ -220,17 +225,16 @@ const EpisodeSection = ({
           backdrop-blur-sm z-10 flex justify-center pt-4 md:pt-0 md:items-center"
           >
             <div
-              className={`w-[60px] h-[32px] flex items-center justify-center
+              className={`w-[58px] h-[32px] flex cursor-pointer hover:bg-main items-center justify-center
               rounded
-              ${
-                filteredEpisode.episodeId === currentEpisode
+              ${filteredEpisode.episodeId === currentEpisode
                   ? "bg-main" // selected episode
                   : watchedEpisodes.includes(filteredEpisode.episodeId)
-                  ? "bg-watchedEpisodeBackground border-[1px] border-[#e2e2e2]" // watched episodes
-                  : filteredEpisode.isFiller
-                  ? "bg-fillerEpisodeBackground" // filler episodes
-                  : "bg-episodeBackground" // other episodes
-              }
+                    ? "bg-watchedEpisodeBackground border-[1px] border-[#e2e2e2]" // watched episodes
+                    : filteredEpisode.isFiller
+                      ? "bg-fillerEpisodeBackground" // filler episodes
+                      : "bg-episodeBackground" // other episodes
+                }
               
               `}
               onClick={() => handleEpisodeChange(filteredEpisode.episodeId)}
@@ -257,23 +261,21 @@ const EpisodeSection = ({
             ref={
               episode.episodeId === currentEpisode ? currentEpisodeRef : null
             }
-            className={`w-[60px] h-[32px] flex items-center justify-center rounded ${
-              episode.episodeId === currentEpisode
-                ? "bg-main" // selected episode
-                : watchedEpisodes.includes(episode.episodeId)
-                ? "bg-watchedEpisodeBackground" // watched episodes
+            className={`w-[58px] h-[32px] flex items-center justify-center cursor-pointer rounded ${episode.episodeId === currentEpisode
+              ? "bg-main hover:bg-dimmerMain" // selected episode
+              : watchedEpisodes.includes(episode.episodeId)
+                ? "bg-watchedEpisodeBackground hover:bg-main" // watched episodes
                 : episode.isFiller
-                ? "bg-fillerEpisodeBackground" // filler episodes
-                : "bg-episodeBackground" // other episodes
-            }`}
+                  ? "bg-fillerEpisodeBackground hover:bg-main" // filler episodes
+                  : "bg-episodeBackground hover:bg-main" // other episodes
+              }`}
             onClick={() => handleEpisodeChange(episode.episodeId)}
           >
             <span
               className={`text-[12px] font-[800]
-                ${
-                  episode.episodeId === currentEpisode
-                    ? "text-foreground" // selected episode
-                    : watchedEpisodes.includes(episode.episodeId)
+                ${episode.episodeId === currentEpisode
+                  ? "text-foreground" // selected episode
+                  : watchedEpisodes.includes(episode.episodeId)
                     ? "text-watchedEpisodeForeground" // watched episodes
                     : "text-episodeForeground"
                 }
@@ -284,6 +286,12 @@ const EpisodeSection = ({
             </span>
           </div>
         ))}
+
+        {/* ghost box to scroll up so last episode isn't hidden by sticky headers */}
+        <div
+          aria-hidden="true"
+          className={`w-full flex-shrink-0 ${isEpAnnouncementCollapsed ? "h-[26px]" : "h-[96px]"}`}
+        />
       </div>
     </div>
   );

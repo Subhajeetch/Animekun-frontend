@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import CustomImage from "../Universal/CustomImage";
 
 const Sequence = ({ anime }) => {
   const currentEpisodeRef = useRef(null);
@@ -28,7 +29,7 @@ const Sequence = ({ anime }) => {
       {seasons && seasons.length > 0 && (
         <div
           className="flex flex-col items-center flex-wrap
-            md:mt-0 min-w-[210px] max-w-[400px] lg:w-[320px] bg-background"
+            md:mt-0 min-w-[210px] max-w-[500px] bg-background"
         >
           <div
             className="flex gap-1 pl-4 py-2 items-center border-t-2
@@ -39,7 +40,7 @@ const Sequence = ({ anime }) => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512.000000 512.000000"
               preserveAspectRatio="xMidYMid meet"
-              className="h-[17px]"
+              className="h-[24px]"
               style={{ fill: "var(--foreground)" }}
             >
               <g
@@ -73,65 +74,61 @@ const Sequence = ({ anime }) => {
               </g>
             </svg>
 
-            <span className="text-[13px] font-[800]">Sequence: </span>
+            <span className="text-[18px] font-[800]">Sequence: </span>
           </div>
 
           <div
             className="bg-episodeContainerBackground overflow-y-auto flex flex-col
           items-center gap-4 w-full scrollbar-thin
           scrollbar-thumb-backgroundHover
-          scrollbar-track-background p-2 h-[300px]"
+          scrollbar-track-background p-2 h-full max-h-[380px]"
           >
             {seasons.map(season => (
               <Link
                 href={`/watch/${season.id}`}
                 className="max-w-[300px] w-full rounded-lg
-                  md:max-w-[500px]"
+                  md:max-w-[500px] card-item"
                 ref={season.isCurrent ? currentEpisodeRef : null}
                 key={season.id}
               >
                 <div
                   key={season.id}
                   className={`flex p-1 bg-backgroundtwo max-w-[300px] w-full rounded-lg
-                  md:max-w-[500px]
-                  h-[74px] ${
-                    season.isCurrent
+                  md:max-w-[500px] ${season.isCurrent
                       ? "border-2 border-separatorOnBackgroundtwo"
                       : ""
-                  }`}
+                    }`}
                 >
-                  <div className="w-[44px]">
-                    <img
+                  <div className="w-[64px]">
+                    <CustomImage
                       src={season.poster}
                       alt={season.name}
-                      className="rounded-sm h-[64px] w-[42px] cover"
+                      className="rounded-sm h-[94px] w-[62px] cover"
                     />
                   </div>
                   <div className="flex-1 w-3/5 pl-2 pt-1 relative">
                     <h2
-                      className={`text-foreground text-[11px] font-[500]
-                    truncate ${
-                      season.isCurrent ? "font-[800] text-foreground" : ""
-                    }`}
+                      className={`text-foreground text-[16px] font-[500]
+                    truncate ${season.isCurrent ? "font-[800] text-foreground" : ""
+                        }`}
                     >
                       {season.name}
                     </h2>
                     <h3
-                      className={`text-[9px] font-[300]
+                      className={`text-[12px] font-[300]
                       text-animeCardDimmerForeground
-                    ${
-                      season.isCurrent
-                        ? "text-animeCardDimmerForeground font-[400]"
-                        : ""
-                    }`}
+                    ${season.isCurrent
+                          ? "text-animeCardDimmerForeground font-[400]"
+                          : ""
+                        }`}
                     >
                       {season.title}
                     </h3>
 
                     {season.isCurrent && (
                       <span
-                        className="bg-main text-foreground text-[8px] font-[800] px-1
-            py-0.5 self-start absolute top-[-4px] right-[-4px] rounded-tr-[4px]
+                        className="bg-main text-foreground text-[12px] font-[800] px-1
+            py-0.5 self-start absolute top-[-4px] right-[-5px] rounded-tr-[4px]
             rounded-bl-[4px]"
                       >
                         Now Playing

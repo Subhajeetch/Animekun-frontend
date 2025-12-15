@@ -144,7 +144,7 @@ const WatchAnime = async ({ params }) => {
 
     return (
       <>
-        <main>
+        <main className="bg-backgroundtwo">
           <WatchContainer
             episodes={episodes}
             animeId={animeId}

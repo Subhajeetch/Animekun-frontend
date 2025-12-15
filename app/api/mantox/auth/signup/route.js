@@ -1,135 +1,105 @@
 import axios from "axios";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server"; // Add this import
+
 const baseUrl = process.env.CF_DB_URI;
 
-// Handle preflight CORS requests
 export async function OPTIONS() {
-    return new Response(null, {
-        status: 204, // No Content
+    return NextResponse.json(null, {
+        status: 204,
         headers: {
-            "Access-Control-Allow-Origin": "*", // Allow all origins
+            "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type"
         }
     });
 }
 
-// Handle sign-up POST request
 export async function POST(req) {
-    const cookieStore = await cookies();
-
     try {
-        // Parse request body
         const { userName, displayName, email, password, confirmPassword } =
             await req.json();
 
-        // Validate required fields
-        if (
-            !userName ||
-            !displayName ||
-            !email ||
-            !password ||
-            !confirmPassword
-        ) {
-            return new Response(
-                JSON.stringify({
-                    success: false,
-                    message: "Missing required fields"
-                }),
+        // Your validation logic...
+        if (!userName || !displayName || !email || !password || !confirmPassword) {
+            return NextResponse.json(
+                { success: false, message: "Missing required fields" },
                 {
                     status: 400,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
-                    }
+                    headers: { "Access-Control-Allow-Origin": "*" }
                 }
             );
         }
 
-        // Ensure password matches confirmation
         if (password !== confirmPassword) {
-            return new Response(
-                JSON.stringify({
-                    success: false,
-                    message: "Passwords do not match"
-                }),
+            return NextResponse.json(
+                { success: false, message: "Passwords do not match" },
                 {
                     status: 400,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
-                    }
+                    headers: { "Access-Control-Allow-Origin": "*" }
                 }
             );
         }
 
-        // Prepare sign-up data
         const signUpData = { userName, displayName, email, password };
-
-        // Send request to backend sign-up API
         const response = await axios.post(
             `${baseUrl}/sign-up`,
             signUpData,
-            {
-                headers: { "Content-Type": "application/json" },
-                withCredentials: true
-            }
+            { headers: { "Content-Type": "application/json" } }
         );
 
-        // Securely set cookies
-        cookieStore.set({
-            name: "accessToken",
-            value: response.data.accessToken,
-            httpOnly: true, // Prevents JavaScript access (XSS protection)
-            secure: true, // Ensures HTTPS-only (prevents MITM attacks)
-            sameSite: "strict", // Prevents CSRF attacks
-            maxAge: 86400, // 1 day (in seconds)
-            path: "/" // Cookie is available across the whole site
-        });
-
-        cookieStore.set({
-            name: "refreshToken",
-            value: response.data.refreshToken,
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            maxAge: 2592000, // 30 days
-            path: "/"
-        });
-
-        // Return success response
-        return new Response(
-            JSON.stringify({
+        // Create NextResponse first
+        const nextResponse = NextResponse.json(
+            {
                 success: true,
                 message: "Sign Up successful!",
                 user: response.data.user
-            }),
+            },
             {
                 status: 201,
                 headers: {
                     "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Credentials": "true",
-                    "Content-Type": "application/json"
+                    "Access-Control-Allow-Credentials": "true"
                 }
             }
         );
+
+        // Set cookies on the response
+        nextResponse.cookies.set({
+            name: "accessToken",
+            value: response.data.accessToken,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 86400,
+            path: "/"
+        });
+
+        nextResponse.cookies.set({
+            name: "refreshToken",
+            value: response.data.refreshToken,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 2592000,
+            path: "/"
+        });
+
+        return nextResponse;
+
     } catch (error) {
         console.error("Sign-up error:", error.message);
 
-        // Handle specific Axios errors
         const errorMessage =
             error.response?.data?.message ||
             error.message ||
             "Internal server error";
 
-        return new Response(
-            JSON.stringify({ success: false, message: errorMessage }),
+        return NextResponse.json(
+            { success: false, message: errorMessage },
             {
                 status: error.response?.status || 500,
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*"
-                }
+                headers: { "Access-Control-Allow-Origin": "*" }
             }
         );
     }

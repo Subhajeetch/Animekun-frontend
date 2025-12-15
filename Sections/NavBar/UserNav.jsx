@@ -1,5 +1,4 @@
 import Link from "next/link";
-import axios from "axios";
 import {
     ChevronRight,
     CircleFadingPlus,
@@ -18,6 +17,7 @@ import {
 import useAuthStore from "@/AuthStore/userStore.js";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import CustomImage from "../Universal/CustomImage";
 
 export function UserNav() {
     const { user, logout } = useAuthStore();
@@ -45,8 +45,8 @@ export function UserNav() {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <button className='rounded-full'>
-                    <img
+                <div className='rounded-full flex items-center justify-center'>
+                    <CustomImage
                         src={
                             user?.profilePicture ||
                             "https://i.imgur.com/Frqsihe.jpeg"
@@ -54,12 +54,12 @@ export function UserNav() {
                         alt={`${user.userName}'s Profile`}
                         className='h-[36px] w-[36px] rounded-full outline-2 outline outline-foreground border-2 border-transparent'
                     />
-                </button>
+                </div>
             </PopoverTrigger>
             <PopoverContent className='w-80 mr-2 bg-[#343434]'>
                 <div className='flex gap-2 bg-backgroundtwo p-4 rounded-2xl justify-center items-center'>
                     <div>
-                        <img
+                        <CustomImage
                             src={
                                 user?.profilePicture ||
                                 "https://i.imgur.com/Frqsihe.jpeg"
@@ -93,7 +93,7 @@ export function UserNav() {
 
                 <div className='flex flex-col gap-2'>
                     <button className='w-full p-4 bg-backgroundtwo rounded-full text-left font-[500] flex gap-4 hover:bg-[#272727]'
-                    onClick={hmm}
+                        onClick={hmm}
                     >
                         <CircleFadingPlus /> Create Post
                     </button>
@@ -111,7 +111,7 @@ export function UserNav() {
                         Full Profile
                     </Link>
                     <button className='w-full p-4 bg-backgroundtwo rounded-full text-left font-[500] flex gap-4 hover:bg-[#272727]'
-                    onClick={hmm}
+                        onClick={hmm}
                     >
                         <Settings />
                         Settings

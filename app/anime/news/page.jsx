@@ -1,7 +1,6 @@
 import axios from "axios";
 import NewsCard from "../../../Sections/Universal/NewsCard.jsx";
 import "./some.css";
-import Link from "next/link";
 
 import MineConfig from "@/mine.config.js";
 
@@ -56,9 +55,6 @@ export async function generateMetadata() {
 }
 
 const newsFeed = async () => {
-  function getFakeId(id) {
-    return id.replace(/\//g, "_");
-  }
 
   try {
     const fetchedData = await axios.get(`${backendUrl}/api/mantox/get/news?topic=anime`);
@@ -69,8 +65,8 @@ const newsFeed = async () => {
     const mainData = fetchedData.data;
 
     return (
-      <>
-        <main className="bg-backgroundtwo px-4 py-4 md:px-[54px]">
+      <main className="bg-backgroundtwo">
+        <div className="max-w-[1800px] mx-auto p-4">
           <h1 className="text-[40px] md:text-[48px]  font-[700]">
             Anime News Feed
           </h1>
@@ -95,39 +91,17 @@ const newsFeed = async () => {
           </div>
           <div className="mt-2 min-h-screen">
             <div className="masonry-container2">
+
               {mainData.map(news => (
-                <Link
-                  key={getFakeId(news.id) || index}
-                  className="flex flex-col p-2 mb-3 masonry-item2"
-                  href={`/anime/news/${getFakeId(news.id)}`}
-                >
-                  <img
-                    src={news.thumbnail}
-                    className="rounded-md"
-                    alt={news.title}
-                  ></img>
-                  <h3
-                    className="text-[14px] line-clamp-2 font-[700]
-        pl-1 mt-1"
-                  >
-                    {news.title}
-                  </h3>
-                  <span className="text-[10px] pl-1 text-animeCardDimmerForeground">
-                    {news.uploadedAt}
-                  </span>
-                  <p
-                    className="text-[10px] pl-1 font-[600] text-[#00c5e7e6] flex flex-wrap
-      gap-1"
-                  >
-                    {news.topics &&
-                      news.topics.map((t, i) => <span key={i}>#{t}</span>)}
-                  </p>
-                </Link>
+                <NewsCard
+                  key={news.id}
+                  news={news}
+                />
               ))}
             </div>
           </div>
-        </main>
-      </>
+        </div>
+      </main>
     );
   } catch (e) {
     return <h1>Error</h1>;

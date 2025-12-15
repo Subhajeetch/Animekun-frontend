@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import "./TrendingSlider.css";
+import CustomImage from "../Universal/CustomImage";
 
 const TrendingAnime = ({ data }) => {
   const getPerPage = () => {
@@ -55,7 +56,7 @@ const TrendingAnime = ({ data }) => {
               style={{ borderRadius: "10px" }}
             >
               <div className="flex-1 relative overflow-hidden">
-                <img
+                <CustomImage
                   src={anime.poster}
                   alt={anime.name}
                   className="object-cover object-top h-full w-full"

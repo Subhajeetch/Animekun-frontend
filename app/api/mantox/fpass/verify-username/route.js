@@ -1,13 +1,15 @@
 import axios from "axios";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+
 const baseUrl = process.env.CF_DB_URI;
 
 // Handle preflight CORS requests
 export async function OPTIONS() {
-    return new Response(null, {
-        status: 204, // No Content
+    return NextResponse.json(null, {
+        status: 204,
         headers: {
-            "Access-Control-Allow-Origin": "*", // Allow all origins
+            "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type"
         }
@@ -15,19 +17,17 @@ export async function OPTIONS() {
 }
 
 export async function POST(req) {
-    const cookieStore = await cookies();
-
     try {
         // Parse request body
         const { username } = await req.json();
 
         // Validate required fields
         if (!username) {
-            return new Response(
-                JSON.stringify({
+            return NextResponse.json(
+                {
                     success: false,
                     message: "Username is required"
-                }),
+                },
                 {
                     status: 400,
                     headers: {
@@ -46,29 +46,17 @@ export async function POST(req) {
             `${baseUrl}/find-user-fpass`,
             userInput,
             {
-                headers: { "Content-Type": "application/json" },
-                withCredentials: true
+                headers: { "Content-Type": "application/json" }
             }
         );
 
-        // Securely set cookies
-        cookieStore.set({
-            name: "forPassToken",
-            value: response.data.accessToken,
-            httpOnly: true, // Prevents JavaScript access (XSS protection)
-            secure: true, // Ensures HTTPS-only (prevents MITM attacks)
-            sameSite: "strict", // Prevents CSRF attacks
-            maxAge: 1800, // 30 mins (in seconds)
-            path: "/" // Cookie is available across the whole site
-        });
-
-        // Return success response
-        return new Response(
-            JSON.stringify({
+        // Create NextResponse first
+        const nextResponse = NextResponse.json(
+            {
                 success: true,
                 message: "Found the account",
                 user: response.data.user
-            }),
+            },
             {
                 status: 201,
                 headers: {
@@ -78,6 +66,20 @@ export async function POST(req) {
                 }
             }
         );
+
+        // Set cookie on the response
+        nextResponse.cookies.set({
+            name: "forPassToken",
+            value: response.data.accessToken,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 1800, // 30 mins (in seconds)
+            path: "/"
+        });
+
+        return nextResponse;
+
     } catch (error) {
         console.error("Error finding the user", error.message);
 
@@ -87,8 +89,8 @@ export async function POST(req) {
             error.message ||
             "Internal server error";
 
-        return new Response(
-            JSON.stringify({ success: false, message: errorMessage }),
+        return NextResponse.json(
+            { success: false, message: errorMessage },
             {
                 status: error.response?.status || 500,
                 headers: {

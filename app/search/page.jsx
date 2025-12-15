@@ -1,5 +1,3 @@
-import axios from "axios";
-import Link from "next/link";
 import "../../Styles/AnimeCardGrid.css";
 import { getSearchResults } from "@/DataRoutes/index.js";
 
@@ -21,9 +19,6 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog";
 
@@ -147,10 +142,10 @@ const SearchAnime = async ({ searchParams }) => {
     return (
         <>
             <div className='flex flex-col md:flex-row bg-backgroundtwo'>
-                <div className='container flex-1 mx-auto mt-2 p-4'>
+                <div className='container flex-1 mt-2 max-w-[1800px] mx-auto p-4'>
                     <div className='flex justify-between items-center'>
                         <h1
-                            className='text-[14px] truncate mr-2 font-[700] p-4 bg-gradient-to-l
+                            className='text-[16px] truncate mr-2 font-[700] p-4 bg-gradient-to-l
         from-transparent to-backgroundHover
             rounded-md'
                         >
@@ -160,7 +155,7 @@ const SearchAnime = async ({ searchParams }) => {
                         <Dialog>
                             <DialogTrigger
                                 className='bg-backgroundHover h-8 w-16 hidden
-              md:flex justify-center items-center font-[700]'
+              md:flex justify-center items-center font-[700] rounded-md'
                             >
                                 Filter
                             </DialogTrigger>
@@ -184,7 +179,7 @@ const SearchAnime = async ({ searchParams }) => {
                     <div className='mt-6 min-h-screen'>
                         <div className='grid animeCardGrid gap-4'>
                             {animes.map(anime => (
-                                <AnimeCard anime={anime} />
+                                <AnimeCard key={anime.id} anime={anime} />
                             ))}
                         </div>
                     </div>

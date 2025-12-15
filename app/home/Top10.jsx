@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import "./some.css";
+import CustomImage from "@/Sections/Universal/CustomImage";
 
 const AnimeTop10 = ({ top10Animes }) => {
   const [activeTab, setActiveTab] = useState("t");
@@ -27,11 +28,10 @@ const AnimeTop10 = ({ top10Animes }) => {
           <button
             key={period.key}
             onClick={() => setActiveTab(period.key)}
-            className={`px-3 py-2 font-[700] text-[12px] md:text-[15px] transition-colors ${
-              activeTab === period.key
+            className={`px-3 py-2 font-[700] text-[12px] md:text-[15px] transition-colors ${activeTab === period.key
                 ? "bg-main text-white"
                 : "bg-backgroundtwo text-discriptionForeground hover:bg-separatorOnBackgroundtwo hover:text-foreground"
-            }`}
+              }`}
             aria-label={`Show ${period.label} rankings`}
           >
             {period.label}
@@ -69,7 +69,7 @@ const AnimeTop10 = ({ top10Animes }) => {
             </div>
 
             {/* Poster Image */}
-            <img
+            <CustomImage
               src={anime.poster}
               alt={`Poster for ${anime.name}`}
               className="w-[60px] h-[90px] object-cover rounded-md"

@@ -112,7 +112,7 @@ const ContinueWatching = () => {
               overflow-hidden p-3 flex relative card-item"
                     href={`/watch/${anime.animeId}`}
                   >
-                    <img
+                    <CustomImage
                       src={anime.poster}
                       alt={anime.animeEngName}
                       className="w-16 h-24 object-cover rounded-lg"

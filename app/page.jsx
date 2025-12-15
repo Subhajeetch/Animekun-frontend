@@ -1,7 +1,7 @@
 import Link from "next/link";
 import "./landingPage.css";
 import { Play } from "@/Sections/Universal/icons.jsx";
-import ShareComponent from "@/Sections/LandingPage/ShareComponent.jsx";
+import ShareComponent from "@/Sections/Universal/ShareComponent.jsx";
 import axios from "axios";
 import NewsCard from "@/Sections/Universal/NewsCard.jsx";
 import { ChevronRight } from "lucide-react";
@@ -63,6 +63,10 @@ const LandingPage = async () => {
 
     const mainData = fetchedData.data;
 
+    const headingText = "Share our website with your cool friends!";
+    const shareTitle = "Watch your favourite anime for free without ads!! - Animekun";
+    const shareLink = "https://animekun.top/home";
+
     return (
       <main className="bg-black bg-[radial-gradient(#bfbfbf36_1px,transparent_1px)] [background-size:16px_16px] p-4">
         {/* Hero Section */}
@@ -92,24 +96,24 @@ const LandingPage = async () => {
             </Link>
 
             <div className="">
-              <ShareComponent />
+              <ShareComponent headingText={headingText} shareLink={shareLink} shareTitle={shareTitle} />
             </div>
           </div>
           <div className="hidden md:block">
             <CustomImage
               src="/extra/animekun-landingpage-banner.png"
               alt="Animekun Streaming Site Banner"
-              className="max-h-[800px] glowing-image"
+              className="max-h-[800px] aspect-square glowing-image"
             />
           </div>
         </div>
 
         <div className="mobile-banner bg-black w-max md:hidden">
-          <img
+          <CustomImage
             src="/extra/Anime_kun_cover.jpg"
             alt="Animekun Streaming Site Banner"
             className="anime-kun-mobile-bannner"
-          ></img>
+          />
         </div>
 
         <section className="md:mt-16 bg-black bg-opacity-40 max-w-[1800px] mx-auto px-4">

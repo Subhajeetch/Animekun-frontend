@@ -189,7 +189,7 @@ export default async function AnimeInfo({ params }) {
             <CustomImage
               src={getutilsData.banner || "https://i.imgur.com/1JNOKZx.jpeg"}
               alt={`${info.name} Banner`}
-              className="w-full h-[180px] md:h-auto max-h-[300px] object-cover"
+              className="w-full h-[180px] md:h-[270px] lg:h-[300px] object-cover"
             />
           )}
         </div>
@@ -657,7 +657,7 @@ export default async function AnimeInfo({ params }) {
                               }`}
                           >
                             <div className="w-[44px]">
-                              <img
+                              <CustomImage
                                 src={season.poster}
                                 alt={season.name}
                                 className="rounded-sm h-[64px] w-[42px] cover"

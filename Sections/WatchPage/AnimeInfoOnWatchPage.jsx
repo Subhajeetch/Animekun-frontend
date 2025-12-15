@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import Sequence from "./SequenceOnWatchPage.jsx";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import AiringSchedule from "./upcomingEp.jsx";
+import ShareComponent from "../Universal/ShareComponent.jsx";
+import CustomImage from "../Universal/CustomImage.jsx";
 
 const AnimeInfoSection = ({ anime, getutilsData }) => {
   const { info, moreInfo, seasons } = anime.anime;
@@ -23,20 +23,23 @@ const AnimeInfoSection = ({ anime, getutilsData }) => {
     return str.toLowerCase().split(" ").join("-");
   }
 
+  const shareLink = `https://animekun.top/watch/${info.id}`;
+  const shareTitle = `Watch ${info.name} on AnimeKun. Absolutely No ADs!!`;
+  const headingText = `Share ${info.name} to your friends!`;
+
   return (
-    <>
+    <div className="w-full bg-background">
       <div
-        className="grid lg:grid-cols-3 bg-background justify-center
-      md:justify-between md:items-center py-4 px-4 md:px-[54px] lg:gap-8"
+        className="flex justify-between max-w-[1800px] mx-auto p-4 lg:gap-8"
       >
-        <div className="flex flex-col max-w-[800px]">
+        <div className="flex-1 flex flex-col">
           <div className="flex gap-4 w-full">
             {/* Anime Poster */}
             <div className="flex flex-col items-center">
-              <img
+              <CustomImage
                 src={info.poster}
                 alt={info.name}
-                className="rounded-lg shadow-lg h-[90px]"
+                className="rounded-lg shadow-lg h-[130px]"
               />
 
               <div
@@ -51,7 +54,7 @@ const AnimeInfoSection = ({ anime, getutilsData }) => {
 
             {/* Anime Info */}
             <div className="md:col-span-2 flex-1">
-              <h1 className="text-[17px] font-bold text-white">{info.name}</h1>
+              <h1 className="text-[19px] font-bold text-white">{info.name}</h1>
 
               <div className="flex flex-col mt-4">
                 <div
@@ -117,7 +120,7 @@ const AnimeInfoSection = ({ anime, getutilsData }) => {
                 justify-center items-center flex hover:bg-foreground
                 hover:text-background`}
                   >
-                    <span className="text-[10px] font-[600]">{genre}</span>
+                    <span className="text-[12px] font-[600]">{genre}</span>
                   </Link>
                 ))}
               </div>
@@ -125,59 +128,32 @@ const AnimeInfoSection = ({ anime, getutilsData }) => {
           </div>
           <div>
             <div
-              className="mt-11 overflow-y-auto max-h-[100px] max-w-[500px]
+              className="mt-4 overflow-y-auto max-h-[100px] max-w-[800px]
               scrollbar-thin scrollbar-thumb-backgroundHover
           scrollbar-track-background pr-2"
             >
-              <p className="text-discriptionForeground text-[11px]">
+              <p className="text-discriptionForeground text-[13px]">
                 {info.description}
               </p>
             </div>
             <Link
               href={`/anime/${info.id}`}
               className="text-[11px] mt-2 underline
-          flex gap-1 items-center"
+          flex gap-1 items-center hover:text-main"
             >
               More Info <ChevronRight size={14} />
             </Link>
           </div>
-        </div>
-        <div
-          className="flex gap-4 flex-col md:flex-row justify-center
-        items-center"
-        >
-          {getutilsData.uE && (
-            <div
-              className="px-4 md:px-[54px] hidden lg:flex 
-              "
-            >
-              <AiringSchedule
-                data={getutilsData.uE}
-                color={getutilsData.color}
-              />
-            </div>
-          )}
-
-          <div
-            className="w-[320px] h-[90px] bg-[#36453f] rounded-lg
-                      my-4 lg:hidden"
-          >
-            share box ig
+          <div className="mt-4">
+            <ShareComponent headingText={headingText} shareLink={shareLink} shareTitle={shareTitle} />
           </div>
-
-          {!getutilsData.uE && (
-            <div className="w-[320px] h-[90px] bg-[#36453f] rounded-lg my-4
-            hidden lg:flex">
-              share box ig
-            </div>
-          )}
         </div>
 
-        <div className="hidden lg:block my-2 max-h-[400px]">
+        <div className="hidden lg:block my-2 w-[500px]">
           <Sequence anime={anime} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

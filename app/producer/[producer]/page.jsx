@@ -101,7 +101,7 @@ const ProducerPage = async ({ params, searchParams }) => {
   return (
     <>
       <div className="flex flex-col md:flex-row bg-backgroundtwo">
-        <div className="container flex-1 mx-auto mt-2 p-4">
+        <div className="container flex-1 mt-2 max-w-[1800px] mx-auto p-4">
           <div className="flex justify-between items-center">
             <h1
               className="text-[20px] font-[800] p-4 bg-gradient-to-l
@@ -115,7 +115,7 @@ const ProducerPage = async ({ params, searchParams }) => {
           <div className="mt-6 min-h-screen">
             <div className="grid animeCardGrid gap-4">
               {animes.map(anime => (
-                <AnimeCard anime={anime} />
+                <AnimeCard key={anime.id} anime={anime} />
               ))}
             </div>
           </div>

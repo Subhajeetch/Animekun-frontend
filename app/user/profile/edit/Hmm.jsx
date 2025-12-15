@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import useAuthStore from "@/AuthStore/userStore.js";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import axios from "axios";
+import CustomImage from "@/Sections/Universal/CustomImage";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -124,7 +125,7 @@ export default function EditProfile() {
                 </label>
                 <Dialog>
                     <DialogTrigger disabled={!!pfpRestriction}>
-                        <img
+                        <CustomImage
                             src={formData.profilePicture}
                             alt='Profile'
                             className='w-32 h-32 object-cover rounded-full cursor-pointer border-2 border-gray-300'

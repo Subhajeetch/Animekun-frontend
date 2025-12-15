@@ -12,13 +12,11 @@ export default function CustomImage({
     const imgRef = useRef(null);
 
     useEffect(() => {
-        // If image is already cached/loaded, ensure we set loaded state
         if (imgRef.current && imgRef.current.complete) {
             setIsLoaded(true);
             return;
         }
 
-        // Fallback: if onload doesn't fire for some reason, show image after timeout
         const t = setTimeout(() => {
             if (!imgRef.current || !imgRef.current.complete) {
                 setIsLoaded(true);
@@ -35,7 +33,7 @@ export default function CustomImage({
                 <img
                     src={placeholderSrc}
                     alt="blur-placeholder"
-                    className="absolute inset-0 w-full h-full object-cover blur-lg scale-105 transition duration-500"
+                    className="absolute inset-0 w-full h-full object-cover blur-lg scale-105"
                 />
             )}
 
@@ -47,7 +45,7 @@ export default function CustomImage({
                 loading="lazy"
                 onLoad={() => setIsLoaded(true)}
                 onError={() => setIsLoaded(true)}
-                className={`w-full object-cover transition-opacity duration-500 ${className} ${isLoaded ? 'opacity-100' : 'opacity-0'
+                className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'
                     }`}
                 {...props}
             />

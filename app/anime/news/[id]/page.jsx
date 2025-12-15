@@ -6,6 +6,7 @@ import { ArrowLeft, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import ReadAloud from "./ReadAloud.jsx";
 import MineConfig from "@/mine.config.js";
+import CustomImage from "@/Sections/Universal/CustomImage.jsx";
 
 const { backendUrl } = MineConfig;
 
@@ -94,65 +95,67 @@ const GenrePage = async ({ params }) => {
 
     return (
       <>
-        <main className="p-4 md:px-[54px] bg-backgroundtwo relative">
-          <Link
-            className="bg-background hover:bg-separatorOnBackgroundtwo rounded-md p-2 absolute top-4 left-4"
-            href="/anime/news"
-          >
-            <ArrowLeft />
-          </Link>
+        <main className=" bg-backgroundtwo ">
+          <div className="relative max-w-[1800px] mx-auto p-4">
+            <Link
+              className="bg-background hover:bg-separatorOnBackgroundtwo rounded-md p-2 absolute top-4 left-4"
+              href="/anime/news"
+            >
+              <ArrowLeft />
+            </Link>
 
-          {/* News Image */}
-          <div className="flex justify-center">
-            <img
-              src={news.thumbnail}
-              alt={news.title}
-              className="w-[200px] md:w-[360px] rounded-lg shadow-md"
-            />
-          </div>
-
-          {/* Title */}
-          <h1 className="text-[30px] font-[700] text-center my-6">
-            {news.title}
-          </h1>
-
-          {/* Intro */}
-
-          <div className="bg-background rounded-xl p-3 relative">
-            <div className="absolute top-3 right-3">
-              <ReadAloud text={news.description} />
+            {/* News Image */}
+            <div className="flex justify-center">
+              <CustomImage
+                src={news.thumbnail}
+                alt={news.title}
+                className="w-[200px] md:w-[360px] rounded-lg shadow-md"
+              />
             </div>
 
-            <h2 className="text-[17px] font-[700] mb-6">Full Details</h2>
-            {/* Description */}
-            <p className="mt-4 mb-2 text-lg font-semibold text-[#45ffab]">
-              {news.intro}
-            </p>
-            <p className="text-animeCardDimmerForeground text-[14px]">
-              {news.description}
-            </p>
-            {/* Meta Info */}
-            <p className="text-gray-400 text-sm mt-6 text-right">
-              Published on:{" "}
-              <span className="font-[800]">{news.uploadedAt}</span>
-            </p>
-          </div>
+            {/* Title */}
+            <h1 className="text-[30px] font-[700] text-center my-6">
+              {news.title}
+            </h1>
 
-          <div
-            className=" mt-10 h-[40px] bg-gradient-to-l
+            {/* Intro */}
+
+            <div className="bg-background rounded-xl p-3 relative">
+              <div className="absolute top-3 right-3">
+                <ReadAloud text={news.description} />
+              </div>
+
+              <h2 className="text-[17px] font-[700] mb-6">Full Details</h2>
+              {/* Description */}
+              <p className="mt-4 mb-2 text-lg font-semibold text-[#45ffab]">
+                {news.intro}
+              </p>
+              <p className="text-animeCardDimmerForeground text-[14px]">
+                {news.description}
+              </p>
+              {/* Meta Info */}
+              <p className="text-gray-400 text-sm mt-6 text-right">
+                Published on:{" "}
+                <span className="font-[800]">{news.uploadedAt}</span>
+              </p>
+            </div>
+
+            <div
+              className=" mt-10 h-[40px] bg-gradient-to-l
         from-transparent to-backgroundHover max-w-fit mb-[10px] p-2 flex
         items-center font-[700] text-[18px] rounded-l-md gap-2"
-          >
-            <div className="h-[28px] w-[8px] rounded-full bg-main"></div>
+            >
+              <div className="h-[28px] w-[8px] rounded-full bg-main"></div>
 
-            <h2>Underrated Animes</h2>
-          </div>
+              <h2>Underrated Animes</h2>
+            </div>
 
-          <div className="mt-6">
-            <div className="grid animeCardGrid gap-4">
-              {animes.map(anime => (
-                <AnimeCard anime={anime} />
-              ))}
+            <div className="mt-6">
+              <div className="grid animeCardGrid gap-4">
+                {animes.map(anime => (
+                  <AnimeCard key={anime.id} anime={anime} />
+                ))}
+              </div>
             </div>
           </div>
         </main>

@@ -5,6 +5,7 @@ import { Image, CircleArrowRight, LoaderCircle } from "lucide-react";
 import LoadingSke from "@/Sections/Universal/Loader.jsx";
 import "./some.css";
 import { toast } from "sonner";
+import CustomImage from "@/Sections/Universal/CustomImage";
 
 export default function BugReportPage() {
   const [email, setEmail] = useState("");
@@ -291,18 +292,16 @@ c-54 0 -102 -3 -105 -7z"
             value={bugDescription}
             onChange={handleBugDescription}
             maxLength={MAX_CHAR}
-            className={`w-full p-2 rounded bg-backgroundtwo text-[14px] ${
-              charCount > MAX_CHAR ? "border-red-500" : "outline-none"
-            }`}
+            className={`w-full p-2 rounded bg-backgroundtwo text-[14px] ${charCount > MAX_CHAR ? "border-red-500" : "outline-none"
+              }`}
             rows="5"
             required
           ></textarea>
 
           {/* Character Counter */}
           <p
-            className={`text-[13px] absolute top-0 right-2 ${
-              charCount > MAX_CHAR ? "text-red-500" : "text-gray-600"
-            }`}
+            className={`text-[13px] absolute top-0 right-2 ${charCount > MAX_CHAR ? "text-red-500" : "text-gray-600"
+              }`}
           >
             {charCount}/{MAX_CHAR}
           </p>
@@ -325,7 +324,7 @@ c-54 0 -102 -3 -105 -7z"
               className="absolute opacity-0 w-full h-40 cursor-pointer"
             />
             {imagePreview ? (
-              <img
+              <CustomImage
                 src={imagePreview}
                 alt="Preview"
                 className="w-full h-full object-cover rounded-lg"
@@ -357,11 +356,10 @@ c-54 0 -102 -3 -105 -7z"
         {/* Submit Button */}
         <button
           type="submit"
-          className={`w-full bg-status text-background font-bold p-2 rounded ${
-            loading || imageUploading
+          className={`w-full bg-status text-background font-bold p-2 rounded ${loading || imageUploading
               ? "opacity-50 cursor-not-allowed"
               : "cursor-pointer"
-          }`}
+            }`}
           disabled={loading || imageUploading}
         >
           {loading ? (

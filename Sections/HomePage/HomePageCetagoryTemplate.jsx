@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import "./HomepageSections.css";
+import CustomImage from "../Universal/CustomImage";
 
 const HomePageCetagoryTemplate = ({ data }) => {
   return (
@@ -20,7 +21,7 @@ const HomePageCetagoryTemplate = ({ data }) => {
             style={{ borderRadius: "10px" }}
           >
             <div className="flex-1 rounded-md relative overflow-hidden">
-              <img
+              <CustomImage
                 src={anime.poster}
                 alt={anime.name}
                 className="object-cover object-top h-full w-full"

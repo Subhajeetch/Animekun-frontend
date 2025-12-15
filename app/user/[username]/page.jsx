@@ -2,6 +2,7 @@
 import { CalendarDays, UserRound, Flame, ChevronRight } from "lucide-react";
 import axios from "axios";
 import EditButton from "./EditButton.jsx";
+import CustomImage from "@/Sections/Universal/CustomImage.jsx";
 
 const Profile = async ({ params }) => {
     const { username } = await params;
@@ -44,10 +45,11 @@ const Profile = async ({ params }) => {
                     bg-amber-100 shadow-md'
             >
                 <div className='h-full w-full rounded-b-2xl overflow-hidden'>
-                    <img
+                    <CustomImage
                         className='h-full w-full object-cover'
                         src='https://s4.anilist.co/file/anilistcdn/media/anime/banner/21-wf37VakJmZqs.jpg'
-                    ></img>
+                        alt='Cover Image'
+                    />
                 </div>
 
                 <div
@@ -56,7 +58,7 @@ const Profile = async ({ params }) => {
                 ></div>
 
                 <div className='absolute bottom-[-58px] lg:bottom-[-90px] left-6 md:left-[60px]'>
-                    <img
+                    <CustomImage
                         src={user?.profilePicture || "https://i.imgur.com/Frqsihe.jpeg"}
                         alt='Profile'
                         className='w-24 lg:h-40 h-24 lg:w-40 rounded-full border-4 border-backgroundHover'

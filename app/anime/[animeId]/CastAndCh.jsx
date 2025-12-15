@@ -1,5 +1,6 @@
 "use client";
 
+import CustomImage from "@/Sections/Universal/CustomImage";
 import { CircleArrowOutUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -82,12 +83,12 @@ const CastAndCh = ({ getutilsData }) => {
             style={{ scrollSnapAlign: "start" }}
           >
             <div className="w-[150px] flex-none flex flex-col items-center">
-              <img
+              <CustomImage
                 src={getCImage(c)}
                 alt={`Cover of ${getCName(c)}`}
                 className="w-[100px] h-[100px] object-cover
               object-top rounded-full"
-              ></img>
+              />
               <div className="flex flex-col">
                 <p className="text-[16px] font-[800] text-center line-clamp-1">
                   {getCName(c)}
@@ -99,12 +100,12 @@ const CastAndCh = ({ getutilsData }) => {
 
               {getVName(c) && (
                 <div className="flex justify-center items-center gap-1">
-                  <img
+                  <CustomImage
                     className="h-[20px] w-[20px] rounded-full object-cover
                 object-top"
                     src={getVImage(c)}
                     alt={`Profile picture of ${getVName(c)}`}
-                  ></img>
+                  />
                   <Link
                     href={`https://anilist.co/staff/${getVID(c)}`}
                     className="flex gap-0.5 items-center"

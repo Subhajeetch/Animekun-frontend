@@ -16,6 +16,7 @@ import {
   LogIn,
   TentTree
 } from "lucide-react";
+import CustomImage from "@/Sections/Universal/CustomImage";
 
 const categories = [
   { display: "Plan To Watch", id: "PlanToWatch", icon: FileChartColumn },
@@ -93,49 +94,50 @@ const WatchlistPage = () => {
   };
 
   return (
-    <main className="p-4 md:px-[54px] bg-backgroundtwo min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">My Watchlist</h1>
+    <main className=" bg-backgroundtwo min-h-screen ">
+      <div className="max-w-[1800px] mx-auto p-4">
+        <h1 className="text-3xl font-bold mb-6">My Watchlist</h1>
 
-      {/* Tabs */}
-      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 mb-6">
-        {categories.map(({ display, id, icon: Icon }) => (
-          <button
-            key={id}
-            className={`px-2 md:px-4 py-4 md:py-6 rounded-xl flex items-center gap-2 md:gap-4
-            font-bold transition-all ${
-              activeTab === id ? "bg-main text-white" : "bg-background"
-            }`}
-            onClick={() => setActiveTab(id)}
-          >
-            <Icon className="h-[16px] md:h-[24px]" />
-            <span className="text-[10px] md:text-[16px]">{display}</span>
-          </button>
-        ))}
-      </div>
+        {/* Tabs */}
+        <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2 mb-6">
+          {categories.map(({ display, id, icon: Icon }) => (
+            <button
+              key={id}
+              className={`px-2 md:px-4 py-4 md:py-6 rounded-xl flex items-center gap-2 md:gap-4
+            font-bold transition-all ${activeTab === id ? "bg-main text-white" : "bg-background"
+                }`}
+              onClick={() => setActiveTab(id)}
+            >
+              <Icon className="h-[16px] md:h-[24px]" />
+              <span className="text-[10px] md:text-[16px]">{display}</span>
+            </button>
+          ))}
+        </div>
 
-      <div className="h-0.5 w-full bg-[#3a3a3ae6] rounded-xl mb-6"></div>
+        <div className="h-0.5 w-full bg-[#3a3a3ae6] rounded-xl mb-6"></div>
 
-      {/* Anime Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {watchlist[activeTab]?.length > 0 ? (
-          watchlist[activeTab].map(anime => (
-            <AnimeCard
-              key={anime.id}
-              anime={anime}
-              category={activeTab}
-              onRemove={handleRemove}
-              onMove={handleMove}
-            />
-          ))
-        ) : (
-          <div
-            className="text-center text-gray-500 col-span-full flex flex-col
+        {/* Anime Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {watchlist[activeTab]?.length > 0 ? (
+            watchlist[activeTab].map(anime => (
+              <AnimeCard
+                key={anime.id}
+                anime={anime}
+                category={activeTab}
+                onRemove={handleRemove}
+                onMove={handleMove}
+              />
+            ))
+          ) : (
+            <div
+              className="text-center text-gray-500 col-span-full flex flex-col
           items-center mt-10"
-          >
-            <TentTree size={68} />
-            <h2 className="text-[24px] mt-2 font-bold">This List is empty</h2>
-          </div>
-        )}
+            >
+              <TentTree size={68} />
+              <h2 className="text-[24px] mt-2 font-bold">This List is empty</h2>
+            </div>
+          )}
+        </div>
       </div>
     </main>
   );
@@ -203,7 +205,7 @@ const AnimeCard = ({ anime, category, onRemove, onMove }) => {
 
   return (
     <div className="bg-background p-2 rounded-lg shadow-md relative flex gap-2 justify-between">
-      <img
+      <CustomImage
         src={anime.poster}
         alt={anime.name}
         className="w-16 h-24 object-cover rounded-lg"

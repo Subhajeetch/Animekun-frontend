@@ -23,6 +23,7 @@ import {
 
 import Link from "next/link";
 import "./some.css";
+import CustomImage from "@/Sections/Universal/CustomImage";
 
 const History = () => {
   const [watchHistory, setWatchHistory] = useState([]);
@@ -98,47 +99,49 @@ const History = () => {
   };
 
   return (
-    <main className="p-4 md:px-[54px] min-h-screen bg-backgroundtwo">
-      <div className=" mb-10 flex justify-start">
-        <Link
-          className="flex justify-between items-center bg-background gap-2
+    <main className="min-h-screen bg-backgroundtwo">
+      <div className="max-w-[1800px] mx-auto p-4">
+        <div className=" mb-10 flex justify-start">
+          <Link
+            className="flex justify-between items-center bg-background gap-2
         py-2 px-3 rounded-lg hover:bg-separatorOnBackgroundtwo"
-          href="/home"
-        >
-          <ArrowLeft />
-          <span className="text-[18px] font-bold">Home</span>
-        </Link>
-      </div>
-
-      {Object.keys(watchHistory).length === 0 ? (
-        <div className="flex flex-col justify-center items-center">
-          <MessageCircleQuestion size={58} />
-
-          <h1 className="text-[22px] mt-4 font-bold">
-            No watch history found.
-          </h1>
-          <p className="text-gray-500 text-[13px]">
-            Please watch something to get started
-          </p>
+            href="/home"
+          >
+            <ArrowLeft />
+            <span className="text-[18px] font-bold">Home</span>
+          </Link>
         </div>
-      ) : (
-        Object.entries(watchHistory).map(([date, animes]) => (
-          <div key={date} className="mb-6 max-w-[600px]">
-            <h3 className="text-[30px] font-bold text-animeCardDimmerForeground mb-3">
-              {date}
-            </h3>
-            <div className="space-y-4">
-              {animes.map(anime => (
-                <AnimeCard
-                  key={anime.animeId}
-                  anime={anime}
-                  handleDelete={handleDelete}
-                />
-              ))}
-            </div>
+
+        {Object.keys(watchHistory).length === 0 ? (
+          <div className="flex flex-col justify-center items-center">
+            <MessageCircleQuestion size={58} />
+
+            <h1 className="text-[22px] mt-4 font-bold">
+              No watch history found.
+            </h1>
+            <p className="text-gray-500 text-[13px]">
+              Please watch something to get started
+            </p>
           </div>
-        ))
-      )}
+        ) : (
+          Object.entries(watchHistory).map(([date, animes]) => (
+            <div key={date} className="mb-6 max-w-[600px]">
+              <h3 className="text-[30px] font-bold text-animeCardDimmerForeground mb-3">
+                {date}
+              </h3>
+              <div className="space-y-4">
+                {animes.map(anime => (
+                  <AnimeCard
+                    key={anime.animeId}
+                    anime={anime}
+                    handleDelete={handleDelete}
+                  />
+                ))}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </main>
   );
 };
@@ -152,7 +155,7 @@ const AnimeCard = ({ anime, handleDelete }) => {
       {/* Anime Info */}
       <div className="flex items-start p-3 cursor-pointer">
         <Link href={`/watch/${anime.animeId}`}>
-          <img
+          <CustomImage
             src={anime.poster}
             alt={anime.animeEngName}
             className="w-16 h-24 object-cover rounded-lg"
@@ -187,7 +190,7 @@ const AnimeCard = ({ anime, handleDelete }) => {
 
                 <div className="flex items-start p-3 bg-backgroundtwo rounded-xl">
                   <div href={`/watch/${anime.animeId}`}>
-                    <img
+                    <CustomImage
                       src={anime.poster}
                       alt={anime.animeEngName}
                       className="w-16 h-24 object-cover rounded-lg"

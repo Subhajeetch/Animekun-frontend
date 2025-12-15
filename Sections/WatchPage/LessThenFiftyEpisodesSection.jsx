@@ -8,7 +8,8 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
   currentEpisode,
   handleEpisodeChange,
   watchedEpisodes,
-  targetHeight
+  targetHeight,
+  isEpAnnouncementCollapsed
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [filteredEpisode, setFilteredEpisode] = useState(null);
@@ -51,9 +52,9 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
 
   return (
     <div
-      className="flex flex-col gap-2 bg-background border-t-2
-            border-separatorOnBackgroundtwo w-full md:min-w-[300px]
-            lg:max-w-[400px]"
+      className="flex flex-col gap-2 bg-background
+            w-full
+            h-full min-h-0"
     >
       <div
         className="w-full h-[38px] px-4 bg-background flex
@@ -100,7 +101,7 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
               </g>
             </g>
           </svg>
-          <span className="text-[12px] font-[600]">Episodes list:</span>
+          <span className="text-[16px] font-[700]">Episodes list:</span>
         </div>
         <div className="relative flex items-center">
           <input
@@ -108,48 +109,50 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
             placeholder="Search ep..."
             value={searchValue}
             onChange={handleSearch}
-            className="w-[100px] h-[20px] rounded
-                  bg-backgroundHover outline-0 pr-[20px] pl-[17px] text-[8px]"
+            className="w-[140px] h-[28px] rounded
+                  bg-backgroundHover outline-0 pr-[4px] pl-[28px] text-[14px]"
           />
-          <Search className="absolute h-[10px] left-[-2px]" />
+          <Search className="absolute h-[18px] left-[2px]" />
           {searchValue && (
             <X
               className="absolute right-[4px] cursor-pointer bg-[#ff1717]"
-              size={12}
+              size={18}
               onClick={clearSearch}
             />
           )}
         </div>
       </div>
       <div
-        className="px-2 py-2 flex flex-col gap-1.5 overflow-y-auto
+        className=" p-2 flex flex-col gap-1.5 flex-1 min-h-0 overflow-y-auto
              bg-episodeContainerBackground relative scrollbar-thin
              scrollbar-thumb-backgroundHover
-          scrollbar-track-background pr-2"
+          scrollbar-track-background"
         style={{
-          maxHeight: `${targetHeight + 50}px`
+          maxHeight:
+            typeof window !== "undefined" && window.innerWidth > 1280
+              ? `${targetHeight - 200}px`
+              : "500px"
         }}
       >
         {/* Overlay */}
         {showOverlay && (
           <div
             className="absolute inset-0 bg-backgroundtwo bg-opacity-70 backdrop-blur-sm z-10 flex
-              items-start pt-4 justify-center"
+              items-start justify-center p-2"
           >
             {filteredEpisode ? (
               <div
-                className={`px-2 py-1 rounded w-full max-w-[300px] ${
-                  filteredEpisode.episodeId === currentEpisode
-                    ? "bg-main"
-                    : watchedEpisodes.includes(filteredEpisode.episodeId)
+                className={`px-2 py-1 rounded w-full ${filteredEpisode.episodeId === currentEpisode
+                  ? "bg-main"
+                  : watchedEpisodes.includes(filteredEpisode.episodeId)
                     ? "bg-watchedEpisodeBackground border-[1px] border-[#e2e2e2]"
                     : "bg-episodeBackground"
-                }`}
+                  }`}
                 onClick={() => handleEpisodeChange(filteredEpisode.episodeId)}
               >
                 {filteredEpisode.episodeId === currentEpisode ? (
                   <div className="flex justify-between items-center">
-                    <span className="truncate text-[12px] font-[500] flex gap-3">
+                    <span className="truncate text-[14px] font-[500] flex gap-3">
                       <span>{filteredEpisode.number}</span>
                       <span>{filteredEpisode.title}</span>
                     </span>
@@ -179,13 +182,12 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
                   </div>
                 ) : (
                   <span
-                    className={`flex truncate text-[12px] flex
+                    className={`flex truncate text-[14px]
                         gap-3
-                        ${
-                          watchedEpisodes.includes(filteredEpisode.episodeId)
-                            ? "text-watchedEpisodeForeground"
-                            : ""
-                        }`}
+                        ${watchedEpisodes.includes(filteredEpisode.episodeId)
+                        ? "text-watchedEpisodeForeground"
+                        : ""
+                      }`}
                   >
                     <span>{filteredEpisode.number}</span>
                     <span>{filteredEpisode.title}</span>
@@ -208,10 +210,9 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
               episode.episodeId === currentEpisode ? currentEpisodeRef : null
             }
             className={`px-2 py-1.5 rounded cursor-pointer
-              ${
-                episode.episodeId === currentEpisode
-                  ? "bg-main"
-                  : watchedEpisodes.includes(episode.episodeId)
+              ${episode.episodeId === currentEpisode
+                ? "bg-main"
+                : watchedEpisodes.includes(episode.episodeId)
                   ? "bg-watchedEpisodeBackground"
                   : "bg-episodeBackground"
               }`}
@@ -219,7 +220,7 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
           >
             {episode.episodeId === currentEpisode ? (
               <div className="flex justify-between items-center">
-                <span className="truncate text-[12px] font-[500] flex gap-3">
+                <span className="truncate text-[14px] font-[500] flex gap-3">
                   <span>{episode.number}</span>
                   <span>{episode.title}</span>
                 </span>
@@ -249,13 +250,12 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
               </div>
             ) : (
               <span
-                className={`flex truncate text-[12px] flex
+                className={`flex truncate text-[14px]
                         gap-3
-                        ${
-                          watchedEpisodes.includes(episode.episodeId)
-                            ? "text-watchedEpisodeForeground"
-                            : "episodeForeground"
-                        }`}
+                        ${watchedEpisodes.includes(episode.episodeId)
+                    ? "text-watchedEpisodeForeground"
+                    : "episodeForeground"
+                  }`}
               >
                 <span>{episode.number}</span>
                 <span>{episode.title}</span>
@@ -263,6 +263,12 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
             )}
           </div>
         ))}
+
+        {/* ghost box to scroll up so last episode isn't hidden by sticky headers */}
+        <div
+          aria-hidden="true"
+          className={`w-full flex-shrink-0 ${isEpAnnouncementCollapsed ? "h-[26px]" : "h-[96px]"}`}
+        />
       </div>
     </div>
   );

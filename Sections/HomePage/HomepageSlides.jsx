@@ -27,6 +27,7 @@ const HomepageSlides = ({ data }) => {
       <img
         src={anime.poster}
         alt={anime.name}
+        loading="lazy"
         className={`absolute right-0 w-full md:w-[80%] h-full object-cover
         object-top
         slide-image  ${isMobile ? "" : "fading-image "} `}

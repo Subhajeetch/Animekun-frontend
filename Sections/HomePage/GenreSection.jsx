@@ -3,6 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import GenreMap from "../../Utils/genreMap.js";
 import { ChevronRight } from "lucide-react";
 import "./HomepageSections.css";
+import CustomImage from "../Universal/CustomImage.jsx";
 
 const GenreSection = () => {
 
@@ -34,7 +35,7 @@ const GenreSection = () => {
               className="absolute right-[-6px] bottom-[-10px] h-[56px] w-[56px] bg-[#2b553e]
           transform rotate-[30deg] rounded-md add-shadow"
             >
-              <img
+              <CustomImage
                 src={genre.url}
                 alt={genre.display}
                 className="h-full w-full rounded-md shadow-md"

@@ -1,7 +1,8 @@
 "use client";
 
-import axios from "axios";
+import axios, { get } from "axios";
 import { useState, useEffect, useRef } from "react";
+import NewArringEpTime from "./NewArringEpTime.jsx";
 
 import CustomVideoPlayer from "./VideoPlayer/CustomVideoPlayer.jsx";
 import Loader from "../Universal/Loader.jsx";
@@ -19,7 +20,6 @@ import ArtplayerPlayer from '@/components/ArtplayerPlayer';
 import MineConfig from "@/mine.config.js";
 const { backendUrl } = MineConfig;
 
-
 const WatchContainer = ({
   episodes,
   animeId,
@@ -28,6 +28,8 @@ const WatchContainer = ({
   getutilsData
 }) => {
   const targetRef = useRef(null);
+  const videoPlayerRef = useRef(null);
+  const [targetHeight, setTargetHeight] = useState(0);
 
   // State for dynamic functionality
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -51,6 +53,10 @@ const WatchContainer = ({
   );
   const [watchedEpisodes, setWatchedEpisodes] = useState([]);
 
+
+  // for new ep arivell time
+  const [isEpAnnouncementCollapsed, setIsEpAnnouncementCollapsed] = useState(true);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedWatchedEpisodes = JSON.parse(
@@ -59,8 +65,6 @@ const WatchContainer = ({
       setWatchedEpisodes(savedWatchedEpisodes);
     }
   }, [currentEpisode]);
-
-  const [targetHeight, setTargetHeight] = useState(0);
 
   useEffect(() => {
     if (!episodes || episodes.length === 0) return;
@@ -342,23 +346,7 @@ const WatchContainer = ({
     }
   };
 
-  useEffect(() => {
-    if (targetRef.current) {
-      setTargetHeight(targetRef.current.offsetHeight); // Set the target div's height
-    }
 
-    const handleResize = () => {
-      if (targetRef.current) {
-        setTargetHeight(targetRef.current.offsetHeight);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     const updateContinueWatching = () => {
@@ -457,241 +445,185 @@ const WatchContainer = ({
   const artWorkUrl = animeInfoData.anime.info.poster;
   const animeNameFF = animeInfoData.anime.info.name || "";
 
+
+  useEffect(() => {
+    if (targetRef.current) {
+      setTargetHeight(targetRef.current.offsetHeight); // Set the target div's height
+    }
+
+    const handleResize = () => {
+      if (targetRef.current) {
+        setTargetHeight(targetRef.current.offsetHeight);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const toggleEpAnnouncementCollapse = () => {
+    setIsEpAnnouncementCollapsed(!isEpAnnouncementCollapsed);
+  };
+
+
   return (
-    <>
-      <div
-        className="flex justify-center lg:flex-row flex-col gap-4 md:px-6
-        bg-backgroundtwo"
-      >
-        <div className="flex-1 md:min-w-[400px] lg:max-w-[940px]">
+    <div
+      className="flex justify-center lg:gap-8 max-w-[1800px] mx-auto lg:px-4 xl:flex-row flex-col bg-backgroundtwo lg:pt-8 lg:pb-12"
+    >
+      {/* video player starts here */}
+      <div ref={videoPlayerRef} className="flex-1 max-w-[1200px] lg:pt-4 lg:px-4 lg:rounded-lg bg-background">
 
-          <div ref={targetRef}>
-            {/* Show loader when loading video */}
-            {loadingVideo && (
-              <AspectRatio
-                ratio={16 / 9}
-                className="bg-[#070707] flex justify-center items-center"
+        <div ref={targetRef} className="lg:rounded-lg overflow-hidden bg-black">
+          {/* Show loader when loading video */}
+          {loadingVideo && (
+            <AspectRatio
+              ratio={16 / 9}
+              className="bg-[#070707] flex justify-center items-center"
+            >
+              <Loader />
+            </AspectRatio>
+          )}
+
+          {/* Show error when no server selected */}
+          {!loadingVideo && noServerSelected && (
+            <AspectRatio
+              ratio={16 / 9}
+              className="bg-[#0f0f0f] flex flex-col justify-center items-center"
+            >
+              <span className="text-[16px] flex items-center gap-2 text-[#efefef] font-[800]">
+                <TriangleAlert size={24} /> No selected server.
+              </span>
+              <span className="text-[10px] text-[#cccccc] mt-1">
+                Please select from available server(s) [ SUB / DUB ].
+              </span>
+            </AspectRatio>
+          )}
+
+          {/* Show error when sources are empty */}
+          {!loadingVideo && !noServerSelected && streamingData && (!streamingData.sources || streamingData.sources.length === 0) && (
+            <AspectRatio
+              ratio={16 / 9}
+              className="bg-black flex flex-col justify-center items-center gap-1"
+            >
+              <span className="text-[16px] flex items-center gap-1 text-[#efefef] font-[800]">
+                <TriangleAlert size={24} /> Something went wrong!
+              </span>
+              <span className="text-[10px] text-[#cccccc]">
+                This usually happens when video server is down.
+              </span>
+              <span className="text-[10px] text-[#cccccc]">
+                You can try refreshing the page
+              </span>
+              <button
+                onClick={() => setResfreshToggle(prev => !prev)}
+                className="flex items-center gap-2 px-3 py-1 bg-foreground text-background rounded-md mt-4 font-bold hover:opacity-80 transition-opacity"
               >
-                <Loader />
-              </AspectRatio>
-            )}
+                <RefreshCw size={20} />
+                Refresh
+              </button>
+            </AspectRatio>
+          )}
 
-            {/* Show error when no server selected */}
-            {!loadingVideo && noServerSelected && (
-              <AspectRatio
-                ratio={16 / 9}
-                className="bg-[#0f0f0f] flex flex-col justify-center items-center"
-              >
-                <span className="text-[16px] flex items-center gap-2 text-[#efefef] font-[800]">
-                  <TriangleAlert size={24} /> No selected server.
-                </span>
-                <span className="text-[10px] text-[#cccccc] mt-1">
-                  Please select from available server(s) [ SUB / DUB ].
-                </span>
-              </AspectRatio>
-            )}
+          {/* Show error when first source is not M3U8 */}
+          {!loadingVideo && !noServerSelected && streamingData && streamingData.sources && streamingData.sources.length > 0 && streamingData.sources[0].isM3U8 === false && (
+            <AspectRatio
+              ratio={16 / 9}
+              className="bg-[#1a1a1a] flex flex-col justify-center items-center gap-1"
+            >
+              <span className="text-[16px] flex items-center gap-1 text-[#efefef] font-[800]">
+                <TriangleAlert size={24} /> Server busy!
+              </span>
+              <span className="text-[10px] text-[#cccccc]">
+                Please switch to different server.
+              </span>
+            </AspectRatio>
+          )}
 
-            {/* Show error when sources are empty */}
-            {!loadingVideo && !noServerSelected && streamingData && (!streamingData.sources || streamingData.sources.length === 0) && (
-              <AspectRatio
-                ratio={16 / 9}
-                className="bg-[#1a1a1a] flex flex-col justify-center items-center gap-1"
-              >
-                <span className="text-[16px] flex items-center gap-1 text-[#efefef] font-[800]">
-                  <TriangleAlert size={24} /> Something went wrong!
-                </span>
-                <span className="text-[10px] text-[#cccccc]">
-                  This usually happens when video server is down.
-                </span>
-                <span className="text-[10px] text-[#cccccc]">
-                  You can try refreshing the page
-                </span>
-                <button
-                  onClick={() => setResfreshToggle(prev => !prev)}
-                  className="flex items-center gap-2 px-3 py-1 bg-foreground text-background rounded-md mt-4 font-bold hover:opacity-80 transition-opacity"
-                >
-                  <RefreshCw size={20} />
-                  Refresh
-                </button>
-              </AspectRatio>
-            )}
+          {/* Only render player when everything is valid */}
+          {!loadingVideo && !noServerSelected && streamingData && streamingData.sources && streamingData.sources.length > 0 && streamingData.sources[0].isM3U8 !== false && (
+            <ArtplayerPlayer
+              key={`${currentEpisode}-${selectedServer}-${selectedLanguage}`}
+              data={streamingData}
+              episodeNumber={
+                episodes.find(ep => ep.episodeId === currentEpisode)?.number
+              }
+              episodeName={
+                episodes
+                  .find(ep => ep.episodeId === currentEpisode)
+                  ?.title.match(/Episode \d+/i)
+                  ? ""
+                  : episodes.find(ep => ep.episodeId === currentEpisode)?.title
+              }
+              handleNextEpisode={handleNextEpisode}
+              handlePreviousEpisode={handlePreviousEpisode}
+              skipIntroOutro={skipIntroOutro}
+              toggleFullscreen={toggleFullscreen}
+              isFullScreen={isFullScreen}
+              isLastEpisode={isLastEpisode}
+              isFirstEpisode={isFirstEpisode}
+              artWorkUrl={artWorkUrl}
+              animeNameFF={animeNameFF}
+              animeId={animeId}
+            />
+          )}
+        </div>
 
-            {/* Show error when first source is not M3U8 */}
-            {!loadingVideo && !noServerSelected && streamingData && streamingData.sources && streamingData.sources.length > 0 && streamingData.sources[0].isM3U8 === false && (
-              <AspectRatio
-                ratio={16 / 9}
-                className="bg-[#1a1a1a] flex flex-col justify-center items-center gap-1"
-              >
-                <span className="text-[16px] flex items-center gap-1 text-[#efefef] font-[800]">
-                  <TriangleAlert size={24} /> Server busy!
-                </span>
-                <span className="text-[10px] text-[#cccccc]">
-                  Please switch to different server.
-                </span>
-              </AspectRatio>
-            )}
-
-            {/* Only render player when everything is valid */}
-            {!loadingVideo && !noServerSelected && streamingData && streamingData.sources && streamingData.sources.length > 0 && streamingData.sources[0].isM3U8 !== false && (
-              <ArtplayerPlayer
-                key={`${currentEpisode}-${selectedServer}-${selectedLanguage}`}
-                data={streamingData}
-                episodeNumber={
-                  episodes.find(ep => ep.episodeId === currentEpisode)?.number
-                }
-                episodeName={
-                  episodes
-                    .find(ep => ep.episodeId === currentEpisode)
-                    ?.title.match(/Episode \d+/i)
-                    ? ""
-                    : episodes.find(ep => ep.episodeId === currentEpisode)?.title
-                }
-                handleNextEpisode={handleNextEpisode}
-                handlePreviousEpisode={handlePreviousEpisode}
-                skipIntroOutro={skipIntroOutro}
-                toggleFullscreen={toggleFullscreen}
-                isFullScreen={isFullScreen}
-                isLastEpisode={isLastEpisode}
-                isFirstEpisode={isFirstEpisode}
-                artWorkUrl={artWorkUrl}
-                animeNameFF={animeNameFF}
-                animeId={animeId}
-              />
-            )}
-          </div>
-
-
-          <div
-            className="flex items-center justify-between h-[40px]
-            bg-background px-2 md:px-4 border-b-[1px] border-separatorOnBackgroundtwo"
-          >
-            <div className="flex gap-1 justify-center">
-              {/* Auto play next episode button or message */}
-              <div
-                className="flex gap-1 items-center
+        <div
+          className="flex items-center justify-between h-[40px]
+            bg-background px-2 md:px-4"
+        >
+          <div className="flex gap-1 justify-center">
+            {/* Auto play next episode button or message */}
+            <div
+              className="flex gap-1 items-center
                   cursor-pointer active:bg-backgroundHover
                   md:hover:bg-backgroundHover
                   px-2 py-1 rounded-lg"
-                onClick={ToggleAutoPlay}
+              onClick={ToggleAutoPlay}
+            >
+              <span className="text-[9px] md:text-[12px]">Auto Next: </span>
+              <span
+                className={`text-[9px] md:text-[12px] text-dimmerMain w-[20px] ${autoPlay ? "text-main font-[800]" : "text-dimmerMain"
+                  }`}
               >
-                <span className="text-[9px] md:text-[12px]">Auto Next: </span>
-                <span
-                  className={`text-[9px] md:text-[12px] text-dimmerMain w-[20px] ${autoPlay ? "text-main font-[800]" : "text-dimmerMain"
-                    }`}
-                >
-                  {autoPlay ? "ON" : "OFF"}
-                </span>
-              </div>
-              <div
-                className="flex gap-1 items-center justify-center
+                {autoPlay ? "ON" : "OFF"}
+              </span>
+            </div>
+            <div
+              className="flex gap-1 items-center justify-center
                   cursor-pointer active:bg-backgroundHover
                   md:hover:bg-backgroundHover
                   px-2 py-1 rounded-lg"
-                onClick={ToggleSkipIntroOutro}
+              onClick={ToggleSkipIntroOutro}
+            >
+              <span className="text-[9px] md:text-[12px]">
+                Skip Intro & Outro:{" "}
+              </span>
+              <span
+                className={`text-[9px] md:text-[12px] text-dimmerMain ${skipIntroOutro ? "text-main font-[800]" : "text-dimmerMain"
+                  }`}
               >
-                <span className="text-[9px] md:text-[12px]">
-                  Skip Intro & Outro:{" "}
-                </span>
-                <span
-                  className={`text-[9px] md:text-[12px] text-dimmerMain ${skipIntroOutro ? "text-main font-[800]" : "text-dimmerMain"
-                    }`}
-                >
-                  {skipIntroOutro ? "ON" : "OFF"}
-                </span>
-              </div>
-            </div>
-            <div className="flex gap-2 items-center">
-              {!isFirstEpisode && (
-                <div
-                  onClick={handlePreviousEpisode}
-                  className="flex items-center cursor-pointer
-                  active:bg-backgroundHover md:hover:bg-backgroundHover
-                  rounded-lg"
-                >
-                  <svg
-                    version="1.0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512.000000 512.000000"
-                    preserveAspectRatio="xMidYMid meet"
-                    className="h-[28px]"
-                    style={{ fill: "var(--foreground)" }}
-                  >
-                    <g
-                      transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                      stroke="none"
-                    >
-                      <path
-                        d="M1613 3815 c-56 -28 -95 -77 -112 -140 -15 -56 -15 -2174 0 -2230 17
--63 56 -112 112 -140 79 -39 163 -30 230 26 72 59 71 55 77 535 l5 432 574
--474 c379 -313 593 -483 630 -500 209 -99 471 -14 568 184 l28 57 0 995 0 995
--28 57 c-57 116 -171 197 -311 221 -81 14 -180 0 -257 -37 -37 -17 -251 -187
--630 -500 l-574 -474 -5 432 c-6 480 -5 476 -77 535 -67 56 -151 65 -230 26z"
-                      />
-                    </g>
-                  </svg>
-
-                  <span className="hidden md:flex text-[11px] pr-2">
-                    Previous
-                  </span>
-                </div>
-              )}
-
-              {!isFirstEpisode && !isLastEpisode && (
-                <div
-                  className="h-[24px] w-[4px] rounded-lg
-    bg-separatorOnBackground hidden
-    md:flex"
-                ></div>
-              )}
-
-              {!isLastEpisode && (
-                <div
-                  onClick={handleNextEpisode}
-                  className="flex items-center cursor-pointer
-                  active:bg-backgroundHover md:hover:bg-backgroundHover
-                  rounded-lg"
-                >
-                  <span className="hidden md:flex text-[11px] pl-2">Next</span>
-
-                  <svg
-                    version="1.0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512.000000 512.000000"
-                    preserveAspectRatio="xMidYMid meet"
-                    className="h-[28px]"
-                    style={{ fill: "var(--foreground)" }}
-                  >
-                    <g
-                      transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-                      stroke="none"
-                    >
-                      <path
-                        d="M1691 3825 c-121 -34 -210 -107 -259 -213 l-27 -57 0 -995 0 -995 27
--57 c93 -200 349 -284 560 -184 35 16 227 168 534 421 263 218 523 432 577
-476 l97 80 0 -417 c0 -301 3 -428 12 -458 25 -81 118 -146 210 -146 83 0 173
-75 197 165 15 56 15 2174 0 2230 -17 63 -56 112 -112 140 -79 39 -163 30 -230
--26 -72 -59 -71 -55 -77 -535 l-5 -431 -550 454 c-302 250 -569 468 -591 483
--99 69 -251 96 -363 65z"
-                      />
-                    </g>
-                  </svg>
-                </div>
-              )}
+                {skipIntroOutro ? "ON" : "OFF"}
+              </span>
             </div>
           </div>
-
-          <div
-            className="flex flex-col items-center pt-4 gap-4
-            bg-background"
-          >
-            <div className="flex flex-col items-center gap-1 cursor-default">
-              <div className="flex gap-2 justify-center items-center">
+          <div className="flex gap-2 items-center">
+            {!isFirstEpisode && (
+              <div
+                onClick={handlePreviousEpisode}
+                className="flex items-center cursor-pointer
+                  active:bg-backgroundHover md:hover:bg-backgroundHover
+                  rounded-lg"
+              >
                 <svg
                   version="1.0"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512.000000 512.000000"
                   preserveAspectRatio="xMidYMid meet"
-                  className="h-[14px]"
+                  className="h-[28px]"
                   style={{ fill: "var(--foreground)" }}
                 >
                   <g
@@ -699,178 +631,252 @@ const WatchContainer = ({
                     stroke="none"
                   >
                     <path
-                      d="M1160 5106 c-303 -64 -567 -280 -670 -549 -69 -179 -65 -41 -65
--1997 0 -1956 -4 -1818 65 -1997 86 -224 294 -423 532 -508 127 -45 224 -59
-361 -52 129 6 227 31 337 85 98 48 2609 1746 2688 1817 378 343 378 967 0
-1309 -78 71 -2590 1770 -2688 1818 -123 60 -206 80 -360 84 -90 2 -157 -1
--200 -10z"
+                      d="M1613 3815 c-56 -28 -95 -77 -112 -140 -15 -56 -15 -2174 0 -2230 17
+-63 56 -112 112 -140 79 -39 163 -30 230 26 72 59 71 55 77 535 l5 432 574
+-474 c379 -313 593 -483 630 -500 209 -99 471 -14 568 184 l28 57 0 995 0 995
+-28 57 c-57 116 -171 197 -311 221 -81 14 -180 0 -257 -37 -37 -17 -251 -187
+-630 -500 l-574 -474 -5 432 c-6 480 -5 476 -77 535 -67 56 -151 65 -230 26z"
                     />
                   </g>
                 </svg>
 
-                <span className="leading-none text-[12px] font-[800]">
-                  {episodes.find(ep => ep.episodeId === currentEpisode)
-                    ?.isFiller && <span>Filler </span>}
-                  Episode{" "}
-                  {episodes.find(ep => ep.episodeId === currentEpisode)?.number}
+                <span className="hidden md:flex text-[11px] pr-2">
+                  Previous
                 </span>
               </div>
-              <div className="flex flex-col mt-0.5">
-                <div
-                  className="h-1 w-[64px] bg-[#0d131a] self-left md:h-0 md:w-0
-                rounded-lg"
-                ></div>
-                <div className="bg-[#0d131a] self-left md:h-1 md:w-[64px] rounded-lg"></div>
+            )}
+
+            {!isFirstEpisode && !isLastEpisode && (
+              <div
+                className="h-[24px] w-[4px] rounded-lg
+    bg-separatorOnBackground hidden
+    md:flex"
+              ></div>
+            )}
+
+            {!isLastEpisode && (
+              <div
+                onClick={handleNextEpisode}
+                className="flex items-center cursor-pointer
+                  active:bg-backgroundHover md:hover:bg-backgroundHover
+                  rounded-lg"
+              >
+                <span className="hidden md:flex text-[11px] pl-2">Next</span>
+                <svg
+                  version="1.0"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512.000000 512.000000"
+                  preserveAspectRatio="xMidYMid meet"
+                  className="h-[28px]"
+                  style={{ fill: "var(--foreground)" }}
+                >
+                  <g
+                    transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                    stroke="none"
+                  >
+                    <path
+                      d="M1691 3825 c-121 -34 -210 -107 -259 -213 l-27 -57 0 -995 0 -995 27
+-57 c93 -200 349 -284 560 -184 35 16 227 168 534 421 263 218 523 432 577
+476 l97 80 0 -417 c0 -301 3 -428 12 -458 25 -81 118 -146 210 -146 83 0 173
+75 197 165 15 56 15 2174 0 2230 -17 63 -56 112 -112 140 -79 39 -163 30 -230
+-26 -72 -59 -71 -55 -77 -535 l-5 -431 -550 454 c-302 250 -569 468 -591 483
+-99 69 -251 96 -363 65z"
+                    />
+                  </g>
+                </svg>
               </div>
-              <div>
-                <span className="leading-none text-[13px] font-[300]">
-                  {episodes
-                    .find(ep => ep.episodeId === currentEpisode)
-                    ?.title.match(/Episode \d+/i)
-                    ? "" // You can also use any alternative text here, like "Untitled"
-                    : episodes.find(ep => ep.episodeId === currentEpisode)
-                      ?.title}
-                </span>
-              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* episodes starts here */}
+      <div className="flex-1 w-full xl:max-w-[500px] border-t-2 border-separatorOnBackgroundtwo lg:border-0 p-1 pt-4 lg:p-4 lg:rounded-lg bg-background flex flex-col min-h-0 relative">
+        <div
+          className="flex flex-col items-center gap-4 pb-2"
+        >
+          <div className="flex flex-col items-center gap-1 cursor-default">
+            <div className="flex gap-2 justify-center items-center">
+              <svg
+                version="1.0"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512.000000 512.000000"
+                preserveAspectRatio="xMidYMid meet"
+                className="h-[14px]"
+                style={{ fill: "var(--foreground)" }}
+              >
+                <g
+                  transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                  stroke="none"
+                >
+                  <path
+                    d="M1160 5106 c-303 -64 -567 -280 -670 -549 -69 -179 -65 -41 -65
+-1997 0 -1956 -4 -1818 65 -1997 86 -224 294 -423 532 -508 127 -45 224 -59
+361 -52 129 6 227 31 337 85 98 48 2609 1746 2688 1817 378 343 378 967 0
+1309 -78 71 -2590 1770 -2688 1818 -123 60 -206 80 -360 84 -90 2 -157 -1
+-200 -10z"
+                  />
+                </g>
+              </svg>
+
+              <span className="leading-none text-[14px] font-[700]">
+                {episodes.find(ep => ep.episodeId === currentEpisode)
+                  ?.isFiller && <span>Filler </span>}
+                Episode{" "}
+                {episodes.find(ep => ep.episodeId === currentEpisode)?.number}
+              </span>
             </div>
-            <Tabs
-              defaultValue={selectedLanguage}
-              onValueChange={handleLanguageChange}
-              className="w-full flex flex-col justify-center items-center
+
+            <div>
+              <span className="leading-none text-[14px] font-[300]">
+                {episodes
+                  .find(ep => ep.episodeId === currentEpisode)
+                  ?.title.match(/Episode \d+/i)
+                  ? "" // You can also use any alternative text here, like "Untitled"
+                  : episodes.find(ep => ep.episodeId === currentEpisode)
+                    ?.title}
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <Tabs
+          defaultValue={selectedLanguage}
+          onValueChange={handleLanguageChange}
+          className="w-full flex flex-col justify-center items-center
               p-4
-              bg-backgroundtwo
-              "
-            >
-              <TabsList className="flex gap-2 bg-background">
-                {Array.isArray(servers.dub) && servers.sub.length > 0 && (
-                  <TabsTrigger
-                    value="sub"
-                    className="flex gap-2
+              bg-backgroundtwo rounded-lg"
+        >
+          <TabsList className="flex gap-2 bg-background">
+            {Array.isArray(servers.dub) && servers.sub.length > 0 && (
+              <TabsTrigger
+                value="sub"
+                className="flex gap-2
                       bg-background
                     hover:bg-backgroundHover
                     data-[state=active]:bg-backgroundtwo w-[130px]"
-                  >
-                    <div>
-                      <span
-                        className="text-[#242424] text-[12px] bg-[#0bff77] p-0.5
+              >
+                <div>
+                  <span
+                    className="text-[#242424] text-[12px] bg-[#0bff77] p-0.5
                         px-[3px]
                     rounded-[2px] font-[900]"
-                      >
-                        JP
-                      </span>
-                    </div>
-                    <span className="text-[14px]">SUB</span>
-                  </TabsTrigger>
-                )}
+                  >
+                    JP
+                  </span>
+                </div>
+                <span className="text-[14px]">SUB</span>
+              </TabsTrigger>
+            )}
 
-                {Array.isArray(servers.dub) && servers.dub.length > 0 && (
-                  <TabsTrigger
-                    value="dub"
-                    className="flex gap-2
+            {Array.isArray(servers.dub) && servers.dub.length > 0 && (
+              <TabsTrigger
+                value="dub"
+                className="flex gap-2
                     bg-background
                     hover:bg-backgroundHover
                     data-[state=active]:bg-backgroundtwo w-[120px]"
-                  >
-                    <div>
-                      <span
-                        className="text-[#242424] text-[13px] bg-[#ff9c0b] p-0.5
+              >
+                <div>
+                  <span
+                    className="text-[#242424] text-[13px] bg-[#ff9c0b] p-0.5
                     rounded-[2px] font-[900]"
-                      >
-                        EN
-                      </span>
-                    </div>
-                    <span className="text-[14px]">DUB</span>
-                  </TabsTrigger>
-                )}
+                  >
+                    EN
+                  </span>
+                </div>
+                <span className="text-[14px]">DUB</span>
+              </TabsTrigger>
+            )}
 
-                {Array.isArray(servers.raw) && servers.raw.length > 0 && (
-                  <TabsTrigger
-                    value="raw"
-                    className="flex gap-2
+            {Array.isArray(servers.raw) && servers.raw.length > 0 && (
+              <TabsTrigger
+                value="raw"
+                className="flex gap-2
                       bg-background
                     hover:bg-backgroundHover
                     data-[state=active]:bg-backgroundtwo w-[130px]"
-                  >
-                    <div>
-                      <span
-                        className="text-[#242424] text-[12px] bg-[#0bff77] p-0.5
+              >
+                <div>
+                  <span
+                    className="text-[#242424] text-[12px] bg-[#0bff77] p-0.5
                         px-[3px]
                     rounded-[2px] font-[900]"
-                      >
-                        JP
-                      </span>
-                    </div>
-                    <span className="text-[14px]">RAW</span>
-                  </TabsTrigger>
-                )}
-              </TabsList>
-              {Array.isArray(servers.dub) && servers.sub.length > 0 && (
-                <TabsContent value="sub" className="flex gap-2">
-                  {servers.sub.map(server => (
-                    <div
-                      key={server.serverId}
-                      className={`px-2 py-1 flex justify-center w-max rounded
+                  >
+                    JP
+                  </span>
+                </div>
+                <span className="text-[14px]">RAW</span>
+              </TabsTrigger>
+            )}
+          </TabsList>
+          {Array.isArray(servers.dub) && servers.sub.length > 0 && (
+            <TabsContent value="sub" className="flex gap-2">
+              {servers.sub.map(server => (
+                <div
+                  key={server.serverId}
+                  className={`px-2 py-1 flex justify-center w-max rounded
                       cursor-pointer ${selectedServer === server.serverName
-                          ? "bg-main text-foreground font-[800]"
-                          : "bg-background hover:bg-backgroundHover"
-                        }`}
-                      onClick={() => handleServerChange(server.serverName)}
-                    >
-                      <span className="text-bold text-[12px]">
-                        {server.serverName.toUpperCase()}
-                      </span>
-                    </div>
-                  ))}
-                </TabsContent>
-              )}
+                      ? "bg-main text-foreground font-[800]"
+                      : "bg-background hover:bg-backgroundHover"
+                    }`}
+                  onClick={() => handleServerChange(server.serverName)}
+                >
+                  <span className="text-bold text-[12px]">
+                    {server.serverName.toUpperCase()}
+                  </span>
+                </div>
+              ))}
+            </TabsContent>
+          )}
 
-              {Array.isArray(servers.dub) && servers.dub.length > 0 && (
-                <TabsContent value="dub" className="flex gap-2">
-                  {servers.dub.map(server => (
-                    <div
-                      key={server.serverId}
-                      className={`px-2 py-1 flex justify-center w-max rounded
+          {Array.isArray(servers.dub) && servers.dub.length > 0 && (
+            <TabsContent value="dub" className="flex gap-2">
+              {servers.dub.map(server => (
+                <div
+                  key={server.serverId}
+                  className={`px-2 py-1 flex justify-center w-max rounded
                       cursor-pointer ${selectedServer === server.serverName
-                          ? "bg-main text-foreground font-[800]"
-                          : "bg-background hover:bg-backgroundHover"
-                        }`}
-                      onClick={() => handleServerChange(server.serverName)}
-                    >
-                      <span className="text-bold text-[12px]">
-                        {server.serverName.toUpperCase()}
-                      </span>
-                    </div>
-                  ))}
-                </TabsContent>
-              )}
+                      ? "bg-main text-foreground font-[800]"
+                      : "bg-background hover:bg-backgroundHover"
+                    }`}
+                  onClick={() => handleServerChange(server.serverName)}
+                >
+                  <span className="text-bold text-[12px]">
+                    {server.serverName.toUpperCase()}
+                  </span>
+                </div>
+              ))}
+            </TabsContent>
+          )}
 
-              {Array.isArray(servers.raw) && servers.raw.length > 0 && (
-                <TabsContent value="raw" className="flex gap-2">
-                  {servers.raw.map(server => (
-                    <div
-                      key={server.serverId}
-                      className={`px-2 py-1 flex justify-center w-max rounded
+          {Array.isArray(servers.raw) && servers.raw.length > 0 && (
+            <TabsContent value="raw" className="flex gap-2">
+              {servers.raw.map(server => (
+                <div
+                  key={server.serverId}
+                  className={`px-2 py-1 flex justify-center w-max rounded
                       cursor-pointer ${selectedServer === server.serverName
-                          ? "bg-main text-foreground font-[800]"
-                          : "bg-background hover:bg-backgroundHover"
-                        }`}
-                      onClick={() => handleServerChange(server.serverName)}
-                    >
-                      <span className="text-bold text-[12px]">
-                        {server.serverName.toUpperCase()}
-                      </span>
-                    </div>
-                  ))}
-                </TabsContent>
-              )}
-            </Tabs>
-          </div>
-        </div>
+                      ? "bg-main text-foreground font-[800]"
+                      : "bg-background hover:bg-backgroundHover"
+                    }`}
+                  onClick={() => handleServerChange(server.serverName)}
+                >
+                  <span className="text-bold text-[12px]">
+                    {server.serverName.toUpperCase()}
+                  </span>
+                </div>
+              ))}
+            </TabsContent>
+          )}
+        </Tabs>
 
-        {/* episodes starts here */}
+        <div
+          className="w-full bg-backgroundtwo mt-2 rounded-lg"
 
-        <div>
-          <div className="lg:max-w-[400px] mt-2">
+        >
+          <div className="">
             {episodes.length > 50 ? (
               <EpisodeSection
                 episodes={episodes}
@@ -879,6 +885,7 @@ const WatchContainer = ({
                 watchedEpisodes={watchedEpisodes}
                 targetHeight={targetHeight}
                 getutilsData={getutilsData}
+                isEpAnnouncementCollapsed={isEpAnnouncementCollapsed}
               />
             ) : (
               <LessThenFiftyEpisodeSection
@@ -888,16 +895,20 @@ const WatchContainer = ({
                 watchedEpisodes={watchedEpisodes}
                 targetHeight={targetHeight}
                 getutilsData={getutilsData}
+                isEpAnnouncementCollapsed={isEpAnnouncementCollapsed}
               />
             )}
           </div>
-          <div
-            className="h-[12px] w-full bg-background border-b-2
-            border-separatorOnBackgroundtwo"
-          ></div>
         </div>
+        {getutilsData.uE && (
+          <div className="absolute bottom-4 left-4 right-4 z-20">
+            <NewArringEpTime data={getutilsData.uE}
+              toggleEpAnnouncementCollapse={toggleEpAnnouncementCollapse}
+              isEpAnnouncementCollapsed={isEpAnnouncementCollapsed} />
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

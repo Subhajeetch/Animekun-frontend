@@ -215,3 +215,41 @@ button:focus-visible {
   transition: transform 0.5s;
   background-color: var(--muted);
 }
+
+.card-item-nbc:hover {
+  cursor: pointer;
+  transform: scale(1.02);
+  transition: transform 0.5s;
+}
+
+
+
+/* for scrollbar styling */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  /* auto | thin | none */
+  scrollbar-color: #555 #0b0b10;
+  /* thumb | track */
+}
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #0b0b10;
+  /* track color */
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3b82f6, #a855f7);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #2563eb, #9333ea);
+}

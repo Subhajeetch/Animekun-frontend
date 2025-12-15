@@ -17,6 +17,7 @@ import {
     InputOTPSeparator,
     InputOTPSlot
 } from "@/components/ui/input-otp";
+import CustomImage from "../Universal/CustomImage";
 
 const ForgotPasswordFlow = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -80,8 +81,8 @@ const ForgotPasswordFlow = () => {
             //setError("Invalid username or user not found");
             toast.error(
                 err.response?.data?.message ||
-                    err?.message ||
-                    "Something went wrong, try again."
+                err?.message ||
+                "Something went wrong, try again."
             );
         } finally {
             setLoading(false);
@@ -111,8 +112,8 @@ const ForgotPasswordFlow = () => {
             //setError("Email verification failed");
             toast.error(
                 err.response?.data?.message ||
-                    err?.message ||
-                    "Something went wrong, try again."
+                err?.message ||
+                "Something went wrong, try again."
             );
         } finally {
             setLoading(false);
@@ -138,8 +139,8 @@ const ForgotPasswordFlow = () => {
             //  setError("Invalid OTP entered");
             toast.error(
                 err.response?.data?.message ||
-                    err?.message ||
-                    "Something went wrong, try again."
+                err?.message ||
+                "Something went wrong, try again."
             );
         } finally {
             setLoading(false);
@@ -169,8 +170,8 @@ const ForgotPasswordFlow = () => {
         } catch (err) {
             toast.error(
                 err.response?.data?.message ||
-                    err?.message ||
-                    "Something went wrong, try again."
+                err?.message ||
+                "Something went wrong, try again."
             );
         } finally {
             setLoading(false);
@@ -280,7 +281,7 @@ const ForgotPasswordFlow = () => {
                             Verify your email
                         </h2>
                         <div className='flex items-center gap-2 mb-4 bg-backgroundtwo w-fit p-2 px-3 rounded-xl'>
-                            <img
+                            <CustomImage
                                 src={userDetails.profilePicture}
                                 alt='Profile'
                                 className='w-6 h-6 rounded-full'
@@ -453,11 +454,10 @@ const ForgotPasswordFlow = () => {
                             {passIns && (
                                 <div className='absolute p-2 rounded-lg top-[-86px] right-2 h-[118px] bg-[#484848] flex flex-col gap-1'>
                                     <p
-                                        className={`flex text-[9px] gap-1 ${
-                                            oneUpperCase
+                                        className={`flex text-[9px] gap-1 ${oneUpperCase
                                                 ? "text-foreground"
                                                 : "text-[#888888]"
-                                        }`}
+                                            }`}
                                     >
                                         <CircleCheck
                                             className={`
@@ -473,11 +473,10 @@ const ForgotPasswordFlow = () => {
 
                                     <p
                                         className={`flex text-[9px] gap-1
-                                    ${
-                                        oneLowerCase
-                                            ? "text-foreground"
-                                            : "text-[#888888]"
-                                    }
+                                    ${oneLowerCase
+                                                ? "text-foreground"
+                                                : "text-[#888888]"
+                                            }
                                     `}
                                     >
                                         <CircleCheck
@@ -494,11 +493,10 @@ const ForgotPasswordFlow = () => {
 
                                     <p
                                         className={`flex text-[9px] gap-1
-                                    ${
-                                        oneNumber
-                                            ? "text-foreground"
-                                            : "text-[#888888]"
-                                    }
+                                    ${oneNumber
+                                                ? "text-foreground"
+                                                : "text-[#888888]"
+                                            }
                                     `}
                                     >
                                         <CircleCheck
@@ -512,11 +510,10 @@ const ForgotPasswordFlow = () => {
 
                                     <p
                                         className={`flex text-[9px] gap-1
-                                    ${
-                                        oneSpecial
-                                            ? "text-foreground"
-                                            : "text-[#888888]"
-                                    }
+                                    ${oneSpecial
+                                                ? "text-foreground"
+                                                : "text-[#888888]"
+                                            }
                                     `}
                                     >
                                         <CircleCheck
@@ -532,11 +529,10 @@ const ForgotPasswordFlow = () => {
                                     </p>
                                     <p
                                         className={`flex text-[9px] gap-1
-                                    ${
-                                        sevenCher
-                                            ? "text-foreground"
-                                            : "text-[#888888]"
-                                    }
+                                    ${sevenCher
+                                                ? "text-foreground"
+                                                : "text-[#888888]"
+                                            }
                                     `}
                                     >
                                         <CircleCheck
@@ -551,11 +547,10 @@ const ForgotPasswordFlow = () => {
                                     </p>
                                     <p
                                         className={`flex text-[9px] gap-1
-                                    ${
-                                        noRandomCher
-                                            ? "text-foreground"
-                                            : "text-[#888888]"
-                                    }
+                                    ${noRandomCher
+                                                ? "text-foreground"
+                                                : "text-[#888888]"
+                                            }
                                     `}
                                     >
                                         <CircleCheck
@@ -573,39 +568,34 @@ const ForgotPasswordFlow = () => {
 
                             <div className='flex gap-1 mt-1 px-1.5'>
                                 <div
-                                    className={`h-2 rounded-full flex-1 ${
-                                        passStrength > 0
+                                    className={`h-2 rounded-full flex-1 ${passStrength > 0
                                             ? "bg-red-500"
                                             : "bg-[#484848]"
-                                    }`}
+                                        }`}
                                 ></div>
                                 <div
-                                    className={`h-2 rounded-full flex-1 ${
-                                        passStrength > 1
+                                    className={`h-2 rounded-full flex-1 ${passStrength > 1
                                             ? "bg-orange-400"
                                             : "bg-[#484848]"
-                                    }`}
+                                        }`}
                                 ></div>
                                 <div
-                                    className={`h-2 rounded-full flex-1 ${
-                                        passStrength > 2
+                                    className={`h-2 rounded-full flex-1 ${passStrength > 2
                                             ? "bg-yellow-300"
                                             : "bg-[#484848]"
-                                    }`}
+                                        }`}
                                 ></div>
                                 <div
-                                    className={`h-2 rounded-full flex-1 ${
-                                        passStrength > 3
+                                    className={`h-2 rounded-full flex-1 ${passStrength > 3
                                             ? "bg-blue-300"
                                             : "bg-[#484848]"
-                                    }`}
+                                        }`}
                                 ></div>
                                 <div
-                                    className={`h-2 rounded-full flex-1 ${
-                                        passStrength > 4
+                                    className={`h-2 rounded-full flex-1 ${passStrength > 4
                                             ? "bg-green-500"
                                             : "bg-[#484848]"
-                                    }`}
+                                        }`}
                                 ></div>
                             </div>
                             <p className='text-right mr-2 text-[12px] font-semibold'>
@@ -676,11 +666,10 @@ const ForgotPasswordFlow = () => {
                 {steps.map((step, index) => (
                     <div
                         key={step}
-                        className={`flex-1 text-center flex justify-center items-center border-b-2 pb-2 ${
-                            index + 1 === currentStep
+                        className={`flex-1 text-center flex justify-center items-center border-b-2 pb-2 ${index + 1 === currentStep
                                 ? "border-main font-bold"
                                 : "border-foreground"
-                        }`}
+                            }`}
                     >
                         <div className='bg-foreground rounded-full text-background px-2'>
                             {step}

@@ -4,6 +4,7 @@ import useAuthStore from "@/AuthStore/userStore.js";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import axios from "axios";
 import { Pencil, Upload } from 'lucide-react';
+import CustomImage from "@/Sections/Universal/CustomImage";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -121,10 +122,11 @@ export default function EditProfile() {
                     bg-amber-100 shadow-md'
             >
                 <div className='h-full w-full rounded-b-2xl overflow-hidden'>
-                    <img
+                    <CustomImage
                         className='h-full w-full object-cover'
                         src='https://s4.anilist.co/file/anilistcdn/media/anime/banner/21-wf37VakJmZqs.jpg'
-                    ></img>
+                        alt='Cover Image'
+                    />
 
                     <div className='absolute top-3 right-3 bg-backgroundHover shadow-lg flex gap-2 rounded-xl items-center cursor-pointer px-3 py-2'>
                         <Upload size={20} /> <span>Upload Cover</span>
@@ -137,7 +139,7 @@ export default function EditProfile() {
                 ></div>
 
                 <div className='absolute bottom-[-58px] lg:bottom-[-90px] left-6 md:left-[60px] cursor-pointer'>
-                    <img
+                    <CustomImage
                         src={user?.profilePicture || "https://i.imgur.com/Frqsihe.jpeg"}
                         alt='Profile'
                         className='w-24 lg:h-40 h-24 lg:w-40 rounded-full border-4 border-backgroundHover'
