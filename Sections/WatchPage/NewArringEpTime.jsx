@@ -44,7 +44,7 @@ const NewArringEpTime = ({ data, toggleEpAnnouncementCollapse, isEpAnnouncementC
             }
         }
 
-        // Seconds - always show if no other components
+        // Seconds always show if no other components
         if (started) {
             if (secs > 0) parts.push(`${secs}s`);
         } else {

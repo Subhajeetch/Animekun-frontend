@@ -33,7 +33,7 @@ import CustomImage from "../Universal/CustomImage";
 const { backendUrl } = MineConfig;
 
 const NavBar = () => {
-    const { user, isAuthenticated, logout, isLoading } = useAuthStore();
+    const { isAuthenticated, isLoading } = useAuthStore();
 
     const [showSearch, setShowSearch] = useState(false);
     const [showMobileSearch, setShowMobileSearch] = useState(false);
@@ -48,7 +48,7 @@ const NavBar = () => {
         setSearchLoading(true); // Start loading
         const handler = setTimeout(() => {
             setDebouncedQuery(query);
-        }, 500); // Adjust delay (e.g., 500ms)
+        }, 500);
 
         return () => {
             clearTimeout(handler);
@@ -455,7 +455,7 @@ c-54 0 -102 -3 -105 -7z'
                                 onFocus={() => setShowSearch(true)}
                                 onKeyDown={e => {
                                     if (e.key === "Enter") {
-                                        handleMoreResults(); // Call your function here
+                                        handleMoreResults();
                                     }
                                 }}
                             />

@@ -91,12 +91,12 @@ const ScheduleComponent = () => {
     return `${year}-${month}-${day}`;
   };
 
-  // Function to get the full day name (e.g., "Sunday", "Monday")
+
   const getDayName = date => {
     return date.toLocaleDateString("en-US", { weekday: "long" });
   };
 
-  // Function to get the formatted date (e.g., "January 3")
+
   const getFormattedDate = date => {
     return date.toLocaleDateString("en-US", { month: "long", day: "numeric" });
   };
@@ -220,11 +220,10 @@ const ScheduleComponent = () => {
                 key={index}
                 data-date={dateString}
                 onClick={() => setSelectedDate(dateString)}
-                className={`flex-shrink-0 px-4 py-2 rounded-lg snap-center ${
-                  selectedDate === dateString
+                className={`flex-shrink-0 px-4 py-2 rounded-lg snap-center ${selectedDate === dateString
                     ? "bg-main text-white"
                     : "bg-backgroundtwo hover:bg-separatorOnBackgroundtwo"
-                }`}
+                  }`}
               >
                 <div className="flex flex-col">
                   <p className="text-[14px] font-[800]">{getDayName(date)}</p>

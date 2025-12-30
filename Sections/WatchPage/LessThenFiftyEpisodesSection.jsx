@@ -14,7 +14,28 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
   const [searchValue, setSearchValue] = useState("");
   const [filteredEpisode, setFilteredEpisode] = useState(null);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [maxHeight, setMaxHeight] = useState("500px");
   const currentEpisodeRef = useRef(null);
+
+  useEffect(() => {
+    const calculateMaxHeight = () => {
+      if (window.innerWidth > 1280 && targetHeight > 0) {
+        setMaxHeight(`${targetHeight - 200}px`);
+      } else {
+        setMaxHeight("500px");
+      }
+    };
+
+    // Initial calculation
+    calculateMaxHeight();
+
+    // Recalculate on resize
+    window.addEventListener("resize", calculateMaxHeight);
+
+    return () => {
+      window.removeEventListener("resize", calculateMaxHeight);
+    };
+  }, [targetHeight]);
 
   const handleSearch = e => {
     const value = e.target.value;
@@ -36,16 +57,15 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
     setShowOverlay(false);
   };
 
-  // copied from chat GPT
+  // Auto-scroll to current episode
   useEffect(() => {
-    const container = currentEpisodeRef.current?.parentNode; // Get the container element
+    const container = currentEpisodeRef.current?.parentNode;
     if (container && currentEpisodeRef.current) {
       const elementOffsetTop = currentEpisodeRef.current.offsetTop;
 
-      // Smoothly scroll the container to bring the current episode into view with a 14px offset
       container.scrollTo({
-        top: elementOffsetTop - 14, // Adjusted scroll position
-        behavior: "smooth" // Enable smooth scrolling
+        top: elementOffsetTop - 14,
+        behavior: "smooth"
       });
     }
   }, [currentEpisode]);
@@ -75,27 +95,27 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
                 <g>
                   <path
                     d="M279.368,24.726H102.992c-9.722,0-17.632,7.91-17.632,17.632V67.92c0,9.722,7.91,17.632,17.632,17.632h176.376
-				c9.722,0,17.632-7.91,17.632-17.632V42.358C297,32.636,289.09,24.726,279.368,24.726z"
+        c9.722,0,17.632-7.91,17.632-17.632V42.358C297,32.636,289.09,24.726,279.368,24.726z"
                   />
                   <path
                     d="M279.368,118.087H102.992c-9.722,0-17.632,7.91-17.632,17.632v25.562c0,9.722,7.91,17.632,17.632,17.632h176.376
-				c9.722,0,17.632-7.91,17.632-17.632v-25.562C297,125.997,289.09,118.087,279.368,118.087z"
+        c9.722,0,17.632-7.91,17.632-17.632v-25.562C297,125.997,289.09,118.087,279.368,118.087z"
                   />
                   <path
                     d="M279.368,211.448H102.992c-9.722,0-17.632,7.91-17.632,17.633v25.561c0,9.722,7.91,17.632,17.632,17.632h176.376
-				c9.722,0,17.632-7.91,17.632-17.632v-25.561C297,219.358,289.09,211.448,279.368,211.448z"
+        c9.722,0,17.632-7.91,17.632-17.632v-25.561C297,219.358,289.09,211.448,279.368,211.448z"
                   />
                   <path
                     d="M45.965,24.726H17.632C7.91,24.726,0,32.636,0,42.358V67.92c0,9.722,7.91,17.632,17.632,17.632h28.333
-				c9.722,0,17.632-7.91,17.632-17.632V42.358C63.597,32.636,55.687,24.726,45.965,24.726z"
+        c9.722,0,17.632-7.91,17.632-17.632V42.358C63.597,32.636,55.687,24.726,45.965,24.726z"
                   />
                   <path
                     d="M45.965,118.087H17.632C7.91,118.087,0,125.997,0,135.719v25.562c0,9.722,7.91,17.632,17.632,17.632h28.333
-				c9.722,0,17.632-7.91,17.632-17.632v-25.562C63.597,125.997,55.687,118.087,45.965,118.087z"
+        c9.722,0,17.632-7.91,17.632-17.632v-25.562C63.597,125.997,55.687,118.087,45.965,118.087z"
                   />
                   <path
                     d="M45.965,211.448H17.632C7.91,211.448,0,219.358,0,229.081v25.561c0,9.722,7.91,17.632,17.632,17.632h28.333
-				c9.722,0,17.632-7.91,17.632-17.632v-25.561C63.597,219.358,55.687,211.448,45.965,211.448z"
+        c9.722,0,17.632-7.91,17.632-17.632v-25.561C63.597,219.358,55.687,211.448,45.965,211.448z"
                   />
                 </g>
               </g>
@@ -123,16 +143,11 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
         </div>
       </div>
       <div
-        className=" p-2 flex flex-col gap-1.5 flex-1 min-h-0 overflow-y-auto
+        className="p-2 flex flex-col gap-1.5 flex-1 min-h-0 overflow-y-auto
              bg-episodeContainerBackground relative scrollbar-thin
              scrollbar-thumb-backgroundHover
           scrollbar-track-background"
-        style={{
-          maxHeight:
-            typeof window !== "undefined" && window.innerWidth > 1280
-              ? `${targetHeight - 200}px`
-              : "500px"
-        }}
+        style={{ maxHeight }}
       >
         {/* Overlay */}
         {showOverlay && (
@@ -142,7 +157,7 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
           >
             {filteredEpisode ? (
               <div
-                className={`px-2 py-1 rounded w-full ${filteredEpisode.episodeId === currentEpisode
+                className={`px-2 py-1 rounded w-full cursor-pointer ${filteredEpisode.episodeId === currentEpisode
                   ? "bg-main"
                   : watchedEpisodes.includes(filteredEpisode.episodeId)
                     ? "bg-watchedEpisodeBackground border-[1px] border-[#e2e2e2]"
@@ -267,7 +282,8 @@ const LessThenFiftyEpisodeSectionWithSearch = ({
         {/* ghost box to scroll up so last episode isn't hidden by sticky headers */}
         <div
           aria-hidden="true"
-          className={`w-full flex-shrink-0 ${isEpAnnouncementCollapsed ? "h-[26px]" : "h-[96px]"}`}
+          className={`w-full flex-shrink-0 ${isEpAnnouncementCollapsed ? "h-[26px]" : "h-[96px]"
+            }`}
         />
       </div>
     </div>

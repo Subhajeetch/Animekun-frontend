@@ -50,10 +50,10 @@ export async function POST(request) {
       );
     }
 
-    // Truncate long description to fit Discord embed limits (1024 per field)
+    // Truncate long description to fit Discord embed limits  (1024 in total)
     const sanitizedDescription = bugDescription.length > 1024 ? bugDescription.slice(0, 1021) + "..." : bugDescription;
 
-    // Build Discord webhook payload with an embed
+
     const embed = {
       title: "New Bug Report",
       color: 15158332,
@@ -67,8 +67,6 @@ export async function POST(request) {
     };
 
     const payload = { embeds: [embed] };
-
-    // Send the bug report to the Discord webhook
     const response = await axios.post(discordWebhookBugReportsUrl, payload, {
       headers: { "Content-Type": "application/json" }
     });

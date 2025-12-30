@@ -64,10 +64,10 @@ const ContinueWatching = () => {
             >
               {watchHistory.map(anime => {
                 const epDate = new Date(anime.eps[0].date);
-                epDate.setHours(0, 0, 0, 0); // Reset time to midnight
+                epDate.setHours(0, 0, 0, 0);
 
                 const today = new Date();
-                today.setHours(0, 0, 0, 0); // Reset time to midnight
+                today.setHours(0, 0, 0, 0);
 
                 const yesterday = new Date(today);
                 yesterday.setDate(today.getDate() - 1);
@@ -79,17 +79,16 @@ const ContinueWatching = () => {
                   formattedDate = "Yesterday";
                 } else {
                   formattedDate = epDate.toLocaleDateString("en-GB", {
-                    day: "numeric", // No leading zeros
+                    day: "numeric",
                     month: "short",
                     year: "2-digit"
-                  }); // Example: "8 January, 25"
+                  });
                 }
 
-                // Format time without leading zeros
                 const formattedTime = new Date(
                   anime.eps[0].date
                 ).toLocaleTimeString("en-US", {
-                  hour: "numeric", // No leading zeros
+                  hour: "numeric",
                   minute: "2-digit",
                   hour12: true
                 });

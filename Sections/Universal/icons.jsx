@@ -377,7 +377,6 @@ const WhatsAppIcon = ({ size }) => {
 
             <path
                 fillRule='evenodd'
-                fillRule='evenodd'
                 fill='#FFF'
                 d='M462.273
 349.294c-11.234-24.977-23.062-25.477-33.75-25.914-8.742-.375-18.75-.352-28.742-.352-10

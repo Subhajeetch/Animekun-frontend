@@ -5,7 +5,7 @@ import { X, Search, Plus } from "lucide-react";
 
 const EpisodeSection = ({
   episodes,
-  currentEpisode, // Prop for the current episode
+  currentEpisode,
   handleEpisodeChange,
   watchedEpisodes,
   targetHeight,
@@ -15,11 +15,32 @@ const EpisodeSection = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredEpisode, setFilteredEpisode] = useState(null);
+  const [maxHeight, setMaxHeight] = useState("500px");
   const dropdownRef = useRef(null);
   const currentEpisodeRef = useRef(null);
 
   const episodesPerPage = 100;
   const totalPages = Math.ceil(episodes.length / episodesPerPage);
+
+  useEffect(() => {
+    const calculateMaxHeight = () => {
+      if (window.innerWidth > 1280 && targetHeight > 0) {
+        setMaxHeight(`${targetHeight - 200}px`);
+      } else {
+        setMaxHeight("500px");
+      }
+    };
+
+    // Initial calculation
+    calculateMaxHeight();
+
+    // Recalculate on resize
+    window.addEventListener("resize", calculateMaxHeight);
+
+    return () => {
+      window.removeEventListener("resize", calculateMaxHeight);
+    };
+  }, [targetHeight]);
 
   const handlePageChange = page => {
     setCurrentPage(page);
@@ -75,19 +96,18 @@ const EpisodeSection = ({
     (currentPage + 1) * episodesPerPage
   );
 
-  // copied from chat GPT
+  // Auto-scroll to current episode
   useEffect(() => {
-    const container = currentEpisodeRef.current?.parentNode; // Get the container element
+    const container = currentEpisodeRef.current?.parentNode;
     if (container && currentEpisodeRef.current) {
       const elementOffsetTop = currentEpisodeRef.current.offsetTop;
 
-      // Smoothly scroll the container to bring the current episode into view with a 14px offset
       container.scrollTo({
-        top: elementOffsetTop - 14, // Adjusted scroll position
-        behavior: "smooth" // Enable smooth scrolling
+        top: elementOffsetTop - 14,
+        behavior: "smooth"
       });
     }
-  }, [currentEpisode]);
+  }, [currentEpisode, currentPage]); // Added currentPage dependency
 
   return (
     <div className="bg-background">
@@ -122,34 +142,33 @@ const EpisodeSection = ({
                           <g>
                             <path
                               d="M279.368,24.726H102.992c-9.722,0-17.632,7.91-17.632,17.632V67.92c0,9.722,7.91,17.632,17.632,17.632h176.376
-				c9.722,0,17.632-7.91,17.632-17.632V42.358C297,32.636,289.09,24.726,279.368,24.726z"
+        c9.722,0,17.632-7.91,17.632-17.632V42.358C297,32.636,289.09,24.726,279.368,24.726z"
                             />
                             <path
                               d="M279.368,118.087H102.992c-9.722,0-17.632,7.91-17.632,17.632v25.562c0,9.722,7.91,17.632,17.632,17.632h176.376
-				c9.722,0,17.632-7.91,17.632-17.632v-25.562C297,125.997,289.09,118.087,279.368,118.087z"
+        c9.722,0,17.632-7.91,17.632-17.632v-25.562C297,125.997,289.09,118.087,279.368,118.087z"
                             />
                             <path
                               d="M279.368,211.448H102.992c-9.722,0-17.632,7.91-17.632,17.633v25.561c0,9.722,7.91,17.632,17.632,17.632h176.376
-				c9.722,0,17.632-7.91,17.632-17.632v-25.561C297,219.358,289.09,211.448,279.368,211.448z"
+        c9.722,0,17.632-7.91,17.632-17.632v-25.561C297,219.358,289.09,211.448,279.368,211.448z"
                             />
                             <path
                               d="M45.965,24.726H17.632C7.91,24.726,0,32.636,0,42.358V67.92c0,9.722,7.91,17.632,17.632,17.632h28.333
-				c9.722,0,17.632-7.91,17.632-17.632V42.358C63.597,32.636,55.687,24.726,45.965,24.726z"
+        c9.722,0,17.632-7.91,17.632-17.632V42.358C63.597,32.636,55.687,24.726,45.965,24.726z"
                             />
                             <path
                               d="M45.965,118.087H17.632C7.91,118.087,0,125.997,0,135.719v25.562c0,9.722,7.91,17.632,17.632,17.632h28.333
-				c9.722,0,17.632-7.91,17.632-17.632v-25.562C63.597,125.997,55.687,118.087,45.965,118.087z"
+        c9.722,0,17.632-7.91,17.632-17.632v-25.562C63.597,125.997,55.687,118.087,45.965,118.087z"
                             />
                             <path
                               d="M45.965,211.448H17.632C7.91,211.448,0,219.358,0,229.081v25.561c0,9.722,7.91,17.632,17.632,17.632h28.333
-				c9.722,0,17.632-7.91,17.632-17.632v-25.561C63.597,219.358,55.687,211.448,45.965,211.448z"
+        c9.722,0,17.632-7.91,17.632-17.632v-25.561C63.597,219.358,55.687,211.448,45.965,211.448z"
                             />
                           </g>
                         </g>
                       </g>
                     </svg>
                     <span className="text-foreground">
-                      {" "}
                       Episodes: {currentPage * episodesPerPage + 1} -{" "}
                       {Math.min(
                         (currentPage + 1) * episodesPerPage,
@@ -197,8 +216,8 @@ const EpisodeSection = ({
             {searchQuery && (
               <div
                 onClick={clearSearch}
-                className="absolute right-1.5 text-foreground
-                bg-[#ff1717]"
+                className="absolute right-1.5 text-foreground cursor-pointer
+                bg-[#ff1717] rounded"
               >
                 <X size={18} />
               </div>
@@ -208,15 +227,10 @@ const EpisodeSection = ({
       </div>
 
       <div
-        className=" flex flex-wrap bg-episodeContainerBackground gap-1.5 overflow-y-auto
+        className="flex flex-wrap bg-episodeContainerBackground gap-1.5 overflow-y-auto
               relative scrollbar-thin scrollbar-thumb-backgroundHover
           scrollbar-track-background p-2"
-        style={{
-          maxHeight:
-            typeof window !== "undefined" && window.innerWidth > 1280
-              ? `${targetHeight - 200}px`
-              : "500px"
-        }}
+        style={{ maxHeight }}
       >
         {/* Overlay for search */}
         {filteredEpisode && (
@@ -228,14 +242,13 @@ const EpisodeSection = ({
               className={`w-[58px] h-[32px] flex cursor-pointer hover:bg-main items-center justify-center
               rounded
               ${filteredEpisode.episodeId === currentEpisode
-                  ? "bg-main" // selected episode
+                  ? "bg-main"
                   : watchedEpisodes.includes(filteredEpisode.episodeId)
-                    ? "bg-watchedEpisodeBackground border-[1px] border-[#e2e2e2]" // watched episodes
+                    ? "bg-watchedEpisodeBackground border-[1px] border-[#e2e2e2]"
                     : filteredEpisode.isFiller
-                      ? "bg-fillerEpisodeBackground" // filler episodes
-                      : "bg-episodeBackground" // other episodes
+                      ? "bg-fillerEpisodeBackground"
+                      : "bg-episodeBackground"
                 }
-              
               `}
               onClick={() => handleEpisodeChange(filteredEpisode.episodeId)}
             >
@@ -254,7 +267,6 @@ const EpisodeSection = ({
         )}
 
         {/* Episodes Display */}
-
         {currentEpisodes.map(episode => (
           <div
             key={episode.episodeId}
@@ -262,26 +274,25 @@ const EpisodeSection = ({
               episode.episodeId === currentEpisode ? currentEpisodeRef : null
             }
             className={`w-[58px] h-[32px] flex items-center justify-center cursor-pointer rounded ${episode.episodeId === currentEpisode
-              ? "bg-main hover:bg-dimmerMain" // selected episode
+              ? "bg-main hover:bg-dimmerMain"
               : watchedEpisodes.includes(episode.episodeId)
-                ? "bg-watchedEpisodeBackground hover:bg-main" // watched episodes
+                ? "bg-watchedEpisodeBackground hover:bg-main"
                 : episode.isFiller
-                  ? "bg-fillerEpisodeBackground hover:bg-main" // filler episodes
-                  : "bg-episodeBackground hover:bg-main" // other episodes
+                  ? "bg-fillerEpisodeBackground hover:bg-main"
+                  : "bg-episodeBackground hover:bg-main"
               }`}
             onClick={() => handleEpisodeChange(episode.episodeId)}
           >
             <span
               className={`text-[12px] font-[800]
                 ${episode.episodeId === currentEpisode
-                  ? "text-foreground" // selected episode
+                  ? "text-foreground"
                   : watchedEpisodes.includes(episode.episodeId)
-                    ? "text-watchedEpisodeForeground" // watched episodes
+                    ? "text-watchedEpisodeForeground"
                     : "text-episodeForeground"
                 }
                 `}
             >
-              {" "}
               {episode.number}
             </span>
           </div>
@@ -290,7 +301,8 @@ const EpisodeSection = ({
         {/* ghost box to scroll up so last episode isn't hidden by sticky headers */}
         <div
           aria-hidden="true"
-          className={`w-full flex-shrink-0 ${isEpAnnouncementCollapsed ? "h-[26px]" : "h-[96px]"}`}
+          className={`w-full flex-shrink-0 ${isEpAnnouncementCollapsed ? "h-[26px]" : "h-[96px]"
+            }`}
         />
       </div>
     </div>

@@ -45,9 +45,9 @@ const CastAndCh = ({ getutilsData }) => {
 
   return (
     <div className="relative w-full max-w-[1800px] mx-auto px-4">
-      {/* Scroll Buttons - Visible only on larger screens */}
+      {/* Scroll Buttons visible only on larger screens */}
       <h2
-        className="flex mb-1 text-[17px] font-[800] mt-8 mb-4"
+        className="flex text-[17px] font-[800] mt-8 mb-4"
       >
         Cast & Characters
       </h2>

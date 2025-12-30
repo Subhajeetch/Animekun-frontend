@@ -28,7 +28,26 @@ const ArtplayerComponent = ({
     const hlsRef = useRef(null);
     const [playerReady, setPlayerReady] = useState(false);
 
-    // Inject CSS once
+    // Store latest props in refs to avoid dependency issues
+    const propsRef = useRef({
+        handleNextEpisode,
+        handlePreviousEpisode,
+        isLastEpisode,
+        skipIntroOutro,
+        data
+    });
+
+    // Update refs when props change
+    useEffect(() => {
+        propsRef.current = {
+            handleNextEpisode,
+            handlePreviousEpisode,
+            isLastEpisode,
+            skipIntroOutro,
+            data
+        };
+    }, [handleNextEpisode, handlePreviousEpisode, isLastEpisode, skipIntroOutro, data]);
+
     useEffect(() => {
         if (typeof window === "undefined") return;
 
@@ -43,7 +62,6 @@ const ArtplayerComponent = ({
         }
     }, []);
 
-    // Main player initialization
     useEffect(() => {
         if (typeof window === "undefined" || !containerRef.current) return;
 
@@ -52,87 +70,159 @@ const ArtplayerComponent = ({
         let isCleanedUp = false;
 
         console.log("Initializing player...");
-
-        // Build highlights from intro/outro data - create range markers
-        const buildHighlights = () => {
+        const buildChapters = () => {
             try {
-                console.log('Raw intro/outro data:', { intro: data.intro, outro: data.outro });
+                const currentData = propsRef.current.data;
+                console.log('Raw intro/outro data:', { intro: currentData.intro, outro: currentData.outro });
 
-                const highlights = [];
+                const chapters = [];
 
-                // Validate and add intro range
-                if (data.intro &&
-                    typeof data.intro.start === 'number' &&
-                    typeof data.intro.end === 'number' &&
-                    data.intro.start >= 0 &&
-                    data.intro.end > data.intro.start &&
-                    isFinite(data.intro.start) &&
-                    isFinite(data.intro.end)) {
+                const hasIntro = currentData.intro &&
+                    typeof currentData.intro.start === 'number' &&
+                    typeof currentData.intro.end === 'number' &&
+                    currentData.intro.start >= 0 &&
+                    currentData.intro.end > currentData.intro.start &&
+                    isFinite(currentData.intro.start) &&
+                    isFinite(currentData.intro.end);
 
-                    // Add multiple markers across the intro range for better visibility
-                    const introDuration = data.intro.end - data.intro.start;
-                    const introMarkers = Math.min(Math.ceil(introDuration / 10), 10); // Max 10 markers
+                const hasOutro = currentData.outro &&
+                    typeof currentData.outro.start === 'number' &&
+                    typeof currentData.outro.end === 'number' &&
+                    currentData.outro.start >= 0 &&
+                    currentData.outro.end > currentData.outro.start &&
+                    isFinite(currentData.outro.start) &&
+                    isFinite(currentData.outro.end);
 
-                    for (let i = 0; i <= introMarkers; i++) {
-                        const time = data.intro.start + (introDuration * i / introMarkers);
-                        highlights.push({
-                            time: Math.round(time),
-                            text: i === 0 ? 'Intro Start' : i === introMarkers ? 'Intro End' : 'Intro'
-                        });
-                    }
-                    console.log('Added intro highlights from', data.intro.start, 'to', data.intro.end);
+                if (!hasIntro && !hasOutro) {
+                    console.log('No intro/outro data, skipping chapters');
+                    return null;
                 }
 
-                // Validate and add outro range
-                if (data.outro &&
-                    typeof data.outro.start === 'number' &&
-                    typeof data.outro.end === 'number' &&
-                    data.outro.start >= 0 &&
-                    data.outro.end > data.outro.start &&
-                    isFinite(data.outro.start) &&
-                    isFinite(data.outro.end)) {
-
-                    // Add multiple markers across the outro range
-                    const outroDuration = data.outro.end - data.outro.start;
-                    const outroMarkers = Math.min(Math.ceil(outroDuration / 10), 10);
-
-                    for (let i = 0; i <= outroMarkers; i++) {
-                        const time = data.outro.start + (outroDuration * i / outroMarkers);
-                        highlights.push({
-                            time: Math.round(time),
-                            text: i === 0 ? 'Outro Start' : i === outroMarkers ? 'Outro End' : 'Outro'
+                if (hasIntro && hasOutro) {
+                    if (currentData.intro.start > 0) {
+                        // Before intro
+                        chapters.push({
+                            start: 0,
+                            end: currentData.intro.start,
+                            title: ''
                         });
                     }
-                    console.log('Added outro highlights from', data.outro.start, 'to', data.outro.end);
+
+                    // Intro
+                    chapters.push({
+                        start: currentData.intro.start,
+                        end: currentData.intro.end,
+                        title: 'Intro'
+                    });
+
+                    // Between intro and outro
+                    if (currentData.intro.end < currentData.outro.start) {
+                        chapters.push({
+                            start: currentData.intro.end,
+                            end: currentData.outro.start,
+                            title: ''
+                        });
+                    }
+
+                    // Outro
+                    chapters.push({
+                        start: currentData.outro.start,
+                        end: currentData.outro.end,
+                        title: 'Outro'
+                    });
+
+                    // After outro
+                    chapters.push({
+                        start: currentData.outro.end,
+                        end: Infinity,
+                        title: ''
+                    });
+
+                } else if (hasIntro) {
+                    // Only intro exists
+                    if (currentData.intro.start > 0) {
+                        chapters.push({
+                            start: 0,
+                            end: currentData.intro.start,
+                            title: ''
+                        });
+                    }
+
+                    chapters.push({
+                        start: currentData.intro.start,
+                        end: currentData.intro.end,
+                        title: 'Intro'
+                    });
+
+                    chapters.push({
+                        start: currentData.intro.end,
+                        end: Infinity,
+                        title: ''
+                    });
+
+                } else if (hasOutro) {
+                    // Only outro exists
+                    if (currentData.outro.start > 0) {
+                        chapters.push({
+                            start: 0,
+                            end: currentData.outro.start,
+                            title: ''
+                        });
+                    }
+
+                    chapters.push({
+                        start: currentData.outro.start,
+                        end: currentData.outro.end,
+                        title: 'Outro'
+                    });
+
+                    chapters.push({
+                        start: currentData.outro.end,
+                        end: Infinity,
+                        title: ''
+                    });
                 }
 
-                console.log('Total highlights:', highlights.length);
-                return highlights;
+                console.log('Built chapters:', chapters);
+                return chapters;
 
             } catch (error) {
-                console.error('Error building highlights:', error);
-                return [];
+                console.error('Error building chapters:', error);
+                return null;
             }
         };
 
-        // Build highlights BEFORE loading libraries
-        const highlights = buildHighlights();
+        const chapters = buildChapters();
 
-        // Dynamic imports for browser-only libraries
-        Promise.all([
+        // Dynamic imports
+        const imports = [
             import('artplayer'),
             import('hls.js')
-        ]).then(([ArtplayerModule, HlsModule]) => {
+        ];
+
+        // Only import chapter plugin if we have chapters
+        if (chapters && chapters.length > 0) {
+            imports.push(import('artplayer-plugin-chapter'));
+        }
+
+        Promise.all(imports).then((modules) => {
             if (isCleanedUp) {
                 console.log("Component unmounted before player creation");
                 return;
             }
 
+            const ArtplayerModule = modules[0];
+            const HlsModule = modules[1];
+            const ChapterPluginModule = chapters && chapters.length > 0 ? modules[2] : null;
+
             const Artplayer = ArtplayerModule.default;
             const Hls = HlsModule.default;
+            const artplayerPluginChapter = ChapterPluginModule?.default;
 
             try {
-                // Load saved subtitle settings from localStorage
+                const currentData = propsRef.current.data;
+
+                // Load saved subtitle settings
                 const savedSubtitleSettings = JSON.parse(
                     localStorage.getItem('artplayer-subtitle-settings') || '{}'
                 );
@@ -140,14 +230,14 @@ const ArtplayerComponent = ({
                 const savedColor = savedSubtitleSettings.color || '#ffffff';
 
                 // Process video sources
-                const mainSource = data.sources[0];
+                const mainSource = currentData.sources[0];
                 const rawUrl = mainSource.url || mainSource.file || "";
                 const url = mainSource.isM3U8
                     ? `${backendUrl}/api/mantox/proxy/?url=${encodeURIComponent(rawUrl)}`
                     : rawUrl;
 
-                // Process subtitles - filter out thumbnails
-                const validTracks = (Array.isArray(data.tracks) ? data.tracks : [])
+                // Process subtitles
+                const validTracks = (Array.isArray(currentData.tracks) ? currentData.tracks : [])
                     .filter(t => {
                         const file = t.url || t.file;
                         if (!file) return false;
@@ -276,7 +366,6 @@ const ArtplayerComponent = ({
                     muted: false,
                     pip: true,
                     autoSize: true,
-                    autoMini: true,
                     screenshot: false,
                     setting: true,
                     loop: false,
@@ -301,9 +390,18 @@ const ArtplayerComponent = ({
                         ...subtitleFontSizeSettings,
                         ...subtitleColorSettings
                     ],
-                    // Add highlights for intro/outro ranges
-                    highlight: highlights
+                    plugins: []
                 };
+
+                // Add chapter plugin if we have chapters
+                if (chapters && chapters.length > 0 && artplayerPluginChapter) {
+                    options.plugins.push(
+                        artplayerPluginChapter({
+                            chapters: chapters
+                        })
+                    );
+                    console.log('Chapter plugin added with', chapters.length, 'chapters');
+                }
 
                 // Add subtitle if available
                 if (validTracks.length > 0) {
@@ -319,7 +417,7 @@ const ArtplayerComponent = ({
                     };
                 }
 
-                // HLS.js custom type with quality selection
+                // HLS.js custom type
                 if (mainSource.isM3U8) {
                     options.customType = {
                         m3u8: (video, url) => {
@@ -444,7 +542,7 @@ const ArtplayerComponent = ({
                 art = new Artplayer(options);
                 playerRef.current = art;
                 setPlayerReady(true);
-                console.log("Player ready with", highlights.length, "highlights");
+                console.log("Player ready");
 
                 // Apply saved settings after player is ready
                 art.on('ready', () => {
@@ -470,14 +568,17 @@ const ArtplayerComponent = ({
                 art.on('video:timeupdate', () => {
                     const currentTime = art.currentTime;
                     const duration = art.duration;
+                    const latestData = propsRef.current.data;
+                    const latestIsLastEpisode = propsRef.current.isLastEpisode;
+                    const latestHandleNextEpisode = propsRef.current.handleNextEpisode;
 
-                    // Skip Intro Button (show only for first 8 seconds of intro)
-                    if (data.intro &&
-                        currentTime >= data.intro.start &&
-                        currentTime < Math.min(data.intro.start + 8, data.intro.end)) {
+                    // Skip Intro Button
+                    if (latestData.intro &&
+                        currentTime >= latestData.intro.start &&
+                        currentTime < Math.min(latestData.intro.start + 8, latestData.intro.end)) {
 
                         if (!skipIntroLayer) {
-                            const timeInIntro = currentTime - data.intro.start;
+                            const timeInIntro = currentTime - latestData.intro.start;
                             const remainingTime = Math.max(8 - timeInIntro, 0.1);
 
                             skipIntroLayer = art.layers.add({
@@ -524,7 +625,7 @@ const ArtplayerComponent = ({
                                     zIndex: 31
                                 },
                                 click() {
-                                    art.currentTime = data.intro.end;
+                                    art.currentTime = latestData.intro.end;
                                     if (skipIntroLayer) {
                                         art.layers.remove('skip-intro');
                                         skipIntroLayer = null;
@@ -536,7 +637,6 @@ const ArtplayerComponent = ({
                                 }
                             });
 
-                            // Auto-remove after 8 seconds
                             introTimeout = setTimeout(() => {
                                 if (skipIntroLayer) {
                                     art.layers.remove('skip-intro');
@@ -544,7 +644,7 @@ const ArtplayerComponent = ({
                                 }
                             }, remainingTime * 1000);
                         }
-                    } else if (skipIntroLayer && (currentTime < data.intro?.start || currentTime >= data.intro?.start + 8)) {
+                    } else if (skipIntroLayer && (currentTime < latestData.intro?.start || currentTime >= latestData.intro?.start + 8)) {
                         art.layers.remove('skip-intro');
                         skipIntroLayer = null;
                         if (introTimeout) {
@@ -553,13 +653,13 @@ const ArtplayerComponent = ({
                         }
                     }
 
-                    // Skip Outro Button (show only for first 8 seconds of outro)
-                    if (data.outro &&
-                        currentTime >= data.outro.start &&
-                        currentTime < Math.min(data.outro.start + 8, data.outro.end)) {
+                    // Skip Outro Button
+                    if (latestData.outro &&
+                        currentTime >= latestData.outro.start &&
+                        currentTime < Math.min(latestData.outro.start + 8, latestData.outro.end)) {
 
                         if (!skipOutroLayer) {
-                            const timeInOutro = currentTime - data.outro.start;
+                            const timeInOutro = currentTime - latestData.outro.start;
                             const remainingTime = Math.max(8 - timeInOutro, 0.1);
 
                             skipOutroLayer = art.layers.add({
@@ -606,7 +706,7 @@ const ArtplayerComponent = ({
                                     zIndex: 31
                                 },
                                 click() {
-                                    art.currentTime = data.outro.end;
+                                    art.currentTime = latestData.outro.end;
                                     if (skipOutroLayer) {
                                         art.layers.remove('skip-outro');
                                         skipOutroLayer = null;
@@ -618,7 +718,6 @@ const ArtplayerComponent = ({
                                 }
                             });
 
-                            // Auto-remove after 8 seconds
                             outroTimeout = setTimeout(() => {
                                 if (skipOutroLayer) {
                                     art.layers.remove('skip-outro');
@@ -626,7 +725,7 @@ const ArtplayerComponent = ({
                                 }
                             }, remainingTime * 1000);
                         }
-                    } else if (skipOutroLayer && (currentTime < data.outro?.start || currentTime >= data.outro?.start + 8)) {
+                    } else if (skipOutroLayer && (currentTime < latestData.outro?.start || currentTime >= latestData.outro?.start + 8)) {
                         art.layers.remove('skip-outro');
                         skipOutroLayer = null;
                         if (outroTimeout) {
@@ -635,21 +734,17 @@ const ArtplayerComponent = ({
                         }
                     }
 
-                    // Next Episode Button Logic
-                    // Only show if NOT last episode
-                    if (!isLastEpisode && handleNextEpisode && duration > 0) {
+                    // Next Episode Button
+                    if (!latestIsLastEpisode && latestHandleNextEpisode && duration > 0) {
                         let shouldShowNextEpisode = false;
 
-                        if (data.outro && data.outro.end) {
-                            // Check time after outro
-                            const timeAfterOutro = duration - data.outro.end;
+                        if (latestData.outro && latestData.outro.end) {
+                            const timeAfterOutro = duration - latestData.outro.end;
 
-                            // If there's more than 20 seconds after outro, show in last 10 seconds
                             if (timeAfterOutro > 20) {
                                 shouldShowNextEpisode = currentTime >= duration - 10;
                             }
                         } else {
-                            // No outro - show in last 10 seconds
                             shouldShowNextEpisode = currentTime >= duration - 10;
                         }
 
@@ -701,8 +796,8 @@ const ArtplayerComponent = ({
                                     zIndex: 31
                                 },
                                 click() {
-                                    if (handleNextEpisode) {
-                                        handleNextEpisode();
+                                    if (latestHandleNextEpisode) {
+                                        latestHandleNextEpisode();
                                     }
                                     if (nextEpisodeLayer) {
                                         art.layers.remove('next-episode');
@@ -715,7 +810,6 @@ const ArtplayerComponent = ({
                                 }
                             });
 
-                            // Auto-remove after animation completes
                             nextEpisodeTimeout = setTimeout(() => {
                                 if (nextEpisodeLayer) {
                                     art.layers.remove('next-episode');
@@ -734,8 +828,8 @@ const ArtplayerComponent = ({
                 });
 
                 art.on('video:ended', () => {
-                    if (autoPlay && handleNextEpisode && !isLastEpisode) {
-                        handleNextEpisode();
+                    if (autoPlay && propsRef.current.handleNextEpisode && !propsRef.current.isLastEpisode) {
+                        propsRef.current.handleNextEpisode();
                     }
                 });
 
@@ -749,7 +843,7 @@ const ArtplayerComponent = ({
 
         return () => {
             isCleanedUp = true;
-            console.log("Cleaning up player (component unmounted)");
+            console.log("Cleaning up player");
 
             if (playerRef.current?.video) {
                 try {
@@ -782,7 +876,7 @@ const ArtplayerComponent = ({
             setPlayerReady(false);
             console.log("Cleanup complete");
         };
-    }, [data, episodeNumber, animeNameFF, artWorkUrl, autoPlay, isLastEpisode, handleNextEpisode, backendUrl]);
+    }, [episodeNumber, animeId, backendUrl]); // ONLY primitives that need re-init
 
     return (
         <div className="w-full h-full">

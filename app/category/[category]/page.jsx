@@ -78,8 +78,8 @@ export async function generateMetadata({ params }) {
 }
 
 const Category = async ({ params, searchParams }) => {
-  const { category } = await params; // Extract category from params
-  const { page = 1 } = await searchParams; // Default to page 1 if not provided
+  const { category } = await params;
+  const { page = 1 } = await searchParams;
 
   const fetchedData = await getAnimesByCategory(category, page);
   //console.log(fetchedData);

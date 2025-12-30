@@ -80,8 +80,8 @@ export async function generateMetadata({ params }) {
 }
 
 const ProducerPage = async ({ params, searchParams }) => {
-  const { producer } = await params; // Extract category from params
-  const { page = 1 } = await searchParams; // Default to page 1 if not provided
+  const { producer } = await params;
+  const { page = 1 } = await searchParams;
 
   const fetchedData = await getAnimesByProducer(producer, page);
   //console.log(fetchedData);
@@ -93,7 +93,6 @@ const ProducerPage = async ({ params, searchParams }) => {
   const { animes, totalPages, currentPage } = fetchedData.data;
   const producerName = fetchedData.data.producerName || "Unknown";
 
-  // Helper function to construct pagination href
   const constructPageHref = page => {
     return `/producer/${producer}?page=${page}`;
   };

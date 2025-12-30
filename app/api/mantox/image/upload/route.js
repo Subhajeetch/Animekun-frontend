@@ -24,13 +24,13 @@ async function refreshAccessToken() {
 
     if (data.access_token) {
       accessToken = data.access_token;
-      console.log("✅ New access token obtained successfully");
+      console.log("New access token obtained successfully");
     } else {
       throw new Error("Imgur did not return a new access token");
     }
   } catch (error) {
     console.error(
-      "❌ Error refreshing access token:",
+      "Error refreshing access token:",
       error.response?.data || error.message
     );
     throw new Error("Failed to refresh Imgur access token");
@@ -54,7 +54,7 @@ async function uploadToImgur(imageBase64) {
     );
 
     // **Log Rate Limits**
-    console.log("📊 Rate Limits:", {
+    console.log("Rate Limits:", {
       postLimit: response.headers["x-post-rate-limit-limit"],
       postRemaining: response.headers["x-post-rate-limit-remaining"],
       postReset: new Date(
@@ -81,12 +81,12 @@ async function uploadToImgur(imageBase64) {
     }
   } catch (error) {
     console.error(
-      "❌ Error uploading to Imgur:",
+      "Error uploading to Imgur:",
       error.response?.data || error.message
     );
 
     if (error.response?.status === 403 || error.response?.status === 401) {
-      console.warn("⚠️ Token might be invalid, refreshing and retrying...");
+      console.warn("Token might be invalid, refreshing and retrying...");
       await refreshAccessToken();
       return uploadToImgur(imageBase64);
     }
@@ -125,7 +125,7 @@ export async function POST(req) {
     const result = await uploadToImgur(base64Image);
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
-    console.error("❌ Internal server error:", error.message);
+    console.error("Internal server error:", error.message);
     return NextResponse.json(
       { success: false, error: error.message || "Internal server error" },
       { status: 500 }

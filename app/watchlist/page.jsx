@@ -182,15 +182,15 @@ const AnimeCard = ({ anime, category, onRemove, onMove }) => {
     formattedDate = "Yesterday";
   } else {
     formattedDate = animeDate.toLocaleDateString("en-GB", {
-      day: "numeric", // No leading zeros
+      day: "numeric",
       month: "short",
       year: "2-digit"
-    }); // Example: "8 January, 25"
+    });
   }
 
   // Format time without leading zeros
   const formattedTime = new Date(anime.addedDate).toLocaleTimeString("en-US", {
-    hour: "numeric", // No leading zeros
+    hour: "numeric",
     minute: "2-digit",
     hour12: true
   });

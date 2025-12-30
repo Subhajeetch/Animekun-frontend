@@ -149,8 +149,8 @@ export default async function AnimeInfo({ params }) {
   const { info, moreInfo } = animeData.anime;
   const { recommendedAnimes, seasons, relatedAnimes } = animeData;
 
-  // Merge related and recommended lists and remove duplicates by `id`.
-  // This prevents rendering the same anime twice and avoids duplicate React keys.
+  // Merge related and recommended lists and remove duplicates by `id`,
+  // this prevents rendering the same anime twice and avoids duplicate React keys.
   const mergedAnimes = [...(relatedAnimes || []), ...(recommendedAnimes || [])];
   const uniqueAnimesMap = new Map();
   mergedAnimes.forEach(a => {

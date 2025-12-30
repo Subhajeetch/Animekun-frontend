@@ -1,10 +1,10 @@
 "use client";
 
-import axios, { get } from "axios";
-import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import NewArringEpTime from "./NewArringEpTime.jsx";
 
-import CustomVideoPlayer from "./VideoPlayer/CustomVideoPlayer.jsx";
+//import CustomVideoPlayer from "./VideoPlayer/CustomVideoPlayer.jsx";
 import Loader from "../Universal/Loader.jsx";
 
 import { TriangleAlert, RefreshCw } from "lucide-react";
@@ -13,7 +13,6 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 import EpisodeSection from "./EpisodesSection.jsx";
 import LessThenFiftyEpisodeSection from "./LessThenFiftyEpisodesSection.jsx";
-import SeasonsCarousel from "./AnimePageSeasonsCarousel.jsx";
 
 import ArtplayerPlayer from '@/components/ArtplayerPlayer';
 
@@ -24,7 +23,6 @@ const WatchContainer = ({
   episodes,
   animeId,
   animeInfoData,
-  seasons,
   getutilsData
 }) => {
   const targetRef = useRef(null);
@@ -185,7 +183,7 @@ const WatchContainer = ({
   };
 
   // Handle next and previous episodes
-  const handleNextEpisode = () => {
+  const handleNextEpisode = useCallback(() => {
     setLoadingVideo(true);
     const currentIndex = episodes.findIndex(
       ep => ep.episodeId === currentEpisode
@@ -193,9 +191,9 @@ const WatchContainer = ({
     if (currentIndex < episodes.length - 1) {
       handleEpisodeChange(episodes[currentIndex + 1].episodeId);
     }
-  };
+  }, [episodes, currentEpisode]);
 
-  const handlePreviousEpisode = () => {
+  const handlePreviousEpisode = useCallback(() => {
     setLoadingVideo(true);
     const currentIndex = episodes.findIndex(
       ep => ep.episodeId === currentEpisode
@@ -203,7 +201,7 @@ const WatchContainer = ({
     if (currentIndex > 0) {
       handleEpisodeChange(episodes[currentIndex - 1].episodeId);
     }
-  };
+  }, [episodes, currentEpisode]);
 
   const handleLanguageChange = language => {
     setLoadingVideo(true);
@@ -468,6 +466,13 @@ const WatchContainer = ({
     setIsEpAnnouncementCollapsed(!isEpAnnouncementCollapsed);
   };
 
+  const memoizedStreamingData = useMemo(() => streamingData, [
+    streamingData?.sources?.[0]?.url,
+    streamingData?.tracks?.length,
+    streamingData?.intro?.start,
+    streamingData?.outro?.start
+  ]);
+
 
   return (
     <div
@@ -546,7 +551,7 @@ const WatchContainer = ({
           {!loadingVideo && !noServerSelected && streamingData && streamingData.sources && streamingData.sources.length > 0 && streamingData.sources[0].isM3U8 !== false && (
             <ArtplayerPlayer
               key={`${currentEpisode}-${selectedServer}-${selectedLanguage}`}
-              data={streamingData}
+              data={memoizedStreamingData}
               episodeNumber={
                 episodes.find(ep => ep.episodeId === currentEpisode)?.number
               }

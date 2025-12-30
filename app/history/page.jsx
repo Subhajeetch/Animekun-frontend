@@ -32,7 +32,6 @@ const History = () => {
     // Get continue watching data from localStorage
     const storedData = JSON.parse(localStorage.getItem("conWa-v1")) || [];
 
-    // Group animes by date
     const groupedData = storedData.reduce((acc, anime) => {
       const animeDate = new Date(anime.date);
       const today = new Date();
@@ -50,7 +49,7 @@ const History = () => {
           day: "2-digit",
           month: "short",
           year: "2-digit"
-        }); // Example: "13 Feb, 25"
+        });
       }
 
       if (!acc[formattedDate]) acc[formattedDate] = [];
@@ -261,17 +260,16 @@ const AnimeCard = ({ anime, handleDelete }) => {
                 formattedDate = "Yesterday";
               } else {
                 formattedDate = epDate.toLocaleDateString("en-GB", {
-                  day: "numeric", // No leading zeros
+                  day: "numeric",
                   month: "short",
                   year: "2-digit"
-                }); // Example: "8 January, 25"
+                });
               }
 
-              // Format time without leading zeros
               const formattedTime = new Date(ep.date).toLocaleTimeString(
                 "en-US",
                 {
-                  hour: "numeric", // No leading zeros
+                  hour: "numeric",
                   minute: "2-digit",
                   hour12: true
                 }
