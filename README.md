@@ -20,3 +20,58 @@
   <img src="https://img.shields.io/badge/hls.js-%23571900.svg?logoColor=ffffff" alt="hls.js" />
 </a>
 </div>
+
+
+> [!IMPORTANT]
+>
+> The content provided by this web app is not owned by me and is not hosted by me. All content belongs to its respective owners. This web app is for educational purposes only and demonstrates how to build web applications using scraped data in a responsible manner.
+
+## About
+
+An open-source anime streaming website with advanced features, modern UI, and an improved viewing experience compared to existing platforms.
+
+
+<details>
+  <summary><h1 style="font-size: 30px;">Screenshots</h1></summary>
+  <br />
+
+</details>
+
+
+## Usage & deployment
+
+This project is divided into three repositories:
+
+1. **Frontend** – [@Subhajeetch/Animekun-frontend](https://github.com/Subhajeetch/Animekun-frontend)  
+   *(You are currently viewing this repository)*
+
+2. **Backend** – [@Subhajeetch/Animekun-backend](https://github.com/Subhajeetch/Animekun-backend)
+
+3. **Database** – Cloudflare D1  
+   [@Subhajeetch/Animekun-db-cf](https://github.com/Subhajeetch/Animekun-db-cf)
+
+To keep the main README clean, all setup, configuration and deployment tutorials are located in this file → [Usage.md](/docs/Usage.md)
+
+
+## Contributing
+
+Contributions are welcome!  
+Please read the [CONTRIBUTING.md](/docs/CONTRIBUTING.md) file for setup instructions, development guidelines, and contribution details.
+
+## Support
+
+If you like this project, consider giving it a <strong>star 🌟</strong>
+Connect with me on X (Twitter): [@subhajeetch](https://x.com/subhajeetch)  
+Join the Discord community: [Animekun](https://discord.gg/6DhssCN2Ph)
+
+## Thanks
+
+- [consumet.ts](https://github.com/consumet/consumet.ts)
+- [aniwatch](https://github.com/ghoshRitesh12/aniwatch)
+
+
+## License
+
+This project is licensed under the [MIT License](https://opensource.org/license/mit/) - see the [LICENSE](https://github.com/ghoshRitesh12/aniwatch/blob/main/LICENSE) file for more details.
+
+
