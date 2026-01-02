@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { Image, CircleArrowRight, LoaderCircle } from "lucide-react";
+import { Image, CircleArrowRight } from "lucide-react";
 import LoadingSke from "@/Sections/Universal/Loader.jsx";
 import "./some.css";
 import { toast } from "sonner";
@@ -13,69 +12,47 @@ export default function BugReportPage() {
   const [bugDescription, setBugDescription] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [imageLink, setImageLink] = useState("");
   const [charCount, setCharCount] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [imageUploading, setImageUploading] = useState(false);
 
   const MAX_CHAR = 1100;
   const MAX_NAME_CHAR = 120;
-  const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+  const MAX_IMAGE_SIZE = 25 * 1024 * 1024; // 25MB (Discord limit)
 
   // Handle image selection
-  const handleImageChange = async e => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/webp"];
     if (!allowedTypes.includes(file.type)) {
-      setError("Invalid image format. Use JPEG, PNG, or JPG.");
+      setError("Invalid image format. Use JPEG, PNG, JPG, GIF, or WebP.");
       return;
     }
 
     if (file.size > MAX_IMAGE_SIZE) {
-      setError("Image size should not exceed 5MB.");
+      setError("Image size should not exceed 25MB.");
       return;
     }
 
     setImage(file);
     setImagePreview(URL.createObjectURL(file));
     setError("");
-    setImageUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append("image", file);
-
-      const uploadResponse = await axios.post(
-        "/api/mantox/image/upload",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" }
-        }
-      );
-
-      setImageLink(uploadResponse.data.link);
-    } catch (err) {
-      setError("Failed to upload image.");
-    }
-
-    setImageUploading(false);
   };
 
   // Handle bug description character count
-  const handleBugDescription = e => {
+  const handleBugDescription = (e) => {
     const text = e.target.value;
     setBugDescription(text);
     setCharCount(text.length);
   };
 
   // Validate email
-  const isValidEmail = email => /\S+@\S+\.\S+/.test(email);
+  const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
 
   // Submit form
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -101,39 +78,49 @@ export default function BugReportPage() {
 
     setLoading(true);
 
-    let finalImage = imageLink || "https://i.imgur.com/GhcOfwG.jpeg"; // Fallback image
-
     try {
-      const response = await axios.post("/api/mantox/imp/bug-reports", {
-        imageLink: finalImage,
-        email,
-        name,
-        bugDescription
+      // Create FormData with all fields
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("bugDescription", bugDescription);
+
+      // Add image if exists
+      if (image) {
+        formData.append("image", image);
+      }
+
+      // Send directly to bug report API
+      const response = await fetch("/api/mantox/imp/bug-reports", {
+        method: "POST",
+        body: formData // Send as FormData, not JSON
       });
 
-      if (response.data.success) {
+      const data = await response.json();
+
+      if (data.success) {
         toast.success("Bug report submitted successfully!");
+
+        // Reset form
         setEmail("");
         setName("");
         setBugDescription("");
         setImage(null);
         setImagePreview(null);
         setCharCount(0);
-        setImageLink("");
       } else {
-        setError(response.data.error);
+        setError(data.error || "Failed to submit bug report");
       }
     } catch (err) {
-      setError("Failed to send bug report.");
+      console.error("Submit error:", err);
+      setError("Failed to send bug report. Please try again.");
     }
 
     setLoading(false);
   };
 
   useEffect(() => {
-    if (error === "") {
-      return;
-    }
+    if (error === "") return;
     toast.warning(error);
   }, [error]);
 
@@ -260,10 +247,9 @@ c-54 0 -102 -3 -105 -7z"
             type="text"
             placeholder="Luffy uzumaki..."
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             maxLength={MAX_NAME_CHAR}
-            className="w-full p-2 rounded outline-none bg-backgroundtwo
-            text-[14px]"
+            className="w-full p-2 rounded outline-none bg-backgroundtwo text-[14px]"
             required
           />
         </div>
@@ -275,9 +261,8 @@ c-54 0 -102 -3 -105 -7z"
             type="email"
             placeholder="example@gmail.com"
             value={email}
-            onChange={e => setEmail(e.target.value)}
-            className="w-full p-2 rounded outline-none bg-backgroundtwo
-            text-[14px]"
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 rounded outline-none bg-backgroundtwo text-[14px]"
             required
           />
         </div>
@@ -310,16 +295,12 @@ c-54 0 -102 -3 -105 -7z"
         <div>
           {/* Image Upload Box */}
           <label className="text-[14px] font-bold ml-1 mb-1">
-            Upload Screenshot(Optional)
+            Upload Screenshot (Optional)
           </label>
-          <div
-            className="w-full h-40 border-2 border-dashed
-          border-discriptionForeground rounded-lg flex items-center
-          justify-center cursor-pointer hover:border-main relative"
-          >
+          <div className="w-full h-40 border-2 border-dashed border-discriptionForeground rounded-lg flex items-center justify-center cursor-pointer hover:border-main relative">
             <input
               type="file"
-              accept="image/png, image/jpeg, image/jpg"
+              accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
               onChange={handleImageChange}
               className="absolute opacity-0 w-full h-40 cursor-pointer"
             />
@@ -336,18 +317,8 @@ c-54 0 -102 -3 -105 -7z"
                   <span>Screenshot of the bug</span>
                 </div>
                 <p className="text-gray-500 text-[10px]">
-                  Supported: jpeg, jpg, png. Maximum file size: 5MB
+                  Supported: JPEG, JPG, PNG, GIF, WebP. Maximum: 25MB
                 </p>
-              </div>
-            )}
-
-            {/* Image Uploading Indicator */}
-            {imageUploading && (
-              <div
-                className="absolute top-0 left-0 right-0 bottom-0 flex justify-center
-              items-center bg-[#00000059]"
-              >
-                <LoadingSke />
               </div>
             )}
           </div>
@@ -356,11 +327,9 @@ c-54 0 -102 -3 -105 -7z"
         {/* Submit Button */}
         <button
           type="submit"
-          className={`w-full bg-status text-background font-bold p-2 rounded ${loading || imageUploading
-              ? "opacity-50 cursor-not-allowed"
-              : "cursor-pointer"
+          className={`w-full bg-status text-background font-bold p-2 rounded ${loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
             }`}
-          disabled={loading || imageUploading}
+          disabled={loading}
         >
           {loading ? (
             <div className="flex gap-2 justify-center items-center">
