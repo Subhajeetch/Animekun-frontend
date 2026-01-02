@@ -32,7 +32,7 @@ An open-source anime streaming website with advanced features, modern UI, and an
 
 <br />
 
-![Demo Video](https://youtu.be/wjFcVtA-4SQ)
+**Demo Video** --> https://youtu.be/wjFcVtA-4SQ
 
 ![Home Page](/public/screenshots/home-page.png)
 
