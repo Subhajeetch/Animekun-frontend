@@ -250,7 +250,7 @@ const ArtplayerComponent = ({
                     width: 200,
                     html: 'Subtitles',
                     tooltip: validTracks[0]?.label || 'Select',
-                    icon: '<img width="22" height="22" src="/captions.svg" style="filter: brightness(0) invert(1);">',
+                    icon: '<img width="22" height="22" src="/artplayer/captions.svg" style="filter: brightness(0) invert(1);">',
                     selector: [
                         {
                             html: 'Off',
@@ -283,7 +283,7 @@ const ArtplayerComponent = ({
                 // Subtitle Font Size setting
                 const subtitleFontSizeSettings = validTracks.length > 0 ? [{
                     html: 'Subtitle Size',
-                    icon: '<img width="22" height="22" src="/type-outline.svg" style="filter: brightness(0) invert(1);">',
+                    icon: '<img width="22" height="22" src="/artplayer/type-outline.svg" style="filter: brightness(0) invert(1);">',
                     tooltip: `${savedFontSize}px`,
                     range: [savedFontSize, 12, 60, 1],
                     onRange(item) {
@@ -304,7 +304,7 @@ const ArtplayerComponent = ({
                 const subtitleColorSettings = validTracks.length > 0 ? [{
                     width: 200,
                     html: 'Subtitle Color',
-                    icon: '<img width="22" height="22" src="/palette.svg" style="filter: brightness(0) invert(1);">',
+                    icon: '<img width="22" height="22" src="/artplayer/palette.svg" style="filter: brightness(0) invert(1);">',
                     tooltip: savedSubtitleSettings.colorName || 'White',
                     selector: [
                         {
@@ -456,7 +456,7 @@ const ArtplayerComponent = ({
                                             width: 200,
                                             html: 'Quality',
                                             tooltip: 'Auto',
-                                            icon: '<img width="22" height="22" src="/settings.svg" style="filter: brightness(0) invert(1);">',
+                                            icon: '<img width="22" height="22" src="/artplayer/settings.svg" style="filter: brightness(0) invert(1);">',
                                             selector: qualityLevels,
                                             onSelect(item) {
                                                 console.log("Quality selected:", item.html, "Level:", item.level);
