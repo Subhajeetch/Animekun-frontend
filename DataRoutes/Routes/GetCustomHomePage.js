@@ -1,7 +1,7 @@
 import axios from "axios";
 import MineConfig from "@/mine.config.js";
 
-const url = `${MineConfig.backendUrl}/api/mantox/get/sections`;
+const url = `${MineConfig.backendUrl}/api/mantox/get/homepage`;
 
 export const getCustomHomePage = async () => {
     try {
