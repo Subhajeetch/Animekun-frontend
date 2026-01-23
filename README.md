@@ -90,4 +90,4 @@ Join the Discord community: [Animekun](https://discord.gg/6DhssCN2Ph)
 
 ## License
 
-This project is licensed under the [MIT License](https://opensource.org/license/mit/) - see the [LICENSE](https://github.com/ghoshRitesh12/aniwatch/blob/main/LICENSE) file for more details.
+This project is licensed under the [MIT License](https://opensource.org/license/mit/) - see the [LICENSE](/LICENSE) file for more details.
