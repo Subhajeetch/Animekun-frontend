@@ -59,7 +59,7 @@ const NavBar = () => {
         if (debouncedQuery.trim() === "") return;
         try {
             const response = await fetch(
-                `${backendUrl}/api/mantox/searchsuggestion?q=${debouncedQuery}`
+                `${backendUrl}/api/mantox/get/searchsuggestion?q=${debouncedQuery}`
             );
             const data = await response.json();
             setResults(data.suggestions || []);
@@ -295,9 +295,9 @@ c-54 0 -102 -3 -105 -7z'
                     {showMobileSearch && (
                         <div
                             className='absolute top-[48px] left-0 w-full bg-background
-                shadow-lg z-[50] p-3 items-center md:hidden'
+                shadow-lg z-[62] p-3 items-center md:hidden'
                         >
-                            <div className='flex-1 flex items-center gap-2 items-center'>
+                            <div className='flex-1 flex items-center gap-2'>
                                 <div className='w-full relative'>
                                     <input
                                         type='text'
@@ -331,7 +331,7 @@ c-54 0 -102 -3 -105 -7z'
                                 />
                             </div>
                             {query.trim() !== "" && (
-                                <div className='mt-2 bg-background rounded-md z-[40]'>
+                                <div className='mt-2 bg-background rounded-md z-[62]'>
                                     {searchLoading ? (
                                         // Show loading state when searching
                                         <div className='flex justify-center items-center p-4'>
@@ -348,7 +348,7 @@ c-54 0 -102 -3 -105 -7z'
                                         <>
                                             {results.length > 0 &&
                                                 query.trim() !== "" && (
-                                                    <div className='mt-2 bg-background rounded-md z-[40]'>
+                                                    <div className='mt-2 bg-background rounded-md z-[60]'>
                                                         {results
                                                             .slice(0, 3)
                                                             .map(anime => (
@@ -473,9 +473,9 @@ c-54 0 -102 -3 -105 -7z'
                         {showSearch && query.trim() !== "" && (
                             <div
                                 className='absolute top-full left-0 w-full bg-background
-                shadow-md rounded-md z-[40] p-1'
+                shadow-md rounded-md z-[60] p-1'
                             >
-                                <div className='mt-2 bg-background rounded-md z-[40]'>
+                                <div className='mt-2 bg-background rounded-md z-[60]'>
                                     {searchLoading ? (
                                         // Show loading state when searching
                                         <div className='flex justify-center items-center p-4'>
