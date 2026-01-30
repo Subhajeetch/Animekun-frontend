@@ -102,7 +102,7 @@ const WatchContainer = ({
       setLoadingVideo(true);
       try {
         const fd = await axios.get(
-          `${backendUrl}/api/mantox/episode/sources/${currentEpisode}&s=${selectedServer}&c=${selectedLanguage}`
+          `${backendUrl}/api/mantox/get/episode/sources/${currentEpisode}&s=${selectedServer}&c=${selectedLanguage}`
         );
 
         const rawData = fd.data || {};
