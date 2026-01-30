@@ -6,7 +6,7 @@ import "./some.css";
 import { HomepageSlides } from "../../Sections/HomePage/HomepageSlides.jsx";
 import { GenreSection } from "../../Sections/HomePage/GenreSection.jsx";
 import { TrendingAnime } from "../../Sections/HomePage/TrendingAnime.jsx";
-import HomePageCetagoryTemplate from "../../Sections/HomePage/HomePageCetagoryTemplate.jsx";
+import HomePageCategoryTemplate from "../../Sections/HomePage/HomePageCategoryTemplate.jsx";
 import AnimeCard from "../../Sections/Universal/AnimeCard.jsx";
 import NewsCard from "../../Sections/Universal/NewsCard.jsx";
 import ScheduleComponent from "./Schedule.jsx";
@@ -19,7 +19,7 @@ export const metadata = {
   title:
     "Animekun HomePage - Watch Anime Online For Absolutely Free Without ADS",
   description:
-    "Watch and download animes online in english Dub/Sub. Stream your favourite episodes with high-quality & ad free for best experience.",
+    "Watch and download animes online in english Dub/Sub. Stream your favorite episodes with high-quality & ad free for best experience.",
   keywords: [
     "Animekun Homepage",
     "anime watch online free",
@@ -41,7 +41,7 @@ export const metadata = {
     title:
       "Animekun HomePage - Watch Anime Online For Absolutely Free Without ADS",
     description:
-      "Watch and download animes online in english Dub/Sub. Stream your favourite episodes with high-quality & ad free for best experience.",
+      "Watch and download animes online in english Dub/Sub. Stream your favorite episodes with high-quality & ad free for best experience.",
     url: "https://animekun.lol/home",
     siteName: "AnimeKun",
     images: [
@@ -172,7 +172,7 @@ export default async function Home() {
                 <ChevronRight size={17} />
               </Link>
             </div>
-            {data && <HomePageCetagoryTemplate data={data.topAiring} />}
+            {data && <HomePageCategoryTemplate data={data.topAiring} />}
           </div>
 
           <div className="mb-[16px] w-full">
@@ -215,7 +215,7 @@ export default async function Home() {
                   </g>
                 </svg>
 
-                <h2>Fan Favourite</h2>
+                <h2>Fan Favorite</h2>
               </div>
               <Link
                 className="mb-[10px] flex items-center text-[13px]
@@ -226,7 +226,7 @@ export default async function Home() {
                 <ChevronRight size={17} />
               </Link>
             </div>
-            {data && <HomePageCetagoryTemplate data={data.mostFavorite} />}
+            {data && <HomePageCategoryTemplate data={data.mostFavorite} />}
           </div>
 
           <div className="mb-[40px] w-full">
@@ -302,7 +302,7 @@ c-75 0 -315 75 -452 140 -294 141 -564 401 -743 715 -28 49 -51 97 -51 107 0
                 <ChevronRight size={17} />
               </Link>
             </div>
-            {data && <HomePageCetagoryTemplate data={data.underrated} />}
+            {data && <HomePageCategoryTemplate data={data.underrated} />}
           </div>
 
           <div className="mb-[40px] w-full">
@@ -401,7 +401,7 @@ c-75 0 -315 75 -452 140 -294 141 -564 401 -743 715 -28 49 -51 97 -51 107 0
                 <ChevronRight size={17} />
               </Link>
             </div>
-            {data && <HomePageCetagoryTemplate data={data.mostPopular} />}
+            {data && <HomePageCategoryTemplate data={data.mostPopular} />}
           </div>
         </div>
 

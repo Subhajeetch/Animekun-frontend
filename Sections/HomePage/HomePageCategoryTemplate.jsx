@@ -3,7 +3,7 @@ import React from "react";
 import "./HomepageSections.css";
 import CustomImage from "../Universal/CustomImage";
 
-const HomePageCetagoryTemplate = ({ data }) => {
+const HomePageCategoryTemplate = ({ data }) => {
   return (
     <div
       className="grid
@@ -39,4 +39,4 @@ const HomePageCetagoryTemplate = ({ data }) => {
   );
 };
 
-export default HomePageCetagoryTemplate;
+export default HomePageCategoryTemplate;
