@@ -17,7 +17,7 @@
     "@radix-ui/react-tabs": "^1.1.2",
     "@splidejs/react-splide": "^0.7.12",
     "@splidejs/splide": "^4.1.4",
-    "aniwatch": "^2.24.3",
+    "aniwatch": "^2.27.9",
     "artplayer": "^5.3.0",
     "artplayer-plugin-chapter": "^1.0.1",
     "axios": "^1.7.9",
